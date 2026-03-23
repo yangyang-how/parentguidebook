@@ -4,7 +4,7 @@ lang: "en"
 domain: "eyes"
 category: "emergency-signs"
 urgency: "critical"
-last_updated: "2026-02-17"
+last_updated: "2026-03-23"
 age_groups: ["0-1", "1-3", "3-6"]
 ---
 
@@ -12,7 +12,7 @@ age_groups: ["0-1", "1-3", "3-6"]
 
 ## What is a "white pupil"?
 
-You've probably noticed that when you take a flash photo of someone, their eyes sometimes glow red. That red glow — sometimes annoying in photos — is actually a sign of healthy eyes. It happens because the flash bounces off the back of the eye, where there's a layer of tissue full of tiny blood vessels. This layer is called the retina — think of it as the "screen" inside the eye that receives images, like the film in a camera.
+You've probably noticed that when you take a flash photo of someone, their eyes sometimes glow red. That red glow — sometimes annoying in photos — is actually a sign of healthy eyes. It happens because the flash bounces off the blood-vessel-rich layers at the back of the eye, lighting up a layer of tissue called the retina — think of it as the "screen" inside the eye that receives images, like the film in a camera. [Source: src5]
 
 But sometimes, instead of red, a child's pupil — the black circle in the center of the eye — looks **white, grayish, or yellowish** in photos or under certain lighting. Doctors call this **leukocoria** (loo-koh-KOR-ee-ah), which simply means "white pupil" in Greek. You might notice it as a bright white spot in one eye while the other eye looks normal and red. [Source: src1]
 
@@ -36,13 +36,13 @@ This is the one that understandably frightens parents the most. Retinoblastoma (
 
 Some key facts that may help put this in perspective:
 
-- It's **rare** — it occurs in roughly 1 in 15,000 to 1 in 30,000 births. [Source: src3]
-- It mostly affects **very young children** — the majority are diagnosed before age 2, and less than 5% of cases occur after age 5. [Source: src8]
-- A white pupil is its most recognizable sign, appearing in **60% to 80%** of cases. [Source: src3]
+- It's **rare** — it occurs in roughly 1 in 15,000 to 1 in 20,000 births. [Source: src3]
+- It mostly affects **very young children** — the majority are diagnosed by age 2–3, and less than 5% of cases occur after age 5. [Source: src8]
+- A white pupil is its most recognizable sign, appearing in roughly **50% to 65%** of cases. [Source: src3]
 - When caught early, **survival rates are very high** in places with good medical access. [Source: src3]
 - But if diagnosis is delayed, treatment becomes much harder, and outcomes get significantly worse. Early detection can mean the difference between saving the eye and losing it — or even between life and death. [Source: src3]
 
-About 45% of retinoblastoma cases are hereditary (passed down in families), so if anyone in your family has had this condition, your child should be monitored closely from birth. [Source: src3]
+About 40% of retinoblastoma cases are hereditary (passed down in families), so if anyone in your family has had this condition, your child should be monitored closely from birth. [Source: src3]
 
 ### Other possible causes
 
@@ -50,7 +50,7 @@ A white pupil can also be caused by several less common conditions, including:
 
 - **Persistent fetal vasculature** — blood vessels inside the eye that were supposed to disappear before birth didn't go away (about 4% of cases) [Source: src2]
 - **Coats disease** — abnormal growth of blood vessels in the retina, which may cause a yellowish rather than white reflection (about 4% of cases) [Source: src2]
-- **Retinopathy of prematurity (ROP)** — a condition that affects babies born very early (before about 30 weeks of pregnancy), where the blood vessels in the retina develop abnormally [Source: src1]
+- **Retinopathy of prematurity (ROP)** — a condition that affects babies born very early (generally before about 31–32 weeks of pregnancy or with very low birth weight), where the blood vessels in the retina develop abnormally [Source: src1]
 - **Retinal detachment** — where the retina peels away from the back of the eye (about 3–4% of cases) [Source: src2]
 
 The color of the reflection can sometimes give doctors a clue: a true white glow often points toward retinoblastoma or cataract, a blue-gray tint is more typical of cataracts, and a yellowish glow may suggest Coats disease or retinal detachment. But **only a proper examination can determine the actual cause**. [Source: src1]
@@ -68,7 +68,7 @@ One of the simplest things you can do as a parent is pay attention to your child
 
 **One important caution about modern phones:** Many smartphone cameras have a "red-eye removal" feature that automatically corrects the red glow in photos. Unfortunately, this feature may also remove a white glow — the very thing that could alert you to a problem. If you're checking on purpose, try turning off red-eye correction in your camera settings, or use a standalone camera with flash. [Source: src6]
 
-In hospitals and clinics, doctors do a more thorough version of this check using a special handheld light called an ophthalmoscope (off-THAL-moh-scope). This is called the **red reflex test**, and it's part of routine newborn and well-baby checkups in many places, including the US (recommended by the AAO), the UK (part of NHS newborn screening), Japan (part of the 1-month and infant health checkups), and Singapore (where the Health Promotion Board's School Health Service provides vision screening from Kindergarten 1 onward as part of the National Myopia Prevention Programme). [Sources: src7, src9, src10, src12]
+In hospitals and clinics, doctors do a more thorough version of this check using a special handheld light called an ophthalmoscope (off-THAL-moh-scope). This is called the **red reflex test**, and it's part of routine newborn and well-baby checkups in many places, including the US (recommended by the AAO), the UK (part of NHS newborn screening), Japan (where a comprehensive vision screening program — the 3歳児健診 — screens visual acuity at age 3), and Taiwan (where the Health Promotion Administration's child health screening guidelines include vision checks for preschool-age children). [Sources: src7, src9, src10, src11]
 
 ## What should you do if you notice a white pupil?
 
@@ -76,7 +76,7 @@ In hospitals and clinics, doctors do a more thorough version of this check using
 
 Don't wait for your next scheduled checkup. Call your child's pediatrician or go directly to an eye doctor (ophthalmologist) and tell them what you saw. If you have the photo that worried you, bring it along — it can be genuinely helpful. [Source: src3]
 
-Your child will likely need a **dilated eye exam** — the doctor puts special drops in the eyes to make the pupils open wide, which lets them see the structures inside clearly. This might sound uncomfortable, but it's painless and the effects of the drops (blurry close-up vision and sensitivity to light) wear off within a few hours. Depending on what the doctor finds, they may also use an ultrasound or other imaging to look inside the eye in more detail. [Sources: src1, src3]
+Your child will likely need a **dilated eye exam** — the doctor puts special drops in the eyes to make the pupils open wide, which lets them see the structures inside clearly. This might sound uncomfortable, but it's painless and the effects of the drops (blurry close-up vision and sensitivity to light) typically wear off within several hours, though they can sometimes last up to a day in young children. Depending on what the doctor finds, they may also use an ultrasound or other imaging to look inside the eye in more detail. [Sources: src1, src3]
 
 Here's what's reassuring: **not every white pupil turns out to be something serious.** Sometimes it really is just the angle of a photo, or light reflecting off the optic nerve in a particular direction. But there is no way to know this without a proper examination. And the conditions that do cause a true white pupil are all time-sensitive — **earlier detection means better outcomes, more treatment options, and better chances of preserving your child's vision.** [Source: src3]
 

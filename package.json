@@ -10,9 +10,15 @@
     "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview",
     "deploy": "npm run build && wrangler pages deploy dist --project-name=parentguidebook",
     "astro": "astro",
-    "deploy-worker": "node scripts/deploy-worker.mjs"
+    "deploy-worker": "node scripts/deploy-worker.mjs",
+    "translate": "npx tsx scripts/translate.ts",
+    "fact-check": "npx tsx scripts/fact-check.ts",
+    "audit": "npx tsx scripts/audit.ts",
+    "content-lint": "npx tsx scripts/lint.ts",
+    "pipeline": "npx tsx scripts/pipeline.ts"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.80.0",
     "@astrojs/tailwind": "^5.1.0",
     "astro": "^4.16.3",
     "tailwindcss": "^3.4.17"

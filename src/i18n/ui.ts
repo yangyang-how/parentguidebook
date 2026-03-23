@@ -30,7 +30,6 @@ export const ui = {
     'article.readInEnglish': 'Read in English',
     'article.tldr': 'Quick Summary (30 seconds)',
     'article.backToHome': '← Back to home',
-    'article.backToDomain': '← Back to Eyes',
 
     // Urgency badges
     'urgency.critical': 'See a doctor within days',
@@ -72,12 +71,8 @@ export const ui = {
     'hub.underConstruction': 'Under construction',
 
     // Landing page
-    'landing.hero.headline': "Your child's eyes deserve your attention.",
     'landing.hero.subheadline':
-      "A free, evidence-based guide to children's eye health — written for parents, not doctors.",
-    'landing.hero.cta.start': 'Start Reading',
-    'landing.hero.cta.schedule': 'Eye Exam Schedule',
-    'landing.why.title': 'Why This Site Exists',
+      'A free, bilingual guide to raising a whole, healthy, resilient child — written for parents, not doctors.',
     'landing.featured.title': 'Featured Articles',
 
     // Footer
@@ -90,7 +85,7 @@ export const ui = {
     // Medical disclaimer
     'disclaimer.title': 'Medical Disclaimer',
     'disclaimer.text':
-      "This article is for educational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. If you have concerns about your child's vision or eye health, please consult a qualified eye care professional.",
+      "This article is for educational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. If you have concerns about your child's health, please consult a qualified health care professional.",
 
     // 404
     '404.title': 'Page not found',
@@ -120,7 +115,6 @@ export const ui = {
     'article.readInEnglish': 'Read in English',
     'article.tldr': '快速摘要（30秒）',
     'article.backToHome': '← 返回首页',
-    'article.backToDomain': '← 返回眼睛',
 
     // Urgency badges
     'urgency.critical': '请在几天内就医',
@@ -162,12 +156,8 @@ export const ui = {
     'hub.underConstruction': '建设中',
 
     // Landing page
-    'landing.hero.headline': '孩子的眼睛，值得你多一份关注。',
     'landing.hero.subheadline':
-      '一份免费的、基于医学证据的儿童眼健康指南——为家长而写，不是为医生而写。',
-    'landing.hero.cta.start': '开始阅读',
-    'landing.hero.cta.schedule': '检查时间表',
-    'landing.why.title': '为什么做这个网站',
+      '一份免费的、双语指南，帮助你养育全面、健康、有韧性的孩子——为家长而写，不是为医生而写。',
     'landing.featured.title': '精选文章',
 
     // Footer
@@ -179,7 +169,7 @@ export const ui = {
     // Medical disclaimer
     'disclaimer.title': '医疗免责声明',
     'disclaimer.text':
-      '本文仅供健康教育目的，不能替代专业医疗建议、诊断或治疗。如果您对孩子的视力或眼睛健康有任何担忧，请咨询合格的眼科专业人员。',
+      '本文仅供健康教育目的，不能替代专业医疗建议、诊断或治疗。如果您对孩子的健康有任何担忧，请咨询合格的医疗专业人员。',
 
     // 404
     '404.title': '页面未找到',

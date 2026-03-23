@@ -1,6 +1,7 @@
 ---
 title: "Your Newborn's Eyes — A Guide to the First 12 Months"
 lang: "en"
+domain: "eyes"
 category: "guides"
 urgency: "good-to-know"
 last_updated: "2026-02-17"

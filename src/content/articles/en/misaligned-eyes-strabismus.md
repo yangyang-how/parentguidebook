@@ -1,6 +1,7 @@
 ---
 title: "Misaligned Eyes (Strabismus) — When Crossed Eyes Need Attention"
 lang: "en"
+domain: "eyes"
 category: "emergency-signs"
 urgency: "important"
 last_updated: "2026-02-17"

@@ -1,5 +1,5 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://eyecare.parentguidebook.org/sitemap.xml
+Sitemap: https://parentguidebook.org/sitemap.xml
 

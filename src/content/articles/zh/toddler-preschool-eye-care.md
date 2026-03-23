@@ -1,6 +1,7 @@
 ---
 title: "幼儿和学龄前儿童的眼睛保健（1-5岁）"
 lang: "zh-Hans"
+domain: "eyes"
 category: "guides"
 urgency: "important"
 last_updated: "2026-02-17"

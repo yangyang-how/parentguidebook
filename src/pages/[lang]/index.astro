@@ -3,8 +3,8 @@ import { getCollection } from 'astro:content';
 import type { Lang } from '../../i18n/ui';
 import { useTranslations } from '../../i18n/utils';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { CATEGORIES, DOMAINS_BY_CATEGORY, EYECARE_DOMAIN } from '../../config/domains';
-import { getArticlePath, getBaseSlugFromId } from '../../utils/routes';
+import { CATEGORIES, DOMAINS_BY_CATEGORY, getReadyDomains } from '../../config/domains';
+import { getArticlePath, getDomainPath, getBaseSlugFromId } from '../../utils/routes';
 
 export async function getStaticPaths() {
   return [{ params: { lang: 'en' } }, { params: { lang: 'zh' } }];
@@ -19,28 +19,26 @@ const articles = all
   .filter((e) => (lang === 'en' ? e.data.lang === 'en' : e.data.lang === 'zh-Hans'))
   .sort((a, b) => a.data.title.localeCompare(b.data.title));
 
-const byCategory = {
-  'emergency-signs': articles.filter((a) => a.data.category === 'emergency-signs'),
-  guides: articles.filter((a) => a.data.category === 'guides'),
-  'eye-exams': articles.filter((a) => a.data.category === 'eye-exams'),
-} as const;
+const readyDomains = getReadyDomains();
 
-const findBySlug = (slug: string) => articles.find((a) => getBaseSlugFromId(a.id) === slug);
+// Group articles by domain for featured sections
+const articlesByDomain = new Map<string, typeof articles>();
+for (const d of readyDomains) {
+  articlesByDomain.set(d.slug, articles.filter((a) => a.data.domain === d.slug));
+}
 ---
 
 <BaseLayout
   lang={lang}
   title="Parent Guidebook"
-  description="A free, bilingual guide to raising a whole, healthy, resilient child."
+  description={lang === 'en'
+    ? 'A free, bilingual guide to raising a whole, healthy, resilient child.'
+    : '一份免费的、双语指南，帮助你养育全面、健康、有韧性的孩子。'}
   canonicalPath={canonicalPath}
 >
   <section class="landing-hero">
     <h1 class="landing-hero__title">Parent Guidebook</h1>
-    <p class="landing-hero__sub">
-      {lang === 'en'
-        ? 'A free, bilingual guide to raising a whole, healthy, resilient child and caring for all your loved ones.'
-        : '一份免费的、双语指南，帮助你在复杂的世界里养育全面、健康、有韧性的孩子，并关爱你所爱的人。'}
-    </p>
+    <p class="landing-hero__sub">{t('landing.hero.subheadline')}</p>
   </section>
 
   <section class="landing-section">
@@ -53,8 +51,8 @@ const findBySlug = (slug: string) => articles.find((a) => getBaseSlugFromId(a.id
           <h3 class="hub-flat-category__title">{t(cat.labelKey as any)}</h3>
           <div class="hub-flat-domains">
             {(DOMAINS_BY_CATEGORY[cat.slug] ?? []).map((d) =>
-              d.slug === EYECARE_DOMAIN ? (
-                <a class="landing-card hub-flat-domain hub-flat-domain--clickable" href="#eyes">
+              d.ready ? (
+                <a class="landing-card hub-flat-domain hub-flat-domain--clickable" href={getDomainPath(lang, cat.slug, d.slug)}>
                   <span class="landing-card__title">{t(d.labelKey as any)}</span>
                 </a>
               ) : (
@@ -70,36 +68,35 @@ const findBySlug = (slug: string) => articles.find((a) => getBaseSlugFromId(a.id
     </div>
   </section>
 
-  <section id="eyes" class="landing-section hub-domain-section">
-    <h2 class="landing-section__title">{t('domain.eyes')}</h2>
-    <div class="landing-hero landing-hero--in-section">
-      <h3 class="landing-hero__title">{t('landing.hero.headline')}</h3>
-      <p class="landing-hero__sub">{t('landing.hero.subheadline')}</p>
-      <div class="landing-hero__actions">
-        <a class="btn-primary" href={getArticlePath(lang, findBySlug('signs-of-vision-problems') ?? articles[0])}>
-          {t('landing.hero.cta.start')}
-        </a>
-        <a class="btn-secondary" href={getArticlePath(lang, findBySlug('eye-exam-schedule') ?? articles[0])}>
-          {t('landing.hero.cta.schedule')}
-        </a>
-      </div>
-    </div>
-    <h3 class="landing-section__subtitle">{t('landing.featured.title')}</h3>
-    <div class="landing-grid">
-      {Object.entries(byCategory).map(([cat, list]) => (
-        <div class="landing-category">
-          <h4 class="landing-category__title">{t(`category.${cat}` as any)}</h4>
-          <div class="landing-cards">
-            {list.map((a) => (
-              <a class="landing-card" href={getArticlePath(lang, a)}>
-                <div class="landing-card__category">{t(`category.${a.data.category}` as any)}</div>
-                <div class="landing-card__title">{a.data.title}</div>
-                <div class="landing-card__meta">{t(`urgency.${a.data.urgency}` as any)}</div>
-              </a>
-            ))}
-          </div>
+  {readyDomains.map((rd) => {
+    const domainArticles = articlesByDomain.get(rd.slug) ?? [];
+    const domainLabel = t(rd.labelKey as any);
+    const subcategories = [...new Set(domainArticles.map((a) => a.data.category))];
+    return (
+      <section class="landing-section hub-domain-section">
+        <h2 class="landing-section__title">
+          <a href={getDomainPath(lang, rd.category, rd.slug)}>{domainLabel}</a>
+        </h2>
+        <div class="landing-grid">
+          {subcategories.map((cat) => {
+            const list = domainArticles.filter((a) => a.data.category === cat);
+            return (
+              <div class="landing-category">
+                <h3 class="landing-category__title">{t(`category.${cat}` as any)}</h3>
+                <div class="landing-cards">
+                  {list.map((a) => (
+                    <a class="landing-card" href={getArticlePath(lang, a)}>
+                      <div class="landing-card__category">{t(`category.${a.data.category}` as any)}</div>
+                      <div class="landing-card__title">{a.data.title}</div>
+                      <div class="landing-card__meta">{t(`urgency.${a.data.urgency}` as any)}</div>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
         </div>
-      ))}
-    </div>
-  </section>
+      </section>
+    );
+  })}
 </BaseLayout>

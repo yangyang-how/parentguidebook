@@ -1,6 +1,6 @@
 /**
  * Parent Guidebook: four categories and their domains.
- * Eyecare is the "eyes" domain under "body". Other domains are placeholders for future content.
+ * Eyes is the first live domain under "body". Other domains are placeholders for future content.
  */
 export const CATEGORIES = [
   { slug: 'body', labelKey: 'categoryGroup.body' },
@@ -44,6 +44,30 @@ export const DOMAINS_BY_CATEGORY: Record<CategorySlug, { slug: string; labelKey:
 export const CATEGORY_SLUGS = CATEGORIES.map((c) => c.slug);
 export type DomainSlug = string;
 
-/** Only domain that has content today */
-export const EYECARE_CATEGORY: CategorySlug = 'body';
-export const EYECARE_DOMAIN: DomainSlug = 'eyes';
+/** Look up which top-level category a domain belongs to. */
+export function getCategoryForDomain(domain: string): CategorySlug | undefined {
+  for (const [cat, domains] of Object.entries(DOMAINS_BY_CATEGORY)) {
+    if (domains.some((d) => d.slug === domain)) return cat as CategorySlug;
+  }
+  return undefined;
+}
+
+/** Check whether a domain has content ready. */
+export function isDomainReady(domain: string): boolean {
+  for (const domains of Object.values(DOMAINS_BY_CATEGORY)) {
+    const found = domains.find((d) => d.slug === domain);
+    if (found) return found.ready;
+  }
+  return false;
+}
+
+/** Get all ready domains across all categories. */
+export function getReadyDomains(): { category: CategorySlug; slug: string; labelKey: string }[] {
+  const result: { category: CategorySlug; slug: string; labelKey: string }[] = [];
+  for (const [cat, domains] of Object.entries(DOMAINS_BY_CATEGORY)) {
+    for (const d of domains) {
+      if (d.ready) result.push({ category: cat as CategorySlug, slug: d.slug, labelKey: d.labelKey });
+    }
+  }
+  return result;
+}

@@ -1,6 +1,7 @@
 ---
 title: "孩子什么时候该看眼科医生？一份完整的时间表"
 lang: "zh-Hans"
+domain: "eyes"
 category: "eye-exams"
 urgency: "important"
 last_updated: "2026-02-17"

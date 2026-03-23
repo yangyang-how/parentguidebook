@@ -1,6 +1,7 @@
 ---
 title: "School-Age Eye Health (Ages 6–12) — The Myopia Years"
 lang: "en"
+domain: "eyes"
 category: "guides"
 urgency: "important"
 last_updated: "2026-02-17"

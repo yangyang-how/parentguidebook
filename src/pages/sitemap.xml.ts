@@ -1,8 +1,8 @@
 import { getCollection } from 'astro:content';
 import { getArticlePath, getCategoryPath, getDomainPath } from '../utils/routes';
-import { CATEGORIES, EYECARE_CATEGORY, EYECARE_DOMAIN } from '../config/domains';
+import { CATEGORIES, getReadyDomains } from '../config/domains';
 
-const SITE = 'https://eyecare.parentguidebook.org';
+const SITE = 'https://parentguidebook.org';
 
 export async function getStaticPaths() {
   return [{}];
@@ -19,11 +19,14 @@ export async function GET() {
     `${SITE}/en/sources/`,
     `${SITE}/zh/sources/`,
   ];
+  const ready = getReadyDomains();
   for (const lang of ['en', 'zh']) {
     for (const c of CATEGORIES) {
       urls.push(`${SITE}${getCategoryPath(lang, c.slug)}`);
     }
-    urls.push(`${SITE}${getDomainPath(lang, EYECARE_CATEGORY, EYECARE_DOMAIN)}`);
+    for (const d of ready) {
+      urls.push(`${SITE}${getDomainPath(lang, d.category, d.slug)}`);
+    }
   }
   for (const entry of articles) {
     const path = getArticlePath(entry.data.lang === 'en' ? 'en' : 'zh', entry);

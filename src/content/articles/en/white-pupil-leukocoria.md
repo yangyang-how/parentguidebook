@@ -1,6 +1,7 @@
 ---
 title: "The White Pupil — What It Means and Why You Should Act Quickly"
 lang: "en"
+domain: "eyes"
 category: "emergency-signs"
 urgency: "critical"
 last_updated: "2026-02-17"

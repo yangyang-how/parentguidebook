@@ -4,7 +4,7 @@ lang: "en"
 domain: "eyes"
 category: "guides"
 urgency: "good-to-know"
-last_updated: "2026-02-17"
+last_updated: "2026-03-23"
 age_groups: ["0-1"]
 ---
 
@@ -21,7 +21,7 @@ age_groups: ["0-1"]
 - **2-3 months:** Starts following moving objects and recognizing your face
 - **5 months:** Sees in color and begins to judge distances
 - **8-9 months:** Recognizes people across a room, coordinates eyes with crawling
-- **12 months:** Vision is about 30-50% of adult level; still developing
+- **12 months:** Visual acuity about 20% of adult sharpness, but overall visual system (depth, color, coordination) is remarkably capable; still developing
 
 **When to worry:** Eyes still crossing after 4 months. Not tracking objects by 3 months. A white spot in the pupil (any age). Excessive tearing that won't stop. One eye always turning in or out.
 
@@ -85,7 +85,7 @@ Understanding this process can help you know what to expect, what's normal, and 
 
 ### 9 to 12 months: Almost there
 
-**What they see:** Your baby can now judge distances well enough to grab things accurately and throw them (which they will, repeatedly). They can pull themselves up to stand and can visually coordinate the complex movements involved. By 12 months, their vision is roughly 30-50% of adult clarity — still developing, but remarkably capable. In China's clinical standards, normal vision at age 1 is about 0.2 on the standard chart (compared to the adult standard of 1.0). [Sources: src1, src3]
+**What they see:** Your baby can now judge distances well enough to grab things accurately and throw them (which they will, repeatedly). They can pull themselves up to stand and can visually coordinate the complex movements involved. By 12 months, their visual acuity is still developing — in China's clinical standards, normal vision at age 1 is about 0.2 on the standard chart (where the adult standard is 1.0), meaning they see roughly 20% as sharply as an adult. But acuity is only one measure; their overall visual system — depth perception, color vision, eye-hand coordination — is remarkably capable by this age. [Sources: src1, src3]
 
 **What you can do:**
 - Name objects and point to them — this connects what your baby sees with language.

@@ -1,39 +1,39 @@
-# Parent Guidebook · Eyecare (eyecare.parentguidebook.org)
+# Parent Guidebook · 养育有方 (parentguidebook.org)
 
-> Free, evidence-based children's eye health guide for parents. Bilingual (English and Chinese). Not medical advice.
+> Free, evidence-based, bilingual (English and Chinese) guide to raising a whole, healthy, resilient child. Covers body, mind, daily life, and heart & soul. Not medical advice.
 
-Educational content from published research and international guidelines. Topics: leukocoria (white pupil), strabismus, amblyopia, myopia, vision screening, eye exam schedules. For parents and caregivers worldwide.
+Educational content from published research and international guidelines. Currently live: Eyes (vision screening, strabismus, amblyopia, myopia, eye exams). More domains coming: breathing, teeth, nutrition, attention, learning, outdoor life, and more. For parents and caregivers worldwide.
 
 ## Main pages
 
-- [Home (English)](https://eyecare.parentguidebook.org/en/): Landing and article index
-- [Home (Chinese)](https://eyecare.parentguidebook.org/zh/): 首页与文章索引
-- [About (EN)](https://eyecare.parentguidebook.org/en/about/): How we create content
-- [About (ZH)](https://eyecare.parentguidebook.org/zh/about/): 关于我们
-- [Sources (EN)](https://eyecare.parentguidebook.org/en/sources/): Full source list
-- [Sources (ZH)](https://eyecare.parentguidebook.org/zh/sources/): 参考来源
+- [Home (English)](https://parentguidebook.org/en/): Landing and domain index
+- [Home (Chinese)](https://parentguidebook.org/zh/): 首页与领域索引
+- [About (EN)](https://parentguidebook.org/en/about/): How we create content
+- [About (ZH)](https://parentguidebook.org/zh/about/): 关于我们
+- [Sources (EN)](https://parentguidebook.org/en/sources/): Full source list
+- [Sources (ZH)](https://parentguidebook.org/zh/sources/): 参考来源
 
-## Emergency signs (when to act quickly)
+## Eyes — Emergency signs (when to act quickly)
 
-- [White pupil / leukocoria (EN)](https://eyecare.parentguidebook.org/en/emergency-signs/white-pupil/)
-- [White pupil / 白瞳 (ZH)](https://eyecare.parentguidebook.org/zh/emergency-signs/white-pupil/)
-- [Misaligned eyes / strabismus (EN)](https://eyecare.parentguidebook.org/en/emergency-signs/misaligned-eyes/)
-- [Misaligned eyes / 斜视 (ZH)](https://eyecare.parentguidebook.org/zh/emergency-signs/misaligned-eyes/)
-- [Signs of vision problems (EN)](https://eyecare.parentguidebook.org/en/emergency-signs/signs-of-vision-problems/)
-- [Signs of vision problems (ZH)](https://eyecare.parentguidebook.org/zh/emergency-signs/signs-of-vision-problems/)
+- [White pupil / leukocoria (EN)](https://parentguidebook.org/en/body/eyes/white-pupil/)
+- [White pupil / 白瞳 (ZH)](https://parentguidebook.org/zh/body/eyes/white-pupil/)
+- [Misaligned eyes / strabismus (EN)](https://parentguidebook.org/en/body/eyes/misaligned-eyes/)
+- [Misaligned eyes / 斜视 (ZH)](https://parentguidebook.org/zh/body/eyes/misaligned-eyes/)
+- [Signs of vision problems (EN)](https://parentguidebook.org/en/body/eyes/signs-of-vision-problems/)
+- [Signs of vision problems (ZH)](https://parentguidebook.org/zh/body/eyes/signs-of-vision-problems/)
 
-## Guides by age
+## Eyes — Guides by age
 
-- [Newborn eyes, first year (EN)](https://eyecare.parentguidebook.org/en/guides/newborn-eyes/) · [ZH](https://eyecare.parentguidebook.org/zh/guides/newborn-eyes/)
-- [Toddler & preschool (EN)](https://eyecare.parentguidebook.org/en/guides/toddler-preschool/) · [ZH](https://eyecare.parentguidebook.org/zh/guides/toddler-preschool/)
-- [School-age eye health (EN)](https://eyecare.parentguidebook.org/en/guides/school-age/) · [ZH](https://eyecare.parentguidebook.org/zh/guides/school-age/)
+- [Newborn eyes, first year (EN)](https://parentguidebook.org/en/body/eyes/newborn-eyes/) · [ZH](https://parentguidebook.org/zh/body/eyes/newborn-eyes/)
+- [Toddler & preschool (EN)](https://parentguidebook.org/en/body/eyes/toddler-preschool/) · [ZH](https://parentguidebook.org/zh/body/eyes/toddler-preschool/)
+- [School-age eye health (EN)](https://parentguidebook.org/en/body/eyes/school-age/) · [ZH](https://parentguidebook.org/zh/body/eyes/school-age/)
 
-## Eye exams
+## Eyes — Eye exams
 
-- [When to get screened / schedule (EN)](https://eyecare.parentguidebook.org/en/eye-exams/schedule/) · [ZH](https://eyecare.parentguidebook.org/zh/eye-exams/schedule/)
-- [What happens at an eye exam (EN)](https://eyecare.parentguidebook.org/en/eye-exams/what-happens/) · [ZH](https://eyecare.parentguidebook.org/zh/eye-exams/what-happens/)
+- [When to get screened / schedule (EN)](https://parentguidebook.org/en/body/eyes/schedule/) · [ZH](https://parentguidebook.org/zh/body/eyes/schedule/)
+- [What happens at an eye exam (EN)](https://parentguidebook.org/en/body/eyes/what-happens/) · [ZH](https://parentguidebook.org/zh/body/eyes/what-happens/)
 
 ## Optional
 
-- [Sitemap (all URLs)](https://eyecare.parentguidebook.org/sitemap.xml)
-- Contact: eyecare@parentguidebook.org
+- [Sitemap (all URLs)](https://parentguidebook.org/sitemap.xml)
+- Contact: hi@parentguidebook.org

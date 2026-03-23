@@ -5,7 +5,8 @@ const articles = defineCollection({
   schema: z.object({
     title: z.string(),
     lang: z.enum(['en', 'zh-Hans']),
-    category: z.enum(['emergency-signs', 'guides', 'eye-exams']),
+    domain: z.string(),
+    category: z.string(),
     urgency: z.enum(['critical', 'important', 'good-to-know']),
     last_updated: z.string(),
     age_groups: z.array(z.string()).default([]),

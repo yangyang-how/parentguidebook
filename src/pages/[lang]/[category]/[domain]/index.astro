@@ -3,57 +3,56 @@ import { getCollection } from 'astro:content';
 import type { Lang } from '../../../../i18n/ui';
 import { useTranslations } from '../../../../i18n/utils';
 import BaseLayout from '../../../../layouts/BaseLayout.astro';
-import { EYECARE_CATEGORY, EYECARE_DOMAIN } from '../../../../config/domains';
+import { getReadyDomains, DOMAINS_BY_CATEGORY } from '../../../../config/domains';
 import { getArticlePath, getDomainPath, getBaseSlugFromId } from '../../../../utils/routes';
 
 export async function getStaticPaths() {
-  return [
-    { params: { lang: 'en', category: EYECARE_CATEGORY, domain: EYECARE_DOMAIN } },
-    { params: { lang: 'zh', category: EYECARE_CATEGORY, domain: EYECARE_DOMAIN } },
-  ];
+  const ready = getReadyDomains();
+  const paths: { params: { lang: string; category: string; domain: string } }[] = [];
+  for (const lang of ['en', 'zh']) {
+    for (const d of ready) {
+      paths.push({ params: { lang, category: d.category, domain: d.slug } });
+    }
+  }
+  return paths;
 }
 
 const { lang, category, domain } = Astro.params as { lang: Lang; category: string; domain: string };
 const t = useTranslations(lang);
 const canonicalPath = getDomainPath(lang, category, domain);
 
+// Find the domain label from config
+const domainConfig = (DOMAINS_BY_CATEGORY[category as keyof typeof DOMAINS_BY_CATEGORY] ?? [])
+  .find((d) => d.slug === domain);
+const domainLabel = domainConfig ? t(domainConfig.labelKey as any) : domain;
+
 const all = await getCollection('articles');
 const articles = all
+  .filter((e) => e.data.domain === domain)
   .filter((e) => (lang === 'en' ? e.data.lang === 'en' : e.data.lang === 'zh-Hans'))
   .sort((a, b) => a.data.title.localeCompare(b.data.title));
 
-const byCategory = {
-  'emergency-signs': articles.filter((a) => a.data.category === 'emergency-signs'),
-  guides: articles.filter((a) => a.data.category === 'guides'),
-  'eye-exams': articles.filter((a) => a.data.category === 'eye-exams'),
-} as const;
-
-const findBySlug = (slug: string) => articles.find((a) => getBaseSlugFromId(a.id) === slug);
+// Group articles by their subcategory
+const subcategories = [...new Set(articles.map((a) => a.data.category))];
+const bySubcategory = Object.fromEntries(
+  subcategories.map((cat) => [cat, articles.filter((a) => a.data.category === cat)])
+);
 ---
 
 <BaseLayout
   lang={lang}
-  title={domain === 'eyes' ? (lang === 'en' ? 'Eyes · Parent Guidebook' : '眼睛 · 家长指南') : `${domain} · Parent Guidebook`}
-  description={t('landing.hero.subheadline')}
+  title={`${domainLabel} · Parent Guidebook`}
+  description={`${domainLabel} — Parent Guidebook`}
   canonicalPath={canonicalPath}
 >
   <section class="landing-hero">
-    <h1 class="landing-hero__title">{t('landing.hero.headline')}</h1>
-    <p class="landing-hero__sub">{t('landing.hero.subheadline')}</p>
-    <div class="landing-hero__actions">
-      <a class="btn-primary" href={getArticlePath(lang, findBySlug('signs-of-vision-problems') ?? articles[0])}>
-        {t('landing.hero.cta.start')}
-      </a>
-      <a class="btn-secondary" href={getArticlePath(lang, findBySlug('eye-exam-schedule') ?? articles[0])}>
-        {t('landing.hero.cta.schedule')}
-      </a>
-    </div>
+    <h1 class="landing-hero__title">{domainLabel}</h1>
   </section>
 
   <section class="landing-section">
     <h2 class="landing-section__title">{t('landing.featured.title')}</h2>
     <div class="landing-grid">
-      {Object.entries(byCategory).map(([cat, list]) => (
+      {Object.entries(bySubcategory).map(([cat, list]) => (
         <div class="landing-category">
           <h3 class="landing-category__title">{t(`category.${cat}` as any)}</h3>
           <div class="landing-cards">

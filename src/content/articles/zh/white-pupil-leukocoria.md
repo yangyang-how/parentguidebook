@@ -1,6 +1,7 @@
 ---
 title: "白瞳——它意味着什么，为什么需要尽快行动"
 lang: "zh-Hans"
+domain: "eyes"
 category: "emergency-signs"
 urgency: "critical"
 last_updated: "2026-02-17"

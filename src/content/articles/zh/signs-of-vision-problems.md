@@ -1,6 +1,7 @@
 ---
 title: "我的孩子好像看不清——不同年龄段的视力问题信号"
 lang: "zh-Hans"
+domain: "eyes"
 category: "emergency-signs"
 urgency: "important"
 last_updated: "2026-02-17"

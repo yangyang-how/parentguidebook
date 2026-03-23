@@ -1,12 +1,14 @@
 {
-  "name": "eyecare-parentguidebook",
+  "name": "parentguidebook",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
+    "lint": "biome check ./src",
+    "lint:fix": "biome check --write ./src",
     "build": "ASTRO_TELEMETRY_DISABLED=1 astro build",
     "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview",
-    "deploy": "npm run build && wrangler pages deploy dist --project-name=eyecare-parentguidebook",
+    "deploy": "npm run build && wrangler pages deploy dist --project-name=parentguidebook",
     "astro": "astro",
     "deploy-worker": "node scripts/deploy-worker.mjs"
   },
@@ -16,6 +18,7 @@
     "tailwindcss": "^3.4.17"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.4.8",
     "autoprefixer": "^10.4.21",
     "postcss": "^8.5.6",
     "typescript": "^5.9.2",

@@ -1,6 +1,7 @@
 ---
 title: "What Happens During a Children's Eye Exam — A Parent's Guide"
 lang: "en"
+domain: "eyes"
 category: "eye-exams"
 urgency: "good-to-know"
 last_updated: "2026-02-17"

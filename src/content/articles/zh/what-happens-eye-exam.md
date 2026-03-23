@@ -1,6 +1,7 @@
 ---
 title: "儿童眼科检查是怎么做的——家长完全指南"
 lang: "zh-Hans"
+domain: "eyes"
 category: "eye-exams"
 urgency: "good-to-know"
 last_updated: "2026-02-17"

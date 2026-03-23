@@ -1,6 +1,7 @@
 ---
 title: "学龄儿童的眼睛健康（6-12岁）——近视高发期"
 lang: "zh-Hans"
+domain: "eyes"
 category: "guides"
 urgency: "important"
 last_updated: "2026-02-17"

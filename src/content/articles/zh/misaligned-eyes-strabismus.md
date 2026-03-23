@@ -1,6 +1,7 @@
 ---
 title: "眼睛偏斜（斜视）——什么时候需要重视"
 lang: "zh-Hans"
+domain: "eyes"
 category: "emergency-signs"
 urgency: "important"
 last_updated: "2026-02-17"

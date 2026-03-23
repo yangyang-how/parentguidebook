@@ -3,7 +3,7 @@ import tailwind from '@astrojs/tailwind';
 import rehypeSourceCitations from './src/plugins/rehype-source-citations.ts';
 
 export default defineConfig({
-  site: 'https://eyecare.parentguidebook.org',
+  site: 'https://parentguidebook.org',
   outDir: 'dist', // build output; Cloudflare deploy command uploads this folder
   integrations: [tailwind()],
   markdown: {

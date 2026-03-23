@@ -1,6 +1,7 @@
 ---
 title: "宝宝的眼睛——出生第一年指南"
 lang: "zh-Hans"
+domain: "eyes"
 category: "guides"
 urgency: "good-to-know"
 last_updated: "2026-02-17"

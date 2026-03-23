@@ -17,7 +17,6 @@ const logoSrc = lang === 'zh' ? '/img/logo-chinese.svg' : '/img/logo-english.svg
       <img class="site-header__logo-img" src={logoSrc} alt={wordmark} width="240" height="60" />
     </a>
     <nav class="site-nav">
-      <a href={`/${lang}/body/eyes/`}>{lang === 'zh' ? '眼睛' : 'Eyes'}</a>
       <a href={`/${lang}/about/`}>{t('nav.about')}</a>
       <a href={`/${lang}/sources/`}>{t('nav.sources')}</a>
       <LanguageToggle lang={lang} />

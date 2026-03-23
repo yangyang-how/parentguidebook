@@ -1,6 +1,7 @@
 ---
 title: "Eye Care for Toddlers and Preschoolers (Ages 1–5)"
 lang: "en"
+domain: "eyes"
 category: "guides"
 urgency: "important"
 last_updated: "2026-02-17"

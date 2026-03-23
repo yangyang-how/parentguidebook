@@ -1,6 +1,7 @@
 ---
 title: "When Should My Child See an Eye Doctor? A Complete Schedule"
 lang: "en"
+domain: "eyes"
 category: "eye-exams"
 urgency: "important"
 last_updated: "2026-02-17"

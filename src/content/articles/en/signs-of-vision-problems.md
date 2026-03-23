@@ -1,6 +1,7 @@
 ---
 title: "My Child Seems to Not See Well — Signs of Vision Problems by Age"
 lang: "en"
+domain: "eyes"
 category: "emergency-signs"
 urgency: "important"
 last_updated: "2026-02-17"

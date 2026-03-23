@@ -5,7 +5,7 @@ lang: "en"
 
 # Sources & References
 
-All content on this site is based on published medical research, clinical guidelines, and official health authority recommendations. Below is the complete list of sources referenced across our articles, organized by type.
+All content on this site is based on published medical research, clinical guidelines, and official health authority recommendations. Below is the complete list of sources referenced across our **Eyes** articles, organized by type. Sources for other domains will be added as those sections launch.
 
 We provide links to freely accessible sources wherever possible so you can read the original materials yourself.
 

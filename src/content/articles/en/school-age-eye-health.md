@@ -4,7 +4,7 @@ lang: "en"
 domain: "eyes"
 category: "guides"
 urgency: "important"
-last_updated: "2026-02-17"
+last_updated: "2026-03-23"
 age_groups: ["6-12"]
 ---
 
@@ -51,7 +51,7 @@ The evidence is strong and consistent across multiple large studies:
 **The mechanism seems to be bright natural light itself** — not exercise, not fresh air, not distance viewing specifically, but the intensity of outdoor light stimulating the retina in a way that helps regulate eye growth. This means even sitting and reading in a park is better for the eyes than sitting and reading indoors. [Source: src1]
 
 **Practical targets:**
-- Aim for at least **2 hours of outdoor time daily** — this aligns with recommendations from the WHO, Singapore's NMPP, Taiwan's 護眼123, and China's NHC guidelines. [Sources: src4, src5, src6]
+- Aim for at least **2 hours of outdoor time daily** — this aligns with recommendations from Singapore's NMPP, Taiwan's 護眼123, and China's NHC guidelines. [Sources: src4, src5, src6]
 - It doesn't have to be 2 consecutive hours. Multiple shorter periods add up.
 - It doesn't have to be vigorous exercise. Walking to school, playing in the yard, eating lunch outside — it all counts.
 - Overcast days still count — outdoor light is many times brighter than indoor light even on cloudy days.
@@ -124,7 +124,7 @@ School-age children are increasingly active in sports, and eye injuries are a le
 
 ## When to see a doctor
 
-At this age, your child should have vision screening every 1-2 years (see our [eye exam schedule](/en/eye-exams/eye-exam-schedule/) for details). Between screenings, see a doctor if:
+At this age, your child should have vision screening every 1-2 years (see our [eye exam schedule](/en/eye-exams/eye-exam-schedule/) for details). Between screenings, see a doctor if: [Source: src8]
 
 - Your child squints to see the board at school or asks to sit closer
 - They hold books or screens very close to their face

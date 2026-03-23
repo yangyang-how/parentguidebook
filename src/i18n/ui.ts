@@ -41,34 +41,57 @@ export const ui = {
     'category.guides': 'Guides by Age',
     'category.eye-exams': 'Eye Exams',
 
-    // Category groups (four pillars)
-    'categoryGroup.body': 'For the Body',
-    'categoryGroup.mind': 'For the Mind',
-    'categoryGroup.dailyLife': 'For Daily Life',
-    'categoryGroup.heartSoul': 'For the Heart & Soul',
+    // Category groups (five pillars)
+    'categoryGroup.childBody': "For the Child's Body",
+    'categoryGroup.childMind': "For the Child's Mind",
+    'categoryGroup.childHeart': "For the Child's Heart & Soul",
+    'categoryGroup.parent': 'For the Parent',
+    'categoryGroup.family': 'For the Family',
 
-    // Domains
+    // Domains — Child's Body
     'domain.eyes': 'Eyes',
-    'domain.breathing': 'Breathing',
+    'domain.breathing': 'Breathing & ENT',
     'domain.bonesMovement': 'Bones & Movement',
     'domain.teeth': 'Teeth',
-    'domain.nutrition': 'Nutrition',
-    'domain.attentionDigital': 'Attention & Digital World',
+    'domain.nutrition': 'Nutrition & Feeding',
+    'domain.skin': 'Skin',
+    'domain.sleep': 'Sleep',
+
+    // Domains — Child's Mind
     'domain.learningCognitive': 'Learning & Cognitive',
+    'domain.attentionDigital': 'Attention & Digital',
     'domain.socialEmotional': 'Social & Emotional',
     'domain.schoolLife': 'School Life',
-    'domain.physicalActivity': 'Physical Activity',
-    'domain.outdoorLife': 'Outdoor Life',
-    'domain.homeEnvironment': 'Home Environment',
+
+    // Domains — Child's Heart & Soul
     'domain.identityBelonging': 'Identity & Belonging',
-    'domain.genderConfidence': 'Gender, Confidence & Equality',
-    'domain.characterStrength': 'Character & Inner Strength',
-    'domain.adaptability': 'Adaptability & Transitions',
+    'domain.characterStrength': 'Character & Strength',
+    'domain.genderConfidence': 'Gender & Confidence',
     'domain.bigQuestions': 'Big Questions',
-    'domain.exploreFuture': 'Explore & Future Readiness',
-    'domain.howWorldWorks': 'How the World Works',
+    'domain.adaptability': 'Adaptability & Transitions',
+
+    // Domains — Parent
+    'domain.physicalRecovery': 'Physical Recovery',
+    'domain.mentalHealth': 'Mental Health',
+    'domain.relationships': 'Relationships',
+    'domain.parentingConfidence': 'Parenting Confidence',
+
+    // Domains — Family
+    'domain.homeSafety': 'Home & Safety',
+    'domain.routinesLogistics': 'Routines & Logistics',
+    'domain.workLife': 'Work-Life',
+    'domain.communitySupport': 'Community & Support',
+
     'domain.comingSoon': 'Coming soon',
     'hub.underConstruction': 'Under construction',
+
+    // Age stages
+    'stage.0-1mo': '0–1 month',
+    'stage.1-6mo': '1–6 months',
+    'stage.6mo-2yr': '6 months–2 years',
+    'stage.2-5yr': '2–5 years',
+    'stage.5-12yr': '5–12 years',
+    'stage.12-18yr': '12–18 years',
 
     // Landing page
     'landing.hero.subheadline':
@@ -126,34 +149,57 @@ export const ui = {
     'category.guides': '按年龄指南',
     'category.eye-exams': '眼科检查',
 
-    // Category groups
-    'categoryGroup.body': '身体',
-    'categoryGroup.mind': '心智',
-    'categoryGroup.dailyLife': '日常生活',
-    'categoryGroup.heartSoul': '心灵与品格',
+    // Category groups (five pillars)
+    'categoryGroup.childBody': '孩子的身体',
+    'categoryGroup.childMind': '孩子的心智',
+    'categoryGroup.childHeart': '孩子的心灵',
+    'categoryGroup.parent': '家长自己',
+    'categoryGroup.family': '家庭',
 
-    // Domains
+    // Domains — Child's Body
     'domain.eyes': '眼睛',
     'domain.breathing': '呼吸',
     'domain.bonesMovement': '骨骼与运动',
     'domain.teeth': '牙齿',
-    'domain.nutrition': '营养',
-    'domain.attentionDigital': '注意力与网络',
+    'domain.nutrition': '营养与喂养',
+    'domain.skin': '皮肤',
+    'domain.sleep': '睡眠',
+
+    // Domains — Child's Mind
     'domain.learningCognitive': '学习与认知',
+    'domain.attentionDigital': '注意力与屏幕',
     'domain.socialEmotional': '社交与情绪',
     'domain.schoolLife': '校园生活',
-    'domain.physicalActivity': '身体活动',
-    'domain.outdoorLife': '户外生活',
-    'domain.homeEnvironment': '家庭环境',
+
+    // Domains — Child's Heart & Soul
     'domain.identityBelonging': '身份与归属',
-    'domain.genderConfidence': '性别、自信与平等',
-    'domain.characterStrength': '品格与内心力量',
-    'domain.adaptability': '适应与过渡',
+    'domain.characterStrength': '品格与力量',
+    'domain.genderConfidence': '性别与自信',
     'domain.bigQuestions': '大问题',
-    'domain.exploreFuture': '探索与未来',
-    'domain.howWorldWorks': '世界如何运转',
+    'domain.adaptability': '适应与过渡',
+
+    // Domains — Parent
+    'domain.physicalRecovery': '产后恢复',
+    'domain.mentalHealth': '心理健康',
+    'domain.relationships': '亲密关系',
+    'domain.parentingConfidence': '育儿信心',
+
+    // Domains — Family
+    'domain.homeSafety': '家居安全',
+    'domain.routinesLogistics': '日常与后勤',
+    'domain.workLife': '工作与生活',
+    'domain.communitySupport': '社区与支持',
+
     'domain.comingSoon': '敬请期待',
     'hub.underConstruction': '建设中',
+
+    // Age stages
+    'stage.0-1mo': '0–1个月',
+    'stage.1-6mo': '1–6个月',
+    'stage.6mo-2yr': '6个月–2岁',
+    'stage.2-5yr': '2–5岁',
+    'stage.5-12yr': '5–12岁',
+    'stage.12-18yr': '12–18岁',
 
     // Landing page
     'landing.hero.subheadline':

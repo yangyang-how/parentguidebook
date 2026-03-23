@@ -4,7 +4,7 @@ lang: "en"
 domain: "eyes"
 category: "eye-exams"
 urgency: "good-to-know"
-last_updated: "2026-02-17"
+last_updated: "2026-03-23"
 age_groups: ["0-1", "1-3", "3-6", "6-12", "13-18"]
 ---
 
@@ -88,16 +88,17 @@ The doctor checks whether both eyes are pointing in the same direction and can m
 
 This is what most people think of as "the eye test." How it's done depends entirely on your child's age:
 
-**Babies (under 1 year):** The doctor can't ask a baby to read a chart, so they use indirect methods — watching whether the baby can fix on a target, follow it, and whether the baby has a preference for looking with one eye over the other. A baby who strongly resists having one eye covered (but not the other) may have amblyopia in the covered eye. [Source: src3]
+**Babies (under 1 year):** The doctor can't ask a baby to read a chart, so they use indirect methods — watching whether the baby can fix on a target, follow it, and whether the baby has a preference for looking with one eye over the other. A baby who strongly resists having one eye covered (but not the other) may have poor vision in the uncovered eye — the one they're being forced to see with. The baby protests because you've covered their good eye. [Source: src3]
 
 **Toddlers (1-3 years):** The doctor may use instrument-based screening — a handheld device that can detect significant refractive errors from across the room without requiring any cooperation from the child beyond looking at the device briefly. [Source: src3]
 
 **Preschoolers (3-5 years):** This is when most children can do a simple visual acuity test. Instead of letters, they use:
 - **LEA Symbols** — four shapes (house, circle, square, apple) that the child either names or matches to a card they're holding
 - **HOTV letters** — just four letters (H, O, T, V) that even children who don't know the full alphabet can learn
-- **Landolt C** (popular in Japan and China) — rings with a gap that the child points in the direction of
+- **Landolt C** (standard in Japan) — rings with a gap that the child points in the direction of
+- **Tumbling E** (standard in China) — the letter E in different orientations that the child indicates by pointing
 
-Each eye is tested separately by covering the other with a patch or special glasses. [Sources: src3, src5]
+Each eye is tested separately by covering the other with a patch or special glasses. [Sources: src3, src4, src5]
 
 **School-age and older:** Standard letter charts (Snellen or LogMAR), each eye tested separately. [Source: src3]
 
@@ -121,9 +122,9 @@ This determines whether your child needs glasses and what prescription they woul
 >
 > **After the drops take effect (15-30 minutes):** Your child's pupils will be very wide. They'll be sensitive to bright light — this is why you brought sunglasses or a hat. Close-up vision will be blurry (they won't be able to read or look at a phone comfortably). This is all temporary.
 >
-> **How long the effects last:** For the most commonly used drops (tropicamide), effects wear off in about 4-6 hours. For stronger drops sometimes used in younger children (cyclopentolate or atropine), effects can last 12-24 hours, occasionally up to 48 hours.
+> **How long the effects last:** For the most commonly used drops (tropicamide), effects wear off in about 4-6 hours. For cyclopentolate (often used for children's refraction), effects typically last 12-24 hours. For atropine (sometimes used in very young children), blurred near vision and light sensitivity can persist for up to 1-2 weeks — your doctor will let you know what to expect.
 >
-> **Are the drops safe?** Yes. They've been used safely for decades. Serious reactions are extremely rare (about 1 in 10,000 children may experience temporary hyperactivity). The drops do not damage the eyes and do not affect the brain. If you're concerned about any reaction, tell the doctor. [Sources: src1, src2, src4]
+> **Are the drops safe?** Yes. They've been used safely for decades. The drops do not cause lasting harm. In rare cases, cyclopentolate drops may cause temporary drowsiness, flushing, or behavioral changes — a small percentage of children experience these mild, transient reactions. Let the doctor know if you notice anything unusual. [Sources: src1, src2]
 
 ### 7. Looking inside the eye
 

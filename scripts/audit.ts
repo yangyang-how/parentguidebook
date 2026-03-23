@@ -118,8 +118,20 @@ async function audit(enPath: string, zhPath: string) {
 
   let result: { pass: boolean; violations: Array<{ severity: string; category: string; en_location: string; zh_location: string; issue: string; suggestion: string }>; summary: string };
   try {
-    const jsonMatch = raw.match(/\{[\s\S]*\}/);
-    result = JSON.parse(jsonMatch ? jsonMatch[0] : raw);
+    // Extract JSON from response, handling code fences and minor issues
+    const firstBrace = raw.indexOf('{');
+    const lastBrace = raw.lastIndexOf('}');
+    if (firstBrace === -1 || lastBrace === -1) throw new Error('No JSON object found');
+    const jsonStr = raw.slice(firstBrace, lastBrace + 1);
+    try {
+      result = JSON.parse(jsonStr);
+    } catch {
+      // If JSON is malformed, try to extract just pass/violations/summary
+      const passMatch = jsonStr.match(/"pass"\s*:\s*(true|false)/);
+      const pass = passMatch ? passMatch[1] === 'true' : false;
+      result = { pass, violations: [], summary: 'JSON parse failed — review raw output above. pass=' + pass };
+      console.log('⚠️  Partial JSON parse — extracted pass=' + pass);
+    }
   } catch {
     console.error(`Failed to parse response as JSON (${elapsed}s):`);
     console.log(raw);

@@ -1,0 +1,57 @@
+---
+import { getCollection } from 'astro:content';
+import type { Lang } from '../../../../i18n/ui';
+import { useTranslations, otherLang } from '../../../../i18n/utils';
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import MedicalDisclaimer from '../../../../components/MedicalDisclaimer.astro';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('timeline');
+  return entries.map((entry) => ({
+    params: {
+      lang: entry.data.lang === 'en' ? 'en' : 'zh',
+      stage: entry.data.stage,
+    },
+    props: { entryId: entry.id.replace(/\.mdx?$/i, '') },
+  }));
+}
+
+const { lang, stage } = Astro.params as { lang: Lang; stage: string };
+const t = useTranslations(lang);
+const altLang = otherLang(lang);
+const canonicalPath = `/${lang}/timeline/${stage}/`;
+const altPath = `/${altLang}/timeline/${stage}/`;
+
+const { entryId } = Astro.props as { entryId: string };
+const entry = await import('astro:content').then((m) => m.getEntry('timeline', entryId));
+if (!entry) throw new Error(`Missing timeline entry: ${entryId}`);
+
+const { Content } = await entry.render();
+---
+
+<BaseLayout
+  lang={lang}
+  title={`${entry.data.title} · Parent Guidebook`}
+  description={entry.data.title}
+  canonicalPath={canonicalPath}
+  ogType="article"
+>
+  <article class="prose article-page">
+    <p class="article-page__meta">
+      {t('article.lastUpdated')} {entry.data.last_updated}
+    </p>
+    <h1 class="article-page__title">{entry.data.title}</h1>
+
+    <Content />
+
+    <div class="article-page__lang">
+      <a href={altPath} onclick={`try{localStorage.setItem('lang','${altLang}')}catch{}`}>
+        {lang === 'en' ? t('article.readInChinese') : t('article.readInEnglish')}
+      </a>
+    </div>
+
+    <div class="article-page__back">
+      <a href={`/${lang}/`}>{t('article.backToHome')}</a>
+    </div>
+  </article>
+</BaseLayout>

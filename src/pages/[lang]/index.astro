@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content';
 import type { Lang } from '../../i18n/ui';
 import { useTranslations } from '../../i18n/utils';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { CATEGORIES, DOMAINS_BY_CATEGORY, getReadyDomains } from '../../config/domains';
+import { CATEGORIES, DOMAINS_BY_CATEGORY, getReadyDomains, AGE_STAGES } from '../../config/domains';
 import { getArticlePath, getDomainPath, getBaseSlugFromId } from '../../utils/routes';
 
 export async function getStaticPaths() {
@@ -13,6 +13,11 @@ export async function getStaticPaths() {
 const { lang } = Astro.params as { lang: Lang };
 const t = useTranslations(lang);
 const canonicalPath = `/${lang}/`;
+
+const timelineEntries = await getCollection('timeline');
+const timelineForLang = timelineEntries
+  .filter((e) => (lang === 'en' ? e.data.lang === 'en' : e.data.lang === 'zh-Hans'))
+  .sort((a, b) => a.data.stage_order - b.data.stage_order);
 
 const all = await getCollection('articles');
 const articles = all
@@ -41,9 +46,38 @@ for (const d of readyDomains) {
     <p class="landing-hero__sub">{t('landing.hero.subheadline')}</p>
   </section>
 
+  {timelineForLang.length > 0 && (
+    <section class="landing-section">
+      <h2 class="landing-section__title">
+        {lang === 'en' ? 'Start Here: By Age' : '从这里开始：按年龄'}
+      </h2>
+      <p class="landing-section__desc" style="max-width:38rem; margin-bottom:1.5rem; color:var(--color-text-secondary);">
+        {lang === 'en'
+          ? 'New parent? Pick your child\'s age. We\'ll tell you everything you need to know.'
+          : '新手家长？选择孩子的月龄，我们帮你梳理最重要的事。'}
+      </p>
+      <div class="landing-grid">
+        {AGE_STAGES.map((stage) => {
+          const entry = timelineForLang.find((e) => e.data.stage === stage.slug);
+          return entry ? (
+            <a class="landing-card" href={`/${lang}/timeline/${stage.slug}/`}>
+              <div class="landing-card__title">{t(stage.labelKey as any)}</div>
+              <div class="landing-card__meta">{entry.data.title}</div>
+            </a>
+          ) : (
+            <div class="landing-card landing-card--disabled" aria-disabled="true">
+              <div class="landing-card__title">{t(stage.labelKey as any)}</div>
+              <div class="landing-card__meta">{t('domain.comingSoon')}</div>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  )}
+
   <section class="landing-section">
     <h2 class="landing-section__title">
-      {lang === 'en' ? 'Explore by area' : '按领域浏览'}
+      {lang === 'en' ? 'Explore by Topic' : '按主题浏览'}
     </h2>
     <div class="hub-flat-grid">
       {CATEGORIES.map((cat) => (

@@ -37,6 +37,10 @@
           },
           {
             "type": "command",
+            "command": "branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null); merged=$(gh pr list --state merged --head \"$branch\" --json number --jq 'length' 2>/dev/null); if [ -z \"$merged\" ]; then echo \"BLOCKED: Could not verify branch status. Check gh auth.\" >&2; exit 1; fi; if [ \"$merged\" -gt 0 ]; then echo \"BLOCKED: Branch '$branch' already has a merged PR. Run: git checkout main && git pull && git checkout -b new-branch-name\" >&2; exit 1; fi"
+          },
+          {
+            "type": "command",
             "command": "npx @biomejs/biome check ./src --no-errors-on-unmatched 2>&1 || { echo 'BLOCKED: Fix lint errors before committing.' >&2; exit 1; }"
           }
         ]

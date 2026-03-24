@@ -1,18 +1,41 @@
-# The Hook That Didn't Hook: A Story of AI Guardrails Failing Four Times
+# How I Set Up Claude Code Hooks That Actually Work (After Failing Four Times)
 
 ![Cover](cover.svg)
 
-*How we set up Claude Code hooks to prevent pushing to merged branches, watched them fail four times in one session, discovered the matchers never worked at all, and what we learned about building guardrails that actually work.*
+*Claude Code follows your CLAUDE.md instructions most of the time — but "most of the time" isn't good enough when the AI is pushing code to production. Here's how I built hooks that enforce rules deterministically, and the four ways they failed before they worked.*
 
 ---
 
-## The Setup
+## Why You Need Hooks (Not Just CLAUDE.md)
 
-We're building a bilingual static site with a simple workflow: feature branches, pull requests, human review, merge to main. Claude Code (an AI coding assistant) does the implementation; a human reviews and merges. Cloudflare Pages auto-deploys on merge to main.
+If you're using Claude Code, you probably have a `CLAUDE.md` file with rules like "never commit to main" or "always run tests before pushing." Claude reads these, understands them, and follows them — roughly 90-95% of the time.
 
-The rule is straightforward: **never push to a branch whose PR has already been merged.** If you do, the commits go nowhere — they sit on a dead branch while main moves on. The deployment never sees them.
+But that other 5-10%? Under context pressure, in a long session, when it's juggling multiple tasks, Claude can rationalize its way past soft guidance. "I'll just push this one small fix directly" or "the tests passed last time, I'll skip them." It's not malicious — it's the same way a human developer might cut a corner at 2am. The instructions are suggestions. The AI treats them as strong suggestions. But suggestions aren't guarantees.
 
-To enforce this, we set up hooks in Claude Code's `.claude/settings.json`:
+**Hooks are the guarantee.** They're shell scripts that Claude Code executes before (or after) specific tool calls. They run outside the AI's context — Claude can't reason its way around them, negotiate with them, or decide to skip them. If the hook says "blocked," the action doesn't happen. Period.
+
+Think of it this way:
+
+- **CLAUDE.md** = the constitution. Teaches Claude *why* the rules exist. Followed ~95% of the time.
+- **Hooks** = the law enforcement. Doesn't care about *why*. Blocks the action 100% of the time.
+
+Every critical rule should exist at both levels: soft guidance in CLAUDE.md (so Claude understands and cooperates) and hard enforcement in hooks (so it can't slip through when it doesn't).
+
+## The Problem
+
+I'm building a bilingual static site with a standard workflow: feature branches, pull requests, human review, merge to main. Claude Code does the implementation; I review and merge. Cloudflare Pages auto-deploys on merge to main.
+
+One rule matters more than any other: **never push to a branch whose PR has already been merged.** If you do, the commits go nowhere — they sit on a dead branch while main moves on. The deployment never sees them. You think you shipped code. You didn't. Your users see nothing.
+
+This happened to me three times in one session before I even realized. Claude would finish work on a branch, I'd merge the PR, and Claude would keep committing and pushing to the same dead branch — completely unaware that the PR was already merged. The commits vanished into the void.
+
+I needed a hook that checks, before every commit and push, whether the current branch already has a merged PR. If it does, block the action and tell Claude to create a new branch.
+
+Simple, right? It took four attempts.
+
+## The Initial Hook
+
+I set up a `PreToolUse` hook in Claude Code's `.claude/settings.json`:
 
 ```json
 {

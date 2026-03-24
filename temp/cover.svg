@@ -1,97 +1,55 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
-  <defs>
-    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#1a1a2e;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#16213e;stop-opacity:1" />
-    </linearGradient>
-    <linearGradient id="hookGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" style="stop-color:#e94560;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#c23152;stop-opacity:1" />
-    </linearGradient>
-  </defs>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <!-- Warm cream background -->
+  <rect width="1200" height="630" fill="#fdfaf6"/>
 
-  <!-- Background -->
-  <rect width="1200" height="630" fill="url(#bg)"/>
+  <!-- Subtle decorative circles -->
+  <circle cx="950" cy="120" r="200" fill="#f0eafc" opacity="0.3"/>
+  <circle cx="1050" cy="350" r="150" fill="#fff5f5" opacity="0.3"/>
+  <circle cx="150" cy="500" r="120" fill="#e8f5e9" opacity="0.3"/>
 
-  <!-- Grid pattern -->
-  <g opacity="0.05" stroke="#ffffff" stroke-width="1">
-    <line x1="0" y1="0" x2="0" y2="630"/><line x1="60" y1="0" x2="60" y2="630"/>
-    <line x1="120" y1="0" x2="120" y2="630"/><line x1="180" y1="0" x2="180" y2="630"/>
-    <line x1="240" y1="0" x2="240" y2="630"/><line x1="300" y1="0" x2="300" y2="630"/>
-    <line x1="360" y1="0" x2="360" y2="630"/><line x1="420" y1="0" x2="420" y2="630"/>
-    <line x1="480" y1="0" x2="480" y2="630"/><line x1="540" y1="0" x2="540" y2="630"/>
-    <line x1="600" y1="0" x2="600" y2="630"/><line x1="660" y1="0" x2="660" y2="630"/>
-    <line x1="720" y1="0" x2="720" y2="630"/><line x1="780" y1="0" x2="780" y2="630"/>
-    <line x1="840" y1="0" x2="840" y2="630"/><line x1="900" y1="0" x2="900" y2="630"/>
-    <line x1="960" y1="0" x2="960" y2="630"/><line x1="1020" y1="0" x2="1020" y2="630"/>
-    <line x1="1080" y1="0" x2="1080" y2="630"/><line x1="1140" y1="0" x2="1140" y2="630"/>
-    <line x1="0" y1="60" x2="1200" y2="60"/><line x1="0" y1="120" x2="1200" y2="120"/>
-    <line x1="0" y1="180" x2="1200" y2="180"/><line x1="0" y1="240" x2="1200" y2="240"/>
-    <line x1="0" y1="300" x2="1200" y2="300"/><line x1="0" y1="360" x2="1200" y2="360"/>
-    <line x1="0" y1="420" x2="1200" y2="420"/><line x1="0" y1="480" x2="1200" y2="480"/>
-    <line x1="0" y1="540" x2="1200" y2="540"/>
+  <!-- Hook icon (stylized) -->
+  <g transform="translate(100, 140)">
+    <path d="M 40 0 L 40 140 Q 40 200 100 200 Q 160 200 160 140 L 160 120"
+          stroke="#e8856c" stroke-width="16" fill="none" stroke-linecap="round" opacity="0.8"/>
+    <!-- Strike-through -->
+    <line x1="20" y1="60" x2="180" y2="160" stroke="#c53030" stroke-width="4" opacity="0.5"/>
+    <line x1="180" y1="60" x2="20" y2="160" stroke="#c53030" stroke-width="4" opacity="0.5"/>
   </g>
 
-  <!-- Hook symbol (large, stylized) -->
-  <g transform="translate(140, 120)">
-    <!-- Hook shape -->
-    <path d="M 60 0 L 60 180 Q 60 260 140 260 Q 220 260 220 180 L 220 160"
-          stroke="url(#hookGrad)" stroke-width="24" fill="none" stroke-linecap="round"/>
-    <!-- X mark over hook -->
-    <g transform="translate(90, 80)" stroke="#e94560" stroke-width="8" stroke-linecap="round" opacity="0.6">
-      <line x1="-40" y1="-40" x2="40" y2="40"/>
-      <line x1="40" y1="-40" x2="-40" y2="40"/>
-    </g>
-    <!-- Strike counter -->
-    <g transform="translate(60, 310)">
-      <text font-family="monospace" font-size="18" fill="#e94560" text-anchor="middle" font-weight="bold">x4 FAILED</text>
-    </g>
-  </g>
-
-  <!-- Title text -->
-  <g transform="translate(420, 140)">
-    <text font-family="system-ui, -apple-system, sans-serif" font-size="52" fill="#ffffff" font-weight="700">
-      The Hook That
-    </text>
-    <text font-family="system-ui, -apple-system, sans-serif" font-size="52" fill="#e94560" font-weight="700" y="64">
-      Didn't Hook
-    </text>
-  </g>
+  <!-- Title -->
+  <text x="340" y="200" font-size="52" font-weight="700" fill="#2d3748">The Hook That</text>
+  <text x="340" y="268" font-size="52" font-weight="700" fill="#c53030">Didn't Hook</text>
 
   <!-- Subtitle -->
-  <text x="420" y="310" font-family="system-ui, -apple-system, sans-serif" font-size="22" fill="#8892b0" font-weight="400">
-    AI guardrails that failed four times
-  </text>
-  <text x="420" y="344" font-family="system-ui, -apple-system, sans-serif" font-size="22" fill="#8892b0" font-weight="400">
-    and the lessons we learned fixing them
-  </text>
+  <text x="340" y="330" font-size="22" fill="#5a6577" font-weight="400">AI guardrails that failed four times</text>
+  <text x="340" y="362" font-size="22" fill="#5a6577" font-weight="400">and the lessons we learned fixing them</text>
 
   <!-- Four failure badges -->
-  <g transform="translate(420, 390)">
-    <rect x="0" y="0" width="150" height="36" rx="18" fill="#e94560" opacity="0.2"/>
-    <text x="75" y="23" font-family="monospace" font-size="13" fill="#e94560" text-anchor="middle" font-weight="600">WRONG FILE</text>
+  <g transform="translate(340, 410)">
+    <rect x="0" y="0" width="155" height="44" rx="22" fill="#fff5f5" stroke="#e8856c" stroke-width="1.5"/>
+    <text x="78" y="18" text-anchor="middle" font-size="10" fill="#8b95a5" font-weight="500">FAILURE 1</text>
+    <text x="78" y="34" text-anchor="middle" font-size="12" fill="#c53030" font-weight="600">Wrong file</text>
 
-    <rect x="165" y="0" width="150" height="36" rx="18" fill="#e94560" opacity="0.2"/>
-    <text x="240" y="23" font-family="monospace" font-size="13" fill="#e94560" text-anchor="middle" font-weight="600">FAIL-OPEN</text>
+    <rect x="175" y="0" width="155" height="44" rx="22" fill="#fff5f5" stroke="#e8856c" stroke-width="1.5"/>
+    <text x="253" y="18" text-anchor="middle" font-size="10" fill="#8b95a5" font-weight="500">FAILURE 2</text>
+    <text x="253" y="34" text-anchor="middle" font-size="12" fill="#c53030" font-weight="600">Fail-open</text>
 
-    <rect x="330" y="0" width="150" height="36" rx="18" fill="#e94560" opacity="0.2"/>
-    <text x="405" y="23" font-family="monospace" font-size="13" fill="#e94560" text-anchor="middle" font-weight="600">WRONG GATE</text>
+    <rect x="350" y="0" width="155" height="44" rx="22" fill="#fff5f5" stroke="#e8856c" stroke-width="1.5"/>
+    <text x="428" y="18" text-anchor="middle" font-size="10" fill="#8b95a5" font-weight="500">FAILURE 3</text>
+    <text x="428" y="34" text-anchor="middle" font-size="12" fill="#c53030" font-weight="600">Wrong gate</text>
 
-    <rect x="495" y="0" width="170" height="36" rx="18" fill="#e94560" opacity="0.2"/>
-    <text x="580" y="23" font-family="monospace" font-size="13" fill="#e94560" text-anchor="middle" font-weight="600">WRONG MATCHER</text>
+    <rect x="525" y="0" width="155" height="44" rx="22" fill="#fff5f5" stroke="#e8856c" stroke-width="1.5"/>
+    <text x="603" y="18" text-anchor="middle" font-size="10" fill="#8b95a5" font-weight="500">FAILURE 4</text>
+    <text x="603" y="34" text-anchor="middle" font-size="12" fill="#c53030" font-weight="600">Wrong matcher</text>
   </g>
 
-  <!-- Arrow to green check -->
-  <g transform="translate(420, 460)">
-    <text font-family="system-ui, sans-serif" font-size="28" fill="#64ffda" font-weight="600">
-      &#x2192; Finally fixed. Tested. Verified.
-    </text>
+  <!-- Fix badge -->
+  <g transform="translate(340, 480)">
+    <rect x="0" y="0" width="300" height="44" rx="22" fill="#f0fff4" stroke="#7bae7f" stroke-width="1.5"/>
+    <text x="150" y="18" text-anchor="middle" font-size="10" fill="#5a9a5e" font-weight="500">FINALLY</text>
+    <text x="150" y="34" text-anchor="middle" font-size="13" fill="#2f855a" font-weight="600">Fixed. Tested. Verified. ✓</text>
   </g>
 
   <!-- Bottom tag -->
-  <g transform="translate(420, 530)">
-    <text font-family="monospace" font-size="15" fill="#495670">
-      Claude Code hooks  |  PreToolUse  |  fail-closed design
-    </text>
-  </g>
+  <text x="340" y="570" font-size="13" fill="#8b95a5">Claude Code hooks  ·  PreToolUse  ·  fail-closed design  ·  defense in depth</text>
 </svg>

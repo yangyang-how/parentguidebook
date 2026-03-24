@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 340" width="800" height="340" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <rect width="800" height="340" fill="#fdfaf6"/>
+
+  <!-- Title -->
+  <text x="40" y="36" font-size="13" fill="#8b95a5" font-weight="500">Fail-open vs fail-closed: what happens when the check itself fails</text>
+
+  <!-- LEFT: Fail-Open -->
+  <rect x="30" y="55" width="350" height="240" rx="16" fill="#fff5f5" stroke="#e8856c" stroke-width="1" opacity="0.4"/>
+  <text x="205" y="82" text-anchor="middle" font-size="15" font-weight="700" fill="#c53030">Fail-Open (WRONG)</text>
+
+  <rect x="75" y="100" width="260" height="40" rx="10" fill="#fff8e6" stroke="#d4a853" stroke-width="1.5"/>
+  <text x="205" y="117" text-anchor="middle" font-size="13" font-weight="600" fill="#a07c28">gh check fails</text>
+  <text x="205" y="132" text-anchor="middle" font-size="10" fill="#b89a40">network timeout, auth expired, etc.</text>
+
+  <text x="205" y="155" text-anchor="middle" font-size="14" fill="#c4b5e3">↓</text>
+
+  <rect x="75" y="162" width="260" height="36" rx="10" fill="#f0eafc" stroke="#c4b5e3" stroke-width="1.5"/>
+  <text x="205" y="183" text-anchor="middle" font-size="13" fill="#6b4fa0">|| echo '0'  →  merged = 0</text>
+
+  <text x="205" y="213" text-anchor="middle" font-size="14" fill="#c4b5e3">↓</text>
+
+  <rect x="75" y="220" width="260" height="36" rx="10" fill="#fff5f5" stroke="#e8856c" stroke-width="1.5"/>
+  <text x="205" y="237" text-anchor="middle" font-size="13" font-weight="600" fill="#c53030">Hook says: "ALL CLEAR"</text>
+  <text x="205" y="251" text-anchor="middle" font-size="10" fill="#c53030">Push goes to dead branch</text>
+
+  <!-- RIGHT: Fail-Closed -->
+  <rect x="420" y="55" width="350" height="240" rx="16" fill="#f0fff4" stroke="#7bae7f" stroke-width="1" opacity="0.4"/>
+  <text x="595" y="82" text-anchor="middle" font-size="15" font-weight="700" fill="#2f855a">Fail-Closed (RIGHT)</text>
+
+  <rect x="465" y="100" width="260" height="40" rx="10" fill="#fff8e6" stroke="#d4a853" stroke-width="1.5"/>
+  <text x="595" y="117" text-anchor="middle" font-size="13" font-weight="600" fill="#a07c28">gh check fails</text>
+  <text x="595" y="132" text-anchor="middle" font-size="10" fill="#b89a40">network timeout, auth expired, etc.</text>
+
+  <text x="595" y="155" text-anchor="middle" font-size="14" fill="#c4b5e3">↓</text>
+
+  <rect x="465" y="162" width="260" height="36" rx="10" fill="#f0eafc" stroke="#c4b5e3" stroke-width="1.5"/>
+  <text x="595" y="183" text-anchor="middle" font-size="13" fill="#6b4fa0">Result is empty → -z "$merged"</text>
+
+  <text x="595" y="213" text-anchor="middle" font-size="14" fill="#c4b5e3">↓</text>
+
+  <rect x="465" y="220" width="260" height="36" rx="10" fill="#f0fff4" stroke="#7bae7f" stroke-width="1.5"/>
+  <text x="595" y="237" text-anchor="middle" font-size="13" font-weight="600" fill="#2f855a">Hook says: "BLOCKED"</text>
+  <text x="595" y="251" text-anchor="middle" font-size="10" fill="#5a9a5e">Human investigates — nothing ships</text>
+
+  <!-- Bottom insight -->
+  <text x="400" y="320" text-anchor="middle" font-size="12" fill="#8b95a5" font-style="italic">When the check itself fails, the guardrail should get stricter, not disappear.</text>
+</svg>

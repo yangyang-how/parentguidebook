@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" width="800" height="400" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <rect width="800" height="400" fill="#fdfaf6"/>
+
+  <!-- Title -->
+  <text x="40" y="36" font-size="13" fill="#8b95a5" font-weight="500">The matcher misconception: what we thought vs what actually happens</text>
+
+  <!-- LEFT: What we thought -->
+  <rect x="30" y="55" width="350" height="140" rx="16" fill="#fff5f5" stroke="#e8856c" stroke-width="1" opacity="0.3"/>
+  <text x="205" y="80" text-anchor="middle" font-size="14" font-weight="700" fill="#c53030">What we thought</text>
+
+  <rect x="55" y="95" width="300" height="36" rx="10" fill="#f0eafc" stroke="#c4b5e3" stroke-width="1.5"/>
+  <text x="205" y="117" text-anchor="middle" font-size="12" font-weight="600" fill="#6b4fa0">Matcher: "Bash(git commit:*)"</text>
+
+  <text x="205" y="148" text-anchor="middle" font-size="14" fill="#c4b5e3">↓</text>
+
+  <rect x="55" y="155" width="300" height="30" rx="10" fill="#fff5f5" stroke="#e8856c" stroke-width="1.5"/>
+  <text x="205" y="174" text-anchor="middle" font-size="12" fill="#c53030">Matches only git commit commands</text>
+
+  <!-- RIGHT: What actually happens -->
+  <rect x="420" y="55" width="350" height="140" rx="16" fill="#fff5f5" stroke="#e8856c" stroke-width="1" opacity="0.3"/>
+  <text x="595" y="80" text-anchor="middle" font-size="14" font-weight="700" fill="#c53030">What actually happens</text>
+
+  <rect x="445" y="95" width="300" height="36" rx="10" fill="#f0eafc" stroke="#c4b5e3" stroke-width="1.5"/>
+  <text x="595" y="112" text-anchor="middle" font-size="12" fill="#6b4fa0">Tool name = "Bash"</text>
+  <text x="595" y="125" text-anchor="middle" font-size="10" fill="#8b7ab8">Pattern tested against this only</text>
+
+  <text x="595" y="148" text-anchor="middle" font-size="14" fill="#c4b5e3">↓</text>
+
+  <rect x="445" y="155" width="300" height="30" rx="10" fill="#fff5f5" stroke="#e8856c" stroke-width="1.5"/>
+  <text x="595" y="174" text-anchor="middle" font-size="12" fill="#c53030">"Bash(git commit:*)" ≠ "Bash" — no match!</text>
+
+  <!-- BOTTOM: The fix -->
+  <rect x="140" y="220" width="520" height="140" rx="16" fill="#f0fff4" stroke="#7bae7f" stroke-width="1" opacity="0.3"/>
+  <text x="400" y="248" text-anchor="middle" font-size="14" font-weight="700" fill="#2f855a">The fix</text>
+
+  <rect x="170" y="262" width="200" height="36" rx="10" fill="#e8f5e9" stroke="#7bae7f" stroke-width="1.5"/>
+  <text x="270" y="284" text-anchor="middle" font-size="13" font-weight="600" fill="#2f855a">Matcher: "Bash"</text>
+
+  <text x="390" y="284" font-size="14" fill="#7bae7f">→</text>
+
+  <rect x="420" y="262" width="210" height="36" rx="10" fill="#e8f5e9" stroke="#7bae7f" stroke-width="1.5"/>
+  <text x="525" y="284" text-anchor="middle" font-size="13" font-weight="600" fill="#2f855a">Matches ALL Bash calls</text>
+
+  <text x="400" y="320" text-anchor="middle" font-size="12" fill="#5a9a5e">Script reads stdin JSON, filters for git commit/push internally</text>
+
+  <!-- Footer -->
+  <text x="400" y="380" text-anchor="middle" font-size="11" fill="#8b95a5" font-style="italic">The matcher matches the tool name, not the command. Command filtering happens inside the script.</text>
+</svg>

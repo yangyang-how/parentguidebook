@@ -78,7 +78,7 @@ See the `|| echo '0'`? If the `gh` command fails for **any** reason — network 
 
 This is a **fail-open** design. The guardrail disappears exactly when things go wrong.
 
-![Fail-Open vs Fail-Closed](fail-open-vs-closed.png)
+![Fail-Open vs Fail-Closed](fail-open-vs-closed.svg)
 
 ### The fix
 
@@ -145,7 +145,7 @@ The matcher pattern matches the **tool name** only — not the command content. 
 
 The matcher regex is applied only to `"Bash"`. Our pattern `Bash(git commit:*)` was trying to match a tool literally named `Bash(git commit:*)`, which doesn't exist.
 
-![Matcher Misconception](matcher-misconception.png)
+![Matcher Misconception](matcher-misconception.svg)
 
 **Every hook we wrote across all three previous attempts was invisible.** The logic was correct, the file was in the right place, the fail-closed design was sound — but the matcher never fired. We were guarding a door that nobody walks through.
 
@@ -157,7 +157,7 @@ Complete rewrite:
 2. **Filtering:** done inside a shell script by reading the command from stdin JSON
 3. **Exit code:** `2` — the Claude Code convention for blocking (not `1`)
 
-![How the Hook Guard Works](hook-flowchart.png)
+![How the Hook Guard Works](hook-flowchart.svg)
 
 The hook script (`.claude/hooks/guard-git.sh`):
 

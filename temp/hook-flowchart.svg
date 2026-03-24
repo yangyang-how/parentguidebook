@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" width="800" height="520" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <rect width="800" height="520" fill="#fdfaf6"/>
+
+  <!-- Title -->
+  <text x="40" y="36" font-size="13" fill="#8b95a5" font-weight="500">How the guard-git.sh hook works</text>
+
+  <!-- Step 1: Bash command -->
+  <rect x="280" y="55" width="240" height="52" rx="12" fill="#f0eafc" stroke="#c4b5e3" stroke-width="1.5"/>
+  <text x="400" y="76" text-anchor="middle" font-size="14" font-weight="600" fill="#6b4fa0">Claude runs Bash command</text>
+  <text x="400" y="94" text-anchor="middle" font-size="11" fill="#8b7ab8">Any shell command via the Bash tool</text>
+
+  <!-- Arrow -->
+  <text x="396" y="124" text-anchor="middle" font-size="16" fill="#c4b5e3">↓</text>
+
+  <!-- Step 2: Is it git? -->
+  <rect x="260" y="132" width="280" height="48" rx="12" fill="#fff8e6" stroke="#d4a853" stroke-width="1.5"/>
+  <text x="400" y="153" text-anchor="middle" font-size="14" font-weight="600" fill="#a07c28">Is it git commit or git push?</text>
+  <text x="400" y="170" text-anchor="middle" font-size="11" fill="#b89a40">Parsed from stdin JSON via jq</text>
+
+  <!-- No branch -->
+  <text x="570" y="160" font-size="12" fill="#8b95a5" font-style="italic">no</text>
+  <line x1="540" y1="156" x2="610" y2="156" stroke="#c4b5e3" stroke-width="1.5" marker-end="none"/>
+  <text x="618" y="160" font-size="14" fill="#c4b5e3">→</text>
+  <rect x="636" y="138" width="130" height="38" rx="10" fill="#f0fff4" stroke="#7bae7f" stroke-width="1.5"/>
+  <text x="701" y="155" text-anchor="middle" font-size="13" font-weight="600" fill="#2f855a">Allow</text>
+  <text x="701" y="169" text-anchor="middle" font-size="10" fill="#5a9a5e">exit 0</text>
+
+  <!-- Yes arrow -->
+  <text x="396" y="200" text-anchor="middle" font-size="12" fill="#8b95a5" font-style="italic">yes ↓</text>
+
+  <!-- Step 3: On main? -->
+  <rect x="280" y="210" width="240" height="48" rx="12" fill="#fff8e6" stroke="#d4a853" stroke-width="1.5"/>
+  <text x="400" y="231" text-anchor="middle" font-size="14" font-weight="600" fill="#a07c28">On main or master?</text>
+  <text x="400" y="248" text-anchor="middle" font-size="11" fill="#b89a40">git rev-parse --abbrev-ref HEAD</text>
+
+  <!-- Yes branch - BLOCK -->
+  <text x="200" y="238" font-size="12" fill="#8b95a5" font-style="italic">yes</text>
+  <text x="258" y="238" font-size="14" fill="#e8856c">←</text>
+  <rect x="34" y="218" width="210" height="38" rx="10" fill="#fff5f5" stroke="#e8856c" stroke-width="1.5"/>
+  <text x="139" y="235" text-anchor="middle" font-size="13" font-weight="600" fill="#c53030">BLOCKED</text>
+  <text x="139" y="249" text-anchor="middle" font-size="10" fill="#c53030">exit 2 — use a branch</text>
+
+  <!-- No arrow -->
+  <text x="396" y="278" text-anchor="middle" font-size="12" fill="#8b95a5" font-style="italic">no ↓</text>
+
+  <!-- Step 4: Can gh check? -->
+  <rect x="260" y="288" width="280" height="48" rx="12" fill="#fff8e6" stroke="#d4a853" stroke-width="1.5"/>
+  <text x="400" y="309" text-anchor="middle" font-size="14" font-weight="600" fill="#a07c28">Can gh check merged PRs?</text>
+  <text x="400" y="326" text-anchor="middle" font-size="11" fill="#b89a40">gh pr list --state merged --head $branch</text>
+
+  <!-- Fail branch - BLOCK -->
+  <text x="570" y="316" font-size="12" fill="#8b95a5" font-style="italic">fails</text>
+  <text x="618" y="316" font-size="14" fill="#e8856c">→</text>
+  <rect x="636" y="298" width="130" height="38" rx="10" fill="#fff5f5" stroke="#e8856c" stroke-width="1.5"/>
+  <text x="701" y="314" text-anchor="middle" font-size="13" font-weight="600" fill="#c53030">BLOCKED</text>
+  <text x="701" y="328" text-anchor="middle" font-size="10" fill="#c53030">fail closed — exit 2</text>
+
+  <!-- Success arrow -->
+  <text x="396" y="356" text-anchor="middle" font-size="12" fill="#8b95a5" font-style="italic">returns result ↓</text>
+
+  <!-- Step 5: Has merged PR? -->
+  <rect x="260" y="366" width="280" height="48" rx="12" fill="#fff8e6" stroke="#d4a853" stroke-width="1.5"/>
+  <text x="400" y="387" text-anchor="middle" font-size="14" font-weight="600" fill="#a07c28">Branch has merged PR?</text>
+  <text x="400" y="404" text-anchor="middle" font-size="11" fill="#b89a40">merged count > 0?</text>
+
+  <!-- Yes branch - BLOCK -->
+  <text x="200" y="394" font-size="12" fill="#8b95a5" font-style="italic">yes</text>
+  <text x="258" y="394" font-size="14" fill="#e8856c">←</text>
+  <rect x="34" y="374" width="210" height="38" rx="10" fill="#fff5f5" stroke="#e8856c" stroke-width="1.5"/>
+  <text x="139" y="391" text-anchor="middle" font-size="13" font-weight="600" fill="#c53030">BLOCKED</text>
+  <text x="139" y="405" text-anchor="middle" font-size="10" fill="#c53030">exit 2 — create new branch</text>
+
+  <!-- No branch - ALLOW -->
+  <text x="570" y="394" font-size="12" fill="#8b95a5" font-style="italic">no</text>
+  <text x="618" y="394" font-size="14" fill="#7bae7f">→</text>
+  <rect x="636" y="374" width="130" height="38" rx="10" fill="#f0fff4" stroke="#7bae7f" stroke-width="1.5"/>
+  <text x="701" y="391" text-anchor="middle" font-size="13" font-weight="600" fill="#2f855a">Allow</text>
+  <text x="701" y="405" text-anchor="middle" font-size="10" fill="#5a9a5e">exit 0 — proceed</text>
+
+  <!-- Footnote -->
+  <text x="40" y="460" font-size="11" fill="#8b95a5" font-style="italic">Three red gates, two green exits. If any gate can't verify, it blocks.</text>
+  <text x="40" y="478" font-size="11" fill="#8b95a5" font-style="italic">This is fail-closed design — the default is "no."</text>
+</svg>

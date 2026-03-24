@@ -53,5 +53,19 @@ const { Content } = await entry.render();
     <div class="article-page__back">
       <a href={`/${lang}/`}>{t('article.backToHome')}</a>
     </div>
+
+    <script>
+      // Number Sources list items so citation links (#source-1, etc.) scroll to the right entry
+      (function () {
+        const sourcesHeading = document.getElementById('sources');
+        if (!sourcesHeading) return;
+        const next = sourcesHeading.nextElementSibling;
+        if (!next || next.tagName !== 'OL') return;
+        let n = 1;
+        for (const li of next.querySelectorAll(':scope > li')) {
+          li.id = 'source-' + n++;
+        }
+      })();
+    </script>
   </article>
 </BaseLayout>

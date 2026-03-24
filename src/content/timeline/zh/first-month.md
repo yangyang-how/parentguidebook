@@ -32,13 +32,13 @@ last_updated: "2026-03-23"
 
 宝宝来到这个世界时，有些能力已经相当发达，有些还非常有限。
 
-**视力：** 能清楚看到大约20–30厘米以内的东西——差不多就是你抱着或喂奶时，你们两张脸之间的距离。再远一些，世界对他们来说就是一片模糊的光与影。他们特别喜欢高对比度的图案（黑白、明暗分明的）和物体的边缘。但最吸引他们的，还是人脸——尤其是你的脸。[来源：src1]
+**视力：** 能清楚看到大约20–30厘米以内的东西——差不多就是你抱着或喂奶时，你们两张脸之间的距离。再远一些，世界就是一片模糊的光与影。宝宝特别喜欢高对比度的图案（黑白、明暗分明的）和物体的边缘。但最有吸引力的，还是人脸——尤其是你的脸。[来源：src1]
 
 宝宝的眼睛可能会游走、飘移，偶尔对眼。这在头两个月是正常的。每只眼睛周围那六条小小的肌肉刚刚"上岗"，还在学习如何协调配合。如果一只眼睛**持续**内斜或外斜（不只是偶尔），或者这种情况在3–4个月后仍未改善，请告诉医生。[来源：src1]
 
-**听力：** 宝宝在出生前就已经在听你说话了——你的声音他们认识。响亮的声音会让他们一惊（你会看到两条小手臂突然展开——那是莫罗反射，完全正常），而熟悉的声音则会让他们安静下来。多和宝宝说话，给他们唱歌。他们听不懂内容，但听得懂那个声音。[来源：src2]
+**听力：** 宝宝在出生前就已经在听你说话了——你的声音，宝宝认得。响亮的声音会吓一跳（你会看到两条小手臂突然展开——那是莫罗反射，完全正常），而熟悉的声音则能带来安抚。多和宝宝说话、唱歌。听不懂内容，但听得懂那个声音。[来源：src2]
 
-**触觉：** 在所有感官中，触觉在出生时是发育最成熟的。肌肤相亲——把宝宝光滑的身体贴在你裸露的胸膛上——是你能做的最有力量的事情之一。这样的接触能调节宝宝的体温、心率和呼吸，让他们平静下来，也有助于建立哺乳关系。这不是锦上添花的享受，这是药。[来源：src3]
+**触觉：** 在所有感官中，触觉在出生时是发育最成熟的。肌肤相亲——把宝宝光滑的身体贴在你裸露的胸膛上——是你能做的最有力量的事情之一。这样的接触能调节宝宝的体温、心率和呼吸，带来安抚，也有助于建立哺乳关系。这不是锦上添花的享受，这是药。[来源：src3]
 
 ### 宝宝的身体——哪些正常，哪些不正常
 
@@ -51,7 +51,7 @@ last_updated: "2026-03-23"
 - **黄疸** —— 皮肤出现黄色，在自然光线下最明显。一般在出生后第二到三天出现，第四到五天达到高峰，通常在第十到十四天消退。轻度黄疸非常常见，通常无害。**但是：** 出生后24小时内出现的黄疸，任何时候都不正常——请立即联系医生。如果黄疸加深（蔓延到手臂、腿部或眼白），或者宝宝越来越难以唤醒或喂养，请当天联系医生。[来源：src5]
 
 **呼吸：**
-新生儿呼吸比大人快——每分钟40到60次是正常的（成人是12–20次）。他们可能出现**周期性呼吸**：一阵急促呼吸，然后停顿最长10秒，再接着急促呼吸。这看起来很吓人，但其实是正常的——这是他们不成熟的神经系统在"磨合"。他们也会经常打喷嚏，不是感冒，是清理细小鼻腔通道的方式。
+新生儿呼吸比大人快——每分钟40到60次是正常的（成人是12–20次）。宝宝可能出现**周期性呼吸**：一阵急促呼吸，然后停顿最长10秒，再接着急促呼吸。这看起来让人紧张，但其实是正常的——不成熟的神经系统在"磨合"。新生儿也会经常打喷嚏，不是感冒，是清理细小鼻腔通道的方式。
 
 **不正常的情况：** 停顿超过10秒。每次呼吸（不只是用力排便时）都伴随呻吟声。每次呼吸时肋骨间或肋骨下方的皮肤向内凹陷（三凹征）。鼻翼扇动。嘴唇或脸部出现蓝色或暗色。以上任何一种情况——立即致电医生或前往急诊。[来源：src6]
 
@@ -88,7 +88,7 @@ last_updated: "2026-03-23"
 
 ### 睡眠
 
-新生儿每天睡14–17小时。但你不会有这种感觉，因为这些小时是碎片化的——每次20分钟到三小时，随机分散在白天和夜晚。他们还没有昼夜节律，分不清白天和黑夜。这是正常的，头几个月会自然好转。[来源：src14]
+新生儿每天睡14–17小时。但你不会有这种感觉，因为这些小时是碎片化的——每次20分钟到三小时，随机分散在白天和夜晚。宝宝还没有昼夜节律，分不清白天和黑夜。这是正常的，头几个月会自然好转。[来源：src14]
 
 **安全睡眠——三个基本原则：**
 
@@ -197,13 +197,13 @@ last_updated: "2026-03-23"
 
 ## 最后说一件事
 
-你不必热爱每一个时刻。第一个月里，有些瞬间是神奇的——第一次被宝宝握住手指，他们趴在你胸口睡着的重量，那张吃得酩酊的小脸。但也有些时刻很糟糕——那些怎么也哄不停的哭声，凌晨四点的屎崩尿布，以及觉得自己是世界上唯一还醒着的人时那种孤独感。
+你不必热爱每一个时刻。第一个月里，有些瞬间是神奇的——第一次被宝宝握住手指，宝宝趴在你胸口睡着的重量，那张吃得酩酊的小脸。但也有些时刻很糟糕——那些怎么也哄不停的哭声，凌晨四点的屎崩尿布，以及觉得自己是世界上唯一还醒着的人时那种孤独感。
 
 这两种都是真实的，这两种都是第一个月。
 
 你不必现在就感受到深深的连结。你不必已经摸清楚所有事情。你不必独自撑着。你不必做到完美。你不必享受那些艰难的时刻。你更不必"珍惜每一个瞬间"——说这话的人，早已忘记这个阶段究竟是什么滋味。
 
-你只需要出现。喂奶，抱着，让他们温暖而安全。剩下的，一天一天自然会建立起来，一次喂奶接着一次喂奶，一个不眠之夜接着一个不眠之夜。
+你只需要出现。喂奶，抱着，让宝宝温暖而安全。剩下的，一天一天自然会建立起来，一次喂奶接着一次喂奶，一个不眠之夜接着一个不眠之夜。
 
 而你正在读这篇文章这件事——不管是在什么时间、以什么状态、在这段奇妙而美好又筋疲力尽的新生活的哪一天——已经告诉了我们你是什么样的家长。
 
@@ -225,13 +225,13 @@ last_updated: "2026-03-23"
 4. Nanda S, et al. "Neonatal Dermatology: Skin Changes in the First Year." *Indian Journal of Dermatology*, 2017. https://pmc.ncbi.nlm.nih.gov/articles/PMC5574071/
 5. Ansong-Assoku B, et al. "Neonatal Jaundice." *StatPearls*, NCBI Bookshelf. https://www.ncbi.nlm.nih.gov/books/NBK532930/
 6. Hermansen CL, Mahajan A. "Newborn Respiratory Distress." *American Family Physician*, 2015. https://www.aafp.org/pubs/afp/issues/2015/1201/p994.html
-7. HealthyChildren.org / AAP. "Umbilical Cord Care." https://www.healthychildren.org/English/ages-stages/baby/bathing-skin-care/Pages/Umbilical-Cord-Care.aspx
+7. HealthyChildren.org / American Academy of Pediatrics (AAP) / 美国儿科学会. "Umbilical Cord Care." https://www.healthychildren.org/English/ages-stages/baby/bathing-skin-care/Pages/Umbilical-Cord-Care.aspx
 8. Flaherman VJ, et al. "Weight Change Nomograms for the First Month After Birth." *Pediatrics*, 2016. https://publications.aap.org/pediatrics/article/138/6/e20162625/52570/
 9. Connecticut Children's. "When Is a Fever an Emergency in Children." https://www.connecticutchildrens.org/growing-healthy/when-fever-emergency-children-signs-symptoms-next-steps
 10. American Academy of Pediatrics (AAP) / 美国儿科学会. "Breastfeeding and the Use of Human Milk: Policy Statement." *Pediatrics*, 2022. https://publications.aap.org/pediatrics/article/150/1/e2022057988/188347/
 11. WIC Breastfeeding Support / USDA. "Cluster Feeding and Growth Spurts." https://wicbreastfeeding.fns.usda.gov/cluster-feeding-and-growth-spurts
 12. American College of Obstetricians and Gynecologists (ACOG) / 美国妇产科医师学会. "Breastfeeding Challenges." Committee Opinion, 2021.
-13. HealthyChildren.org / AAP. "Amount and Schedule of Formula Feedings." https://www.healthychildren.org/English/ages-stages/baby/formula-feeding/Pages/amount-and-schedule-of-formula-feedings.aspx
+13. HealthyChildren.org / American Academy of Pediatrics (AAP) / 美国儿科学会. "Amount and Schedule of Formula Feedings." https://www.healthychildren.org/English/ages-stages/baby/formula-feeding/Pages/amount-and-schedule-of-formula-feedings.aspx
 14. Mindell JA, Owens JA. "Newborn Sleep Patterns." *A Clinical Guide to Pediatric Sleep*, 2015.
 15. American Academy of Pediatrics (AAP) / 美国儿科学会. "Sleep-Related Infant Deaths: Updated 2022 Recommendations." *Pediatrics*, 2022. https://publications.aap.org/pediatrics/article/150/1/e2022057990/188304/
 16. American College of Obstetricians and Gynecologists (ACOG) / 美国妇产科医师学会. "Postpartum Care." Committee Opinion 736, 2018 (reaffirmed 2021).

@@ -1,0 +1,83 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(git pull:*)",
+      "Bash(git checkout:*)",
+      "Bash(git branch:*)",
+      "Bash(git merge:*)",
+      "Bash(git log:*)",
+      "Bash(git diff:*)",
+      "Bash(git status:*)",
+      "Bash(git stash:*)",
+      "Bash(gh pr:*)",
+      "Bash(gh issue:*)",
+      "Bash(gh repo view:*)",
+      "Bash(npm run:*)",
+      "Bash(npm install:*)",
+      "Bash(npm test:*)",
+      "Bash(npx:*)"
+    ],
+    "deny": [
+      "Bash(rm -rf:*)",
+      "Bash(curl:*)",
+      "Bash(wget:*)",
+      "Bash(cat .env:*)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash(git commit:*)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null); if [ \"$branch\" = \"main\" ] || [ \"$branch\" = \"master\" ]; then echo 'BLOCKED: Do not commit directly to main/master. Create a feature branch first.' >&2; exit 1; fi"
+          },
+          {
+            "type": "command",
+            "command": "npx @biomejs/biome check ./src --no-errors-on-unmatched 2>&1 || { echo 'BLOCKED: Fix lint errors before committing.' >&2; exit 1; }"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash(git push:*)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null); if [ \"$branch\" = \"main\" ] || [ \"$branch\" = \"master\" ]; then echo 'BLOCKED: Do not push directly to main/master. Use a PR.' >&2; exit 1; fi"
+          },
+          {
+            "type": "command",
+            "command": "branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null); merged=$(gh pr list --state merged --head \"$branch\" --json number --jq 'length' 2>/dev/null); if [ -z \"$merged\" ]; then echo \"BLOCKED: Could not check merged PR status for '$branch'. Verify gh auth and try again.\" >&2; exit 1; fi; if [ \"$merged\" -gt 0 ]; then echo \"BLOCKED: Branch '$branch' already has a merged PR. Create a new branch.\" >&2; exit 1; fi"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash(gh pr create:*)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "npx @biomejs/biome check ./src --no-errors-on-unmatched 2>&1 || { echo 'BLOCKED: Fix lint errors before creating PR.' >&2; exit 1; }; npm run build 2>&1 || { echo 'BLOCKED: Build failed. Fix errors before creating PR.' >&2; exit 1; }"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash(npx @biomejs/biome:*)",
+        "hooks": []
+      },
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "grep -rn --include='*.ts' --include='*.js' --include='*.astro' --include='*.mjs' -E '(ANTHROPIC_API_KEY|OPENAI_API_KEY|SECRET_KEY|DATABASE_URL|password\\s*=\\s*[\"'\\'']).{8,}' src/ scripts/ 2>/dev/null | head -5 | while read -r line; do echo \"SECRET WARNING: Possible secret found — $line\" >&2; done; exit 0"
+          }
+        ]
+      }
+    ]
+  }
+}

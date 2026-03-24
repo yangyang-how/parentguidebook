@@ -262,10 +262,15 @@ html[data-theme="dark"] .prose blockquote {
   opacity: 0.85;
 }
 .site-header__logo-img {
-  height: 3.75rem; /* ~52px — readable “Parent Guidebook” + tagline */
+  height: 3.75rem;
   width: auto;
   display: block;
   object-fit: contain;
+}
+@media (max-width: 640px) {
+  .site-header__logo-img {
+    height: 2.5rem;
+  }
 }
 .site-header__logo:hover .site-header__logo-img {
   opacity: 0.9;
@@ -274,9 +279,8 @@ html[data-theme="dark"] .prose blockquote {
 .site-nav {
   display: flex;
   align-items: center;
-  gap: 0.25rem;
-  flex-wrap: wrap;
-  justify-content: flex-end;
+  gap: 0.375rem;
+  flex-shrink: 0;
 }
 
 .site-nav a {
@@ -296,18 +300,37 @@ html[data-theme="dark"] .prose blockquote {
 .site-nav .nav-btn {
   font-size: 0.8125rem;
   font-weight: 500;
-  padding: 0.4rem 0.75rem;
+  padding: 0.35rem 0.6rem;
   border-radius: 8px;
   border: 1px solid var(--color-border);
   background: var(--color-bg-card);
   color: var(--color-text-secondary);
   text-decoration: none;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .site-nav .nav-btn:hover {
   background: var(--color-bg-secondary);
   color: var(--color-text-primary);
+}
+
+@media (max-width: 480px) {
+  .site-header__inner {
+    gap: 0.5rem;
+    padding: 0.75rem 0;
+  }
+  .site-nav {
+    gap: 0.2rem;
+  }
+  .site-nav a {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.35rem;
+  }
+  .site-nav .nav-btn {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.4rem;
+  }
 }
 
 /* Site footer */

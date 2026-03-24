@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#16213e;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="hookGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#e94560;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#c23152;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Grid pattern -->
+  <g opacity="0.05" stroke="#ffffff" stroke-width="1">
+    <line x1="0" y1="0" x2="0" y2="630"/><line x1="60" y1="0" x2="60" y2="630"/>
+    <line x1="120" y1="0" x2="120" y2="630"/><line x1="180" y1="0" x2="180" y2="630"/>
+    <line x1="240" y1="0" x2="240" y2="630"/><line x1="300" y1="0" x2="300" y2="630"/>
+    <line x1="360" y1="0" x2="360" y2="630"/><line x1="420" y1="0" x2="420" y2="630"/>
+    <line x1="480" y1="0" x2="480" y2="630"/><line x1="540" y1="0" x2="540" y2="630"/>
+    <line x1="600" y1="0" x2="600" y2="630"/><line x1="660" y1="0" x2="660" y2="630"/>
+    <line x1="720" y1="0" x2="720" y2="630"/><line x1="780" y1="0" x2="780" y2="630"/>
+    <line x1="840" y1="0" x2="840" y2="630"/><line x1="900" y1="0" x2="900" y2="630"/>
+    <line x1="960" y1="0" x2="960" y2="630"/><line x1="1020" y1="0" x2="1020" y2="630"/>
+    <line x1="1080" y1="0" x2="1080" y2="630"/><line x1="1140" y1="0" x2="1140" y2="630"/>
+    <line x1="0" y1="60" x2="1200" y2="60"/><line x1="0" y1="120" x2="1200" y2="120"/>
+    <line x1="0" y1="180" x2="1200" y2="180"/><line x1="0" y1="240" x2="1200" y2="240"/>
+    <line x1="0" y1="300" x2="1200" y2="300"/><line x1="0" y1="360" x2="1200" y2="360"/>
+    <line x1="0" y1="420" x2="1200" y2="420"/><line x1="0" y1="480" x2="1200" y2="480"/>
+    <line x1="0" y1="540" x2="1200" y2="540"/>
+  </g>
+
+  <!-- Hook symbol (large, stylized) -->
+  <g transform="translate(140, 120)">
+    <!-- Hook shape -->
+    <path d="M 60 0 L 60 180 Q 60 260 140 260 Q 220 260 220 180 L 220 160"
+          stroke="url(#hookGrad)" stroke-width="24" fill="none" stroke-linecap="round"/>
+    <!-- X mark over hook -->
+    <g transform="translate(90, 80)" stroke="#e94560" stroke-width="8" stroke-linecap="round" opacity="0.6">
+      <line x1="-40" y1="-40" x2="40" y2="40"/>
+      <line x1="40" y1="-40" x2="-40" y2="40"/>
+    </g>
+    <!-- Strike counter -->
+    <g transform="translate(60, 310)">
+      <text font-family="monospace" font-size="18" fill="#e94560" text-anchor="middle" font-weight="bold">x4 FAILED</text>
+    </g>
+  </g>
+
+  <!-- Title text -->
+  <g transform="translate(420, 140)">
+    <text font-family="system-ui, -apple-system, sans-serif" font-size="52" fill="#ffffff" font-weight="700">
+      The Hook That
+    </text>
+    <text font-family="system-ui, -apple-system, sans-serif" font-size="52" fill="#e94560" font-weight="700" y="64">
+      Didn't Hook
+    </text>
+  </g>
+
+  <!-- Subtitle -->
+  <text x="420" y="310" font-family="system-ui, -apple-system, sans-serif" font-size="22" fill="#8892b0" font-weight="400">
+    AI guardrails that failed four times
+  </text>
+  <text x="420" y="344" font-family="system-ui, -apple-system, sans-serif" font-size="22" fill="#8892b0" font-weight="400">
+    and the lessons we learned fixing them
+  </text>
+
+  <!-- Four failure badges -->
+  <g transform="translate(420, 390)">
+    <rect x="0" y="0" width="150" height="36" rx="18" fill="#e94560" opacity="0.2"/>
+    <text x="75" y="23" font-family="monospace" font-size="13" fill="#e94560" text-anchor="middle" font-weight="600">WRONG FILE</text>
+
+    <rect x="165" y="0" width="150" height="36" rx="18" fill="#e94560" opacity="0.2"/>
+    <text x="240" y="23" font-family="monospace" font-size="13" fill="#e94560" text-anchor="middle" font-weight="600">FAIL-OPEN</text>
+
+    <rect x="330" y="0" width="150" height="36" rx="18" fill="#e94560" opacity="0.2"/>
+    <text x="405" y="23" font-family="monospace" font-size="13" fill="#e94560" text-anchor="middle" font-weight="600">WRONG GATE</text>
+
+    <rect x="495" y="0" width="170" height="36" rx="18" fill="#e94560" opacity="0.2"/>
+    <text x="580" y="23" font-family="monospace" font-size="13" fill="#e94560" text-anchor="middle" font-weight="600">WRONG MATCHER</text>
+  </g>
+
+  <!-- Arrow to green check -->
+  <g transform="translate(420, 460)">
+    <text font-family="system-ui, sans-serif" font-size="28" fill="#64ffda" font-weight="600">
+      &#x2192; Finally fixed. Tested. Verified.
+    </text>
+  </g>
+
+  <!-- Bottom tag -->
+  <g transform="translate(420, 530)">
+    <text font-family="monospace" font-size="15" fill="#495670">
+      Claude Code hooks  |  PreToolUse  |  fail-closed design
+    </text>
+  </g>
+</svg>

@@ -192,7 +192,7 @@ export const onRequest: PagesFunction<Env> = async (context) => {
         },
       });
     }
-    return passwordPage(`Invalid passkey (received "${passkey}", length=${passkey.length}, KV result=${reviewerName})`);
+    return passwordPage('Invalid passkey. Please try again.');
   }
 
   // 6. Show password page

@@ -4,5 +4,11 @@
   "compatibility_date": "2026-02-17",
   "assets": {
     "directory": "./dist"
-  }
+  },
+  "kv_namespaces": [
+    { "binding": "PASSKEYS", "id": "PLACEHOLDER_KV_ID" }
+  ],
+  "d1_databases": [
+    { "binding": "COMMENTS_DB", "database_name": "parentguidebook-comments", "database_id": "PLACEHOLDER_D1_ID" }
+  ]
 }

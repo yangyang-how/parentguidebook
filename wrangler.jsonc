@@ -2,7 +2,11 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "parentguidebook",
   "compatibility_date": "2026-02-17",
-  "assets": {
-    "directory": "./dist"
-  }
+  "pages_build_output_dir": "./dist",
+  "kv_namespaces": [
+    { "binding": "PASSKEYS", "id": "6a4cdb25f32d42ecab59219fd5fa008b" }
+  ],
+  "d1_databases": [
+    { "binding": "COMMENTS_DB", "database_name": "parentguidebook-comments", "database_id": "f499d155-ff87-457e-966e-031ae1108639" }
+  ]
 }

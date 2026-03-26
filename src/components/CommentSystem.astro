@@ -6,15 +6,15 @@
 <style>
   .pgb-comment-icon {
     position: absolute;
-    left: -2rem;
-    top: 0.25rem;
-    width: 1.25rem;
-    height: 1.25rem;
+    right: -2.5rem;
+    top: 0.125rem;
+    width: 1.5rem;
+    height: 1.5rem;
     cursor: pointer;
     opacity: 0;
     transition: opacity 0.15s ease;
     font-size: 0.875rem;
-    line-height: 1.25rem;
+    line-height: 1.5rem;
     text-align: center;
     color: var(--color-text-muted);
     user-select: none;
@@ -27,11 +27,17 @@
   [data-pgb-commentable]:hover .pgb-comment-icon {
     opacity: 1;
   }
-  /* Always show on mobile */
+  /* Always show on mobile — position inline at end of paragraph */
   @media (max-width: 768px) {
     .pgb-comment-icon {
-      opacity: 0.5;
-      left: -1.5rem;
+      position: static;
+      display: inline;
+      opacity: 0;
+      margin-left: 0.25rem;
+    }
+    [data-pgb-commentable]:hover .pgb-comment-icon,
+    .pgb-comment-icon[data-has-comments] {
+      opacity: 0.6;
     }
   }
   /* Always show if paragraph has comments */
@@ -42,40 +48,67 @@
   .pgb-comment-badge {
     background: var(--color-accent-blue);
     color: #fff;
-    font-size: 0.6875rem;
+    font-size: 0.625rem;
     font-weight: 600;
     border-radius: 999px;
-    min-width: 1.125rem;
-    height: 1.125rem;
+    min-width: 0.875rem;
+    height: 0.875rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 0 0.3rem;
+    padding: 0 0.25rem;
+    position: absolute;
+    top: -0.25rem;
+    right: -0.375rem;
+    cursor: pointer;
+  }
+
+  /* Wrapper for paragraph + sidebar comment form */
+  .pgb-comment-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .pgb-comment-row > :first-child {
+    flex: 1;
+    min-width: 0;
   }
 
   .pgb-comment-form {
-    margin: 0.75rem 0 1rem;
-    padding: 1rem;
+    width: 280px;
+    flex-shrink: 0;
+    padding: 0.875rem;
     border: 1px solid var(--color-border);
     border-radius: 10px;
     background: var(--color-bg-card);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  }
+  /* On mobile, form goes below the paragraph */
+  @media (max-width: 768px) {
+    .pgb-comment-row {
+      flex-direction: column;
+    }
+    .pgb-comment-form {
+      width: 100%;
+    }
   }
   .pgb-comment-form textarea {
     width: 100%;
     min-height: 4rem;
-    padding: 0.625rem;
+    padding: 0.5rem 0.625rem;
     border: 1px solid var(--color-border);
     border-radius: 8px;
     background: var(--color-bg-primary);
     color: var(--color-text-primary);
     font-family: inherit;
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
     line-height: 1.5;
     resize: vertical;
     outline: none;
   }
   .pgb-comment-form textarea:focus {
     border-color: var(--color-accent-blue);
+    box-shadow: 0 0 0 2px rgba(91, 155, 213, 0.12);
   }
   .pgb-comment-form-actions {
     display: flex;
@@ -86,50 +119,71 @@
   .pgb-comment-form button {
     padding: 0.4rem 0.875rem;
     font-size: 0.8125rem;
-    font-weight: 500;
+    font-weight: 600;
     border-radius: 8px;
-    border: 1px solid var(--color-border);
     cursor: pointer;
-    background: var(--color-bg-card);
-    color: var(--color-text-primary);
+    transition: background 0.1s ease, border-color 0.1s ease;
+  }
+  .pgb-comment-form button.pgb-cancel {
+    background: var(--color-bg-secondary);
+    color: var(--color-text-secondary);
+    border: 1px solid var(--color-border);
+  }
+  .pgb-comment-form button.pgb-cancel:hover {
+    background: var(--color-bg-primary);
+    border-color: var(--color-text-muted);
   }
   .pgb-comment-form button[type="submit"] {
     background: var(--color-accent-blue);
     color: #fff;
-    border-color: var(--color-accent-blue);
+    border: 1px solid var(--color-accent-blue);
+  }
+  .pgb-comment-form button[type="submit"]:hover {
+    filter: brightness(1.08);
+  }
+  .pgb-comment-form button[type="submit"]:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
   }
   .pgb-comment-form .pgb-error {
     color: var(--color-urgency-critical);
-    font-size: 0.8125rem;
+    font-size: 0.75rem;
     margin-top: 0.375rem;
   }
 
   .pgb-comments-list {
-    margin: 0.5rem 0 1rem;
+    width: 280px;
+    flex-shrink: 0;
     padding: 0;
     list-style: none;
   }
+  @media (max-width: 768px) {
+    .pgb-comments-list {
+      width: 100%;
+    }
+  }
   .pgb-comment-item {
-    padding: 0.75rem 1rem;
+    padding: 0.625rem 0.75rem;
     border: 1px solid var(--color-border);
     border-radius: 8px;
     background: var(--color-bg-card);
-    margin-bottom: 0.5rem;
-    font-size: 0.875rem;
+    margin-bottom: 0.375rem;
+    font-size: 0.8125rem;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
   }
   .pgb-comment-item__header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 0.375rem;
+    margin-bottom: 0.25rem;
   }
   .pgb-comment-item__name {
     font-weight: 600;
-    font-size: 0.8125rem;
-    color: var(--color-text-primary);
+    font-size: 0.75rem;
+    color: var(--color-accent-blue);
   }
   .pgb-comment-item__date {
-    font-size: 0.75rem;
+    font-size: 0.6875rem;
     color: var(--color-text-muted);
   }
   .pgb-comment-item__text {
@@ -161,38 +215,60 @@
       el.setAttribute('data-pgb-commentable', '');
       (el as HTMLElement).style.position = 'relative';
 
-      // Add comment icon
+      // Add comment icon — positioned to the right
       const icon = document.createElement('span');
       icon.className = 'pgb-comment-icon';
       icon.textContent = '💬';
       icon.setAttribute('data-pgb-trigger', id);
-      icon.addEventListener('click', () => toggleCommentForm(id, el as HTMLElement));
-      el.prepend(icon);
+      icon.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleCommentForm(id, el as HTMLElement);
+      });
+      el.appendChild(icon);
     });
   }
 
   function toggleCommentForm(paragraphId: string, el: HTMLElement) {
-    const existingForm = el.parentElement?.querySelector(`.pgb-comment-form[data-for="${paragraphId}"]`);
-    if (existingForm) {
-      existingForm.remove();
+    // If already in a comment row, remove it
+    const existingRow = el.parentElement?.querySelector(`.pgb-comment-row[data-for="${paragraphId}"]`);
+    if (existingRow) {
+      // Unwrap: move the paragraph back out of the row
+      existingRow.replaceWith(el);
       return;
     }
-    // Close any other open forms
-    document.querySelectorAll('.pgb-comment-form').forEach(f => f.remove());
+
+    // Close any other open forms/rows
+    document.querySelectorAll('.pgb-comment-row').forEach(row => {
+      const original = row.querySelector('[data-pgb-commentable]');
+      if (original) row.replaceWith(original);
+    });
 
     const preview = (el.textContent || '').slice(0, 80);
+
+    // Create a row wrapper: [paragraph] [comment form]
+    const row = document.createElement('div');
+    row.className = 'pgb-comment-row';
+    row.setAttribute('data-for', paragraphId);
+
+    // Wrap the paragraph into the row
+    el.parentElement!.insertBefore(row, el);
+    row.appendChild(el);
+
+    // Create the form
     const form = document.createElement('div');
     form.className = 'pgb-comment-form';
-    form.setAttribute('data-for', paragraphId);
     form.innerHTML = `
-      <textarea placeholder="Leave your feedback on this paragraph..." maxlength="2000"></textarea>
+      <textarea placeholder="Leave your feedback..." maxlength="2000"></textarea>
       <div class="pgb-comment-form-actions">
         <button type="button" class="pgb-cancel">Cancel</button>
         <button type="submit">Submit</button>
       </div>
     `;
 
-    form.querySelector('.pgb-cancel')!.addEventListener('click', () => form.remove());
+    form.querySelector('.pgb-cancel')!.addEventListener('click', () => {
+      row.replaceWith(el);
+    });
+
     form.querySelector('button[type="submit"]')!.addEventListener('click', async () => {
       const textarea = form.querySelector('textarea')!;
       const text = textarea.value.trim();
@@ -215,15 +291,15 @@
         if (res.status === 401) {
           const errDiv = form.querySelector('.pgb-error') || document.createElement('div');
           errDiv.className = 'pgb-error';
-          errDiv.textContent = 'You need a contributor passkey to leave feedback. Please enter your passkey first.';
+          errDiv.textContent = 'You need a contributor passkey to leave feedback.';
           form.querySelector('.pgb-comment-form-actions')!.before(errDiv);
           submitBtn.disabled = false;
           submitBtn.textContent = 'Submit';
           return;
         }
         if (!res.ok) throw new Error('Failed');
-        form.remove();
-        await loadComments(); // Refresh
+        row.replaceWith(el);
+        await loadComments();
       } catch {
         const errDiv = form.querySelector('.pgb-error') || document.createElement('div');
         errDiv.className = 'pgb-error';
@@ -234,14 +310,17 @@
       }
     });
 
-    el.after(form);
+    row.appendChild(form);
     form.querySelector('textarea')!.focus();
   }
 
   function renderComments() {
-    // Remove old comment lists and badges
-    document.querySelectorAll('.pgb-comments-list').forEach(l => l.remove());
+    // Remove old badges
     document.querySelectorAll('.pgb-comment-badge').forEach(b => b.remove());
+    // Remove old comment lists that are standalone
+    document.querySelectorAll('.pgb-comments-list').forEach(l => {
+      if (!l.closest('.pgb-comment-row')) l.remove();
+    });
 
     // Group by paragraph
     const grouped: Record<string, typeof allComments> = {};
@@ -253,37 +332,45 @@
       const el = document.querySelector(`[data-pgb-id="${pid}"]`);
       if (!el) continue;
 
-      // Mark icon as having comments and add badge
       const icon = el.querySelector('.pgb-comment-icon');
       if (icon) {
         icon.setAttribute('data-has-comments', '');
-        // Place badge after the element (not inside headings where it would inherit heading styles)
-        let existingBadge = el.parentElement?.querySelector(`.pgb-comment-badge[data-for="${pid}"]`);
-        if (!existingBadge) {
-          const badge = document.createElement('span');
-          badge.className = 'pgb-comment-badge';
-          badge.setAttribute('data-for', pid);
-          badge.textContent = comments.length.toString();
-          badge.style.position = 'absolute';
-          badge.style.left = '-2rem';
-          badge.style.top = '1.5rem';
-          badge.addEventListener('click', (e) => {
-            e.stopPropagation();
-            toggleCommentList(pid, el as HTMLElement, comments);
-          });
-          icon.after(badge);
-        }
+        // Add count badge on the icon
+        const badge = document.createElement('span');
+        badge.className = 'pgb-comment-badge';
+        badge.setAttribute('data-for', pid);
+        badge.textContent = comments.length.toString();
+        badge.addEventListener('click', (e) => {
+          e.stopPropagation();
+          toggleCommentList(pid, el as HTMLElement, comments);
+        });
+        icon.appendChild(badge);
       }
     }
   }
 
   function toggleCommentList(paragraphId: string, el: HTMLElement, comments: typeof allComments) {
-    const existing = el.parentElement?.querySelector(`.pgb-comments-list[data-for="${paragraphId}"]`);
-    if (existing) {
-      existing.remove();
+    // If already in a row showing comments, remove
+    const existingRow = el.parentElement?.querySelector(`.pgb-comment-row[data-for="list-${paragraphId}"]`) ||
+                       (el.closest('.pgb-comment-row')?.getAttribute('data-for') === `list-${paragraphId}` ? el.closest('.pgb-comment-row') : null);
+    if (existingRow) {
+      existingRow.replaceWith(el);
       return;
     }
-    document.querySelectorAll('.pgb-comments-list').forEach(l => l.remove());
+
+    // Close other open rows
+    document.querySelectorAll('.pgb-comment-row').forEach(row => {
+      const original = row.querySelector('[data-pgb-commentable]');
+      if (original) row.replaceWith(original);
+    });
+
+    // Create row: [paragraph] [comments list]
+    const row = document.createElement('div');
+    row.className = 'pgb-comment-row';
+    row.setAttribute('data-for', `list-${paragraphId}`);
+
+    el.parentElement!.insertBefore(row, el);
+    row.appendChild(el);
 
     const list = document.createElement('ul');
     list.className = 'pgb-comments-list';
@@ -302,7 +389,7 @@
       `;
       list.appendChild(li);
     }
-    el.after(list);
+    row.appendChild(list);
   }
 
   async function loadComments() {

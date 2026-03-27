@@ -22,7 +22,7 @@ export function DomainRow({
 }: Props) {
 	const domainLabel = labels[domain.labelKey] || domain.slug;
 
-	// Row header card — title only, no hook
+	// Row header card — title only (placeholders keep a status label)
 	const headerCard = rowHeader ? (
 		<a href={rowHeader.url} class="matrix-card matrix-card--row-header">
 			<span class="matrix-card__title">{rowHeader.title}</span>

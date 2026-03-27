@@ -123,7 +123,7 @@ async function audit(enPath: string, zhPath: string) {
 
   const response = await client.messages.create({
     model: MODEL,
-    max_tokens: 8000,
+    max_tokens: 16000,
     system: SYSTEM_PROMPT,
     messages: [
       {
@@ -150,7 +150,7 @@ async function audit(enPath: string, zhPath: string) {
       // If JSON is malformed, try to extract just pass/violations/summary
       const passMatch = jsonStr.match(/"pass"\s*:\s*(true|false)/);
       const pass = passMatch ? passMatch[1] === 'true' : false;
-      result = { pass, violations: [], summary: 'JSON parse failed — review raw output above. pass=' + pass };
+      result = { pass, violations: [], summary: 'JSON parse failed — review raw output. pass=' + pass };
       console.log('⚠️  Partial JSON parse — extracted pass=' + pass);
     }
   } catch {

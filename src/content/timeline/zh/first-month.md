@@ -6,6 +6,7 @@ stage_label: "0–1个月"
 stage_order: 1
 domains_covered: ["eyes", "breathing", "skin", "nutrition", "sleep", "bones-movement", "physical-recovery", "mental-health", "relationships", "parenting-confidence", "home-safety"]
 last_updated: "2026-03-23"
+hook: "喂养、睡眠、恢复——新生儿头30天的生存与连接"
 ---
 
 # 第一个月

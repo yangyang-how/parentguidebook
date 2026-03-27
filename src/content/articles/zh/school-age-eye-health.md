@@ -6,6 +6,8 @@ category: "guides"
 urgency: "important"
 last_updated: "2026-03-23"
 age_groups: ["6-12"]
+stage: "5-12yr"
+hook: "近视高发期——屏幕时间、户外时间，何时该配眼镜"
 ---
 
 # 学龄儿童眼健康（6–12岁）——近视高发的那几年

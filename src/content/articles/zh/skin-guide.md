@@ -6,6 +6,8 @@ category: "guides"
 urgency: "good-to-know"
 last_updated: "2026-03-25"
 age_groups: ["0-1", "1-3", "3-6", "6-12", "13-18"]
+is_overview: true
+hook: "皮疹、胎记、湿疹——什么时候该担心，什么时候可以等"
 ---
 
 

@@ -6,6 +6,7 @@ stage_label: "2–5 years"
 stage_order: 4
 domains_covered: ["eyes", "breathing", "skin", "nutrition", "sleep", "bones-movement", "teeth", "learning-cognitive", "social-emotional", "attention-digital", "school-life", "mental-health", "relationships", "parenting-confidence", "home-safety", "routines-logistics"]
 last_updated: "2026-03-24"
+hook: "Independence, tantrums, imagination — the wild preschool years"
 ---
 
 

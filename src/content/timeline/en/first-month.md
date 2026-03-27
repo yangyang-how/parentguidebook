@@ -6,6 +6,7 @@ stage_label: "0–1 month"
 stage_order: 1
 domains_covered: ["eyes", "breathing", "skin", "nutrition", "sleep", "bones-movement", "physical-recovery", "mental-health", "relationships", "parenting-confidence", "home-safety"]
 last_updated: "2026-03-23"
+hook: "Feeding, sleeping, healing — surviving and bonding in the first 30 days"
 ---
 
 # The First Month

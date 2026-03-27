@@ -6,6 +6,8 @@ category: "guides"
 urgency: "important"
 last_updated: "2026-03-25"
 age_groups: ["0-1", "1-3", "3-6", "6-12", "13-18"]
+is_overview: true
+hook: "呼吸声、打鼾、耳部感染——哪些是正常的，哪些需要注意"
 ---
 
 

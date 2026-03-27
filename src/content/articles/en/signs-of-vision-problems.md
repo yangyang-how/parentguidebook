@@ -6,6 +6,8 @@ category: "emergency-signs"
 urgency: "important"
 last_updated: "2026-02-17"
 age_groups: ["0-1", "1-3", "3-6", "6-12", "13-18"]
+is_overview: true
+hook: "How to spot vision problems early — warning signs from birth through teens"
 ---
 
 # My Child Seems to Not See Well — Signs of Vision Problems by Age

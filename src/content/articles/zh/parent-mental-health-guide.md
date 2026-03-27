@@ -6,6 +6,8 @@ category: "guides"
 urgency: "important"
 last_updated: "2026-03-25"
 age_groups: ["0-1", "1-3", "3-6", "6-12", "13-18"]
+is_overview: true
+hook: "你的状态很重要——识别倦怠、焦虑，以及何时寻求帮助"
 ---
 
 

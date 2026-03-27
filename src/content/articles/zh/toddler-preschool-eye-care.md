@@ -6,6 +6,8 @@ category: "guides"
 urgency: "important"
 last_updated: "2026-02-17"
 age_groups: ["1-3", "3-6"]
+stage: "2-5yr"
+hook: "发现和治疗眼部问题的最关键年龄段"
 ---
 
 # 幼儿和学龄前儿童的眼睛保健（1-5岁）

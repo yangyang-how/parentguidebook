@@ -6,6 +6,8 @@ category: "guides"
 urgency: "important"
 last_updated: "2026-02-17"
 age_groups: ["1-3", "3-6"]
+stage: "2-5yr"
+hook: "The most important age for catching eye problems that can still be fixed"
 ---
 
 # Eye Care for Toddlers and Preschoolers (Ages 1–5)

@@ -15,9 +15,7 @@ import { dirname, resolve } from "node:path";
  *   npx tsx scripts/research.ts --domain eyes --overview
  *   npx tsx scripts/research.ts --domain sleep --stage 2-5yr --refresh
  */
-import Anthropic from "@anthropic-ai/sdk";
-
-const MODEL = "claude-opus-4-6";
+import { callClaude } from "./lib/claude.ts";
 
 const SYSTEM_PROMPT = `You are a medical research assistant for Parent Guidebook (parentguidebook.org), a bilingual health education site for parents.
 
@@ -152,7 +150,7 @@ function validateSlug(value: string, label: string): void {
 	}
 }
 
-async function research(
+function research(
 	domain: string,
 	stage: string,
 	isOverview: boolean,
@@ -172,30 +170,21 @@ async function research(
 	// Ensure directory exists
 	mkdirSync(dirname(outPath), { recursive: true });
 
-	const client = new Anthropic();
 	const prompt = buildPrompt(domain, stage, isOverview);
 
 	console.log(`Researching: ${domain} × ${isOverview ? "overview" : stage}`);
-	console.log(`Using model: ${MODEL}`);
+	console.log(`Using model: opus`);
 	console.log(`Output: ${outPath}`);
 	const start = Date.now();
 
-	const response = await client.messages.create({
-		model: MODEL,
-		max_tokens: 16000,
-		thinking: { type: "adaptive" },
-		system: SYSTEM_PROMPT,
-		messages: [
-			{
-				role: "user",
-				content: prompt,
-			},
-		],
+	const output = callClaude({
+		model: "opus",
+		systemPrompt: SYSTEM_PROMPT,
+		userMessage: prompt,
+		timeout: 600_000,
 	});
 
 	const elapsed = ((Date.now() - start) / 1000).toFixed(1);
-	const textBlock = response.content.find((b) => b.type === "text");
-	const output = textBlock?.type === "text" ? textBlock.text : "";
 
 	if (!output.trim()) {
 		console.error(`Empty response from model (${elapsed}s)`);

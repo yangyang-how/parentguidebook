@@ -1,4 +1,6 @@
 #!/usr/bin/env npx tsx
+import { existsSync, readFileSync } from "node:fs";
+import { resolve } from "node:path";
 /**
  * Auditor — compares ZH translation against EN original for alignment.
  * Ensures nothing is added, removed, softened, or strengthened.
@@ -6,11 +8,7 @@
  * Usage:
  *   npx tsx scripts/audit.ts src/content/articles/en/white-pupil-leukocoria.md src/content/articles/zh/white-pupil-leukocoria.md
  */
-import Anthropic from '@anthropic-ai/sdk';
-import { readFileSync, existsSync } from 'node:fs';
-import { resolve } from 'node:path';
-
-const MODEL = 'claude-sonnet-4-6';
+import { callClaude, extractJson } from "./lib/claude.ts";
 
 const SYSTEM_PROMPT = `You are a translation auditor for Parent Guidebook (parentguidebook.org). You compare an English original article against its Chinese (zh-Hans) translation to verify they are aligned and faithful.
 
@@ -98,105 +96,101 @@ Return a JSON object:
 - Passes only if ZERO critical violations
 - Return ONLY the JSON, no other text`;
 
-async function audit(enPath: string, zhPath: string) {
-  const enAbs = resolve(enPath);
-  const zhAbs = resolve(zhPath);
+function audit(enPath: string, zhPath: string) {
+	const enAbs = resolve(enPath);
+	const zhAbs = resolve(zhPath);
 
-  if (!existsSync(enAbs)) {
-    console.error(`EN file not found: ${enAbs}`);
-    process.exit(1);
-  }
-  if (!existsSync(zhAbs)) {
-    console.error(`ZH file not found: ${zhAbs}`);
-    process.exit(1);
-  }
+	if (!existsSync(enAbs)) {
+		console.error(`EN file not found: ${enAbs}`);
+		process.exit(1);
+	}
+	if (!existsSync(zhAbs)) {
+		console.error(`ZH file not found: ${zhAbs}`);
+		process.exit(1);
+	}
 
-  const enContent = readFileSync(enAbs, 'utf-8');
-  const zhContent = readFileSync(zhAbs, 'utf-8');
-  const client = new Anthropic();
+	const enContent = readFileSync(enAbs, "utf-8");
+	const zhContent = readFileSync(zhAbs, "utf-8");
 
-  console.log(`Auditing:`);
-  console.log(`  EN: ${enAbs}`);
-  console.log(`  ZH: ${zhAbs}`);
-  console.log(`Using model: ${MODEL}`);
-  const start = Date.now();
+	console.log(`Auditing:`);
+	console.log(`  EN: ${enAbs}`);
+	console.log(`  ZH: ${zhAbs}`);
+	console.log(`Using model: sonnet`);
+	const start = Date.now();
 
-  const response = await client.messages.create({
-    model: MODEL,
-    max_tokens: 16000,
-    system: SYSTEM_PROMPT,
-    messages: [
-      {
-        role: 'user',
-        content: `Compare these two articles for translation alignment.\n\n## ENGLISH ORIGINAL\n\n${enContent}\n\n---\n\n## CHINESE TRANSLATION\n\n${zhContent}`,
-      },
-    ],
-  });
+	const raw = callClaude({
+		model: "sonnet",
+		systemPrompt: SYSTEM_PROMPT,
+		userMessage: `Compare these two articles for translation alignment.\n\n## ENGLISH ORIGINAL\n\n${enContent}\n\n---\n\n## CHINESE TRANSLATION\n\n${zhContent}`,
+		timeout: 600_000,
+	});
 
-  const elapsed = ((Date.now() - start) / 1000).toFixed(1);
-  const textBlock = response.content.find((b) => b.type === 'text');
-  const raw = textBlock?.type === 'text' ? textBlock.text : '';
+	const elapsed = ((Date.now() - start) / 1000).toFixed(1);
 
-  let result: { pass: boolean; violations: Array<{ severity: string; category: string; en_location: string; zh_location: string; issue: string; suggestion: string }>; summary: string };
-  try {
-    // Extract JSON from response, handling code fences and minor issues
-    const firstBrace = raw.indexOf('{');
-    const lastBrace = raw.lastIndexOf('}');
-    if (firstBrace === -1 || lastBrace === -1) throw new Error('No JSON object found');
-    const jsonStr = raw.slice(firstBrace, lastBrace + 1);
-    try {
-      result = JSON.parse(jsonStr);
-    } catch {
-      // If JSON is malformed, try to extract just pass/violations/summary
-      const passMatch = jsonStr.match(/"pass"\s*:\s*(true|false)/);
-      const pass = passMatch ? passMatch[1] === 'true' : false;
-      result = { pass, violations: [], summary: 'JSON parse failed — review raw output. pass=' + pass };
-      console.log('⚠️  Partial JSON parse — extracted pass=' + pass);
-    }
-  } catch {
-    console.error(`Failed to parse response as JSON (${elapsed}s):`);
-    console.log(raw);
-    process.exit(1);
-  }
+	let result: {
+		pass: boolean;
+		violations: Array<{
+			severity: string;
+			category: string;
+			en_location: string;
+			zh_location: string;
+			issue: string;
+			suggestion: string;
+		}>;
+		summary: string;
+	};
+	try {
+		result = extractJson<typeof result>(raw);
+	} catch {
+		console.error(`Failed to parse response as JSON (${elapsed}s):`);
+		console.log(raw);
+		process.exit(1);
+	}
 
-  console.log(`Done in ${elapsed}s\n`);
+	console.log(`Done in ${elapsed}s\n`);
 
-  const critical = result.violations.filter((v) => v.severity === 'critical');
-  const warnings = result.violations.filter((v) => v.severity === 'warning');
+	const critical = result.violations.filter((v) => v.severity === "critical");
+	const warnings = result.violations.filter((v) => v.severity === "warning");
 
-  if (result.pass) {
-    console.log('✅ PASS');
-  } else {
-    console.log('❌ FAIL');
-  }
-  console.log(`   ${critical.length} critical, ${warnings.length} warnings\n`);
+	if (result.pass) {
+		console.log("✅ PASS");
+	} else {
+		console.log("❌ FAIL");
+	}
+	console.log(`   ${critical.length} critical, ${warnings.length} warnings\n`);
 
-  if (critical.length > 0) {
-    console.log('CRITICAL:');
-    for (const v of critical) {
-      console.log(`  [${v.category}] EN: ${v.en_location} → ZH: ${v.zh_location}`);
-      console.log(`    Issue: ${v.issue}`);
-      console.log(`    Fix: ${v.suggestion}\n`);
-    }
-  }
+	if (critical.length > 0) {
+		console.log("CRITICAL:");
+		for (const v of critical) {
+			console.log(
+				`  [${v.category}] EN: ${v.en_location} → ZH: ${v.zh_location}`,
+			);
+			console.log(`    Issue: ${v.issue}`);
+			console.log(`    Fix: ${v.suggestion}\n`);
+		}
+	}
 
-  if (warnings.length > 0) {
-    console.log('WARNINGS:');
-    for (const v of warnings) {
-      console.log(`  [${v.category}] EN: ${v.en_location} → ZH: ${v.zh_location}`);
-      console.log(`    Issue: ${v.issue}`);
-      console.log(`    Fix: ${v.suggestion}\n`);
-    }
-  }
+	if (warnings.length > 0) {
+		console.log("WARNINGS:");
+		for (const v of warnings) {
+			console.log(
+				`  [${v.category}] EN: ${v.en_location} → ZH: ${v.zh_location}`,
+			);
+			console.log(`    Issue: ${v.issue}`);
+			console.log(`    Fix: ${v.suggestion}\n`);
+		}
+	}
 
-  console.log(`Summary: ${result.summary}`);
+	console.log(`Summary: ${result.summary}`);
 
-  if (!result.pass) process.exit(1);
+	if (!result.pass) process.exit(1);
 }
 
 const args = process.argv.slice(2);
 if (args.length < 2) {
-  console.error('Usage: npx tsx scripts/audit.ts <en-article.md> <zh-article.md>');
-  process.exit(1);
+	console.error(
+		"Usage: npx tsx scripts/audit.ts <en-article.md> <zh-article.md>",
+	);
+	process.exit(1);
 }
 audit(args[0], args[1]);

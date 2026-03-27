@@ -8,9 +8,7 @@ import { resolve } from "node:path";
  * Usage:
  *   npx tsx scripts/fact-check.ts src/content/articles/en/white-pupil-leukocoria.md
  */
-import Anthropic from "@anthropic-ai/sdk";
-
-const MODEL = "claude-opus-4-6";
+import { callClaude, extractJson } from "./lib/claude.ts";
 
 const SYSTEM_PROMPT = `You are a medical fact checker for Parent Guidebook (parentguidebook.org), a bilingual health education site for parents. Your job is to verify the factual accuracy of articles about children's health.
 
@@ -77,7 +75,7 @@ Return a JSON object with this structure:
 - An article passes only if there are ZERO critical violations
 - Return ONLY the JSON, no other text`;
 
-async function factCheck(articlePath: string, researchPath?: string) {
+function factCheck(articlePath: string, researchPath?: string) {
 	const absPath = resolve(articlePath);
 	if (!existsSync(absPath)) {
 		console.error(`File not found: ${absPath}`);
@@ -98,10 +96,7 @@ async function factCheck(articlePath: string, researchPath?: string) {
 		}
 	}
 
-	const client = new Anthropic();
-
 	console.log(`Fact-checking: ${absPath}`);
-	console.log(`Using model: ${MODEL}`);
 	const start = Date.now();
 
 	let userMessage = `Fact-check this article:\n\n${content}`;
@@ -125,22 +120,14 @@ async function factCheck(articlePath: string, researchPath?: string) {
 		userMessage += `\n\n${"=".repeat(60)}\nRESEARCH FILE (cross-reference claims against these sources):\n${"=".repeat(60)}\n\n${researchForPrompt}`;
 	}
 
-	const response = await client.messages.create({
-		model: MODEL,
-		max_tokens: 8000,
-		thinking: { type: "adaptive" },
-		system: SYSTEM_PROMPT,
-		messages: [
-			{
-				role: "user",
-				content: userMessage,
-			},
-		],
+	const raw = callClaude({
+		model: "opus",
+		systemPrompt: SYSTEM_PROMPT,
+		userMessage: userMessage,
+		timeout: 600_000,
 	});
 
 	const elapsed = ((Date.now() - start) / 1000).toFixed(1);
-	const textBlock = response.content.find((b) => b.type === "text");
-	const raw = textBlock?.type === "text" ? textBlock.text : "";
 
 	let result: {
 		pass: boolean;
@@ -154,23 +141,7 @@ async function factCheck(articlePath: string, researchPath?: string) {
 		summary: string;
 	};
 	try {
-		const firstBrace = raw.indexOf("{");
-		const lastBrace = raw.lastIndexOf("}");
-		if (firstBrace === -1 || lastBrace === -1)
-			throw new Error("No JSON object found");
-		const jsonStr = raw.slice(firstBrace, lastBrace + 1);
-		try {
-			result = JSON.parse(jsonStr);
-		} catch {
-			const passMatch = jsonStr.match(/"pass"\s*:\s*(true|false)/);
-			const pass = passMatch ? passMatch[1] === "true" : false;
-			result = {
-				pass,
-				violations: [],
-				summary: "JSON parse failed — review raw output. pass=" + pass,
-			};
-			console.log("⚠️  Partial JSON parse — extracted pass=" + pass);
-		}
+		result = extractJson<typeof result>(raw);
 	} catch {
 		console.error(`Failed to parse response as JSON (${elapsed}s):`);
 		console.log(raw);

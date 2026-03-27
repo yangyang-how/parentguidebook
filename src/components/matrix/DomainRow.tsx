@@ -22,13 +22,10 @@ export function DomainRow({
 }: Props) {
 	const domainLabel = labels[domain.labelKey] || domain.slug;
 
-	// Row header card
+	// Row header card — title only, no hook
 	const headerCard = rowHeader ? (
 		<a href={rowHeader.url} class="matrix-card matrix-card--row-header">
 			<span class="matrix-card__title">{rowHeader.title}</span>
-			{rowHeader.hook && (
-				<span class="matrix-card__hook">{rowHeader.hook}</span>
-			)}
 		</a>
 	) : (
 		<div class="matrix-card matrix-card--row-header matrix-card--placeholder">
@@ -51,6 +48,7 @@ export function DomainRow({
 						cell={cell}
 						isSelected={false}
 						placeholderLabel={labels["matrix.placeholder"]}
+						resolvedDomainLabel={domainLabel}
 					/>
 				)}
 			</div>
@@ -66,6 +64,7 @@ export function DomainRow({
 					cell={cells[stage.slug]}
 					isSelected={selectedStage === stage.slug}
 					placeholderLabel={labels["matrix.placeholder"]}
+					resolvedDomainLabel={domainLabel}
 				/>
 			))}
 		</div>

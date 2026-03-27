@@ -8,7 +8,6 @@ domains_covered: ["eyes", "breathing", "nutrition", "sleep", "bones-movement", "
 last_updated: "2026-03-24"
 ---
 
-# 5到12岁——学龄期
 
 ## 如果你只读一件事，读这里
 

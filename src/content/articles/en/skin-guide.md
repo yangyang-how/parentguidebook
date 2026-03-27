@@ -8,7 +8,6 @@ last_updated: "2026-03-25"
 age_groups: ["0-1", "1-3", "3-6", "6-12", "13-18"]
 ---
 
-# Your Child's Skin — From Newborn to Teen
 
 **Quick Summary (60 seconds)**
 

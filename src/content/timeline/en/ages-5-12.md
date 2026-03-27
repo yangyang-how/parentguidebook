@@ -8,7 +8,6 @@ domains_covered: ["eyes", "breathing", "nutrition", "sleep", "bones-movement", "
 last_updated: "2026-03-24"
 ---
 
-# Ages 5–12 — The School Years
 
 ## If you only read one thing, read this
 

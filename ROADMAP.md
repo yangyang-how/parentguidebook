@@ -10,44 +10,40 @@ This is the source of truth for what we're building and in what order. Progress 
 
 - **Site:** parentguidebook.org on Cloudflare Pages (auto-deploy on merge to main)
 - **Architecture:** 5 categories, 24 domains, 6 age stages, 2D matrix model
-- **Content pipeline:** fact-check (Opus) → translate (Sonnet) → audit (Sonnet) → lint (Haiku) — veto gates at each stage
+- **Content pipeline:** fact-check → translate → audit → lint
+- **Contributor system:** passkey-gated access + paragraph-level comments (Cloudflare KV + D1)
 - **Live content:**
-  - 8 eye domain articles (EN + ZH) — vertical deep dives
-  - "The First Month" timeline article (EN + ZH) — first horizontal piece
-- **Infrastructure:** bilingual routing, dark mode, source citation system, sitemap, inclusive language enforcement (8 categories)
+  - 6 timeline articles (EN + ZH) — all age stages covered
+  - 8 eye domain articles (EN + ZH)
+  - 5 domain deep dives (EN + ZH) — Sleep, Nutrition, Skin, Breathing & ENT, Mental Health
+- **Infrastructure:** bilingual routing, dark mode, source citation system, sitemap, inclusive language enforcement, article TOC sidebar, contributor comment system
 
-**Current phase: 1 — Foundation Content**
+**Current phase: 2 — Navigation & Discovery**
 
 ---
 
-## Phase 1: Foundation Content
+## Phase 1: Foundation Content ✅ COMPLETE
 
 > Write the horizontal timeline articles — the primary reading experience for new parents.
 
-Each timeline article is a self-contained guide covering baby + parent + family for one age stage. Every article goes through the full 4-stage pipeline (fact-check → translate → audit → lint) before shipping.
-
-**Unlock trigger → Phase 2:** 3 timeline articles shipped.
-
 ### Timeline Articles
 
-- [x] The First Month (0–1 mo) — shipped
-- [ ] Months 1–6 (1–6 mo)
-- [ ] 6 Months to 2 Years (6 mo–2 yr)
-- [ ] Ages 2–5 (2–5 yr)
-- [ ] Ages 5–12 (5–12 yr)
-- [ ] Ages 12–18 (12–18 yr)
+- [x] The First Month (0–1 mo)
+- [x] Months 1–6 (1–6 mo)
+- [x] 6 Months to 2 Years (6 mo–2 yr)
+- [x] Ages 2–5 (2–5 yr)
+- [x] Ages 5–12 (5–12 yr)
+- [x] Ages 12–18 (12–18 yr)
 
-**Progress: 1 / 6**
+**Progress: 6 / 6 — Complete**
 
 ---
 
-## Phase 2: Navigation & Discovery
+## Phase 2: Navigation & Discovery ← CURRENT
 
-> Build the matrix UI and make content findable. Remaining timeline articles continue in parallel.
+> Build the matrix UI and make content findable.
 
-Phase 2 begins once 3 timeline articles exist to populate the matrix. Timeline article writing continues during this phase.
-
-**Unlock trigger → Phase 3:** Matrix UI live + all 6 timeline articles done.
+**Unlock trigger → Phase 3:** Matrix UI live + all 6 timeline articles done (✅ articles done).
 
 ### Matrix UI
 
@@ -65,26 +61,26 @@ Phase 2 begins once 3 timeline articles exist to populate the matrix. Timeline a
 
 ---
 
-## Phase 3: Content Depth
+## Phase 3: Content Depth — MOSTLY DONE
 
 > Fill in vertical domain deep dives for the topics parents need most.
 
-Priority domains are chosen by what the timeline articles reference most heavily. The 8 existing eye articles are already done — this phase expands into new domains.
-
-**Unlock trigger → Phase 4:** 3+ new domain deep dives shipped.
+**Unlock trigger → Phase 4:** 3+ new domain deep dives shipped (✅ 5 new domains shipped, plus Eyes which predates the phased roadmap).
 
 ### Domain Deep Dives
 
-| Domain | Category | Priority | Status |
-|--------|----------|----------|--------|
-| Eyes | Child Body | — | Done (8 articles) |
-| Sleep | Child Body | High | Not started |
-| Nutrition & Feeding | Child Body | High | Not started |
-| Skin | Child Body | Medium | Not started |
-| Breathing & ENT | Child Body | Medium | Not started |
-| Mental Health | Parent | Medium | Not started |
-| Bones & Movement | Child Body | Lower | Not started |
-| Teeth | Child Body | Lower | Not started |
+| Domain | Category | Status |
+|--------|----------|--------|
+| Eyes | Child Body | ✅ Done (8 articles) |
+| Sleep | Child Body | ✅ Done |
+| Nutrition & Feeding | Child Body | ✅ Done |
+| Skin | Child Body | ✅ Done |
+| Breathing & ENT | Child Body | ✅ Done |
+| Mental Health | Parent | ✅ Done |
+| Bones & Movement | Child Body | Not started |
+| Teeth | Child Body | Not started |
+
+**Progress: 6 / 8 domains**
 
 ### Features
 

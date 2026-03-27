@@ -1,5 +1,5 @@
 #!/usr/bin/env npx tsx
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 /**
  * Research Stage — gathers and stores evidence before article writing.
@@ -141,12 +141,26 @@ Age stage reference:
 - 12-18yr: Adolescent/teen (ages 12-18)`;
 }
 
+const SAFE_SLUG = /^[a-z0-9-]+$/;
+
+function validateSlug(value: string, label: string): void {
+	if (!SAFE_SLUG.test(value)) {
+		console.error(
+			`Invalid ${label}: "${value}". Only lowercase letters, digits, and hyphens allowed.`,
+		);
+		process.exit(1);
+	}
+}
+
 async function research(
 	domain: string,
 	stage: string,
 	isOverview: boolean,
 	refresh: boolean,
 ) {
+	validateSlug(domain, "domain");
+	if (!isOverview) validateSlug(stage, "stage");
+
 	const outPath = getResearchPath(domain, isOverview ? "overview" : stage);
 
 	if (existsSync(outPath) && !refresh) {

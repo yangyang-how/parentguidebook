@@ -49,7 +49,7 @@ function parseFrontmatter(
 	articlePath: string,
 ): { domain: string; stage: string; isOverview: boolean } | null {
 	const content = readFileSync(resolve(articlePath), "utf-8");
-	const fmMatch = content.match(/^---\n([\s\S]*?)\n---/);
+	const fmMatch = content.match(/^---\r?\n([\s\S]*?)\r?\n---/);
 	if (!fmMatch) return null;
 
 	const fm = fmMatch[1];
@@ -85,7 +85,6 @@ function getResearchPath(
 function verifyResearch(articlePath: string): string | null {
 	const meta = parseFrontmatter(articlePath);
 	if (!meta) {
-		console.log("⚠️  Could not parse frontmatter — skipping research check.");
 		return null;
 	}
 
@@ -110,6 +109,16 @@ function checkResearch(articlePath: string): boolean {
 		const meta = parseFrontmatter(articlePath);
 		if (!meta) {
 			console.log("❌ Cannot determine domain/stage from article frontmatter.");
+			return false;
+		}
+
+		if (!meta.isOverview && !meta.stage) {
+			console.log(
+				"❌ Article has no `stage` and is not marked `is_overview: true`.",
+			);
+			console.log(
+				'   Add `stage: "<stage-slug>"` or `is_overview: true` to frontmatter.',
+			);
 			return false;
 		}
 
@@ -143,12 +152,13 @@ function checkResearch(articlePath: string): boolean {
 function checkEn(enPath: string, researchPath: string | null): boolean {
 	console.log("\n📋 PHASE 1: English Article Review\n");
 
-	// Pass research file to fact-checker if available
-	const researchArg = researchPath ? ` --research ${researchPath}` : "";
+	// Pass research file to fact-checker if available (quote paths for shell safety)
+	const q = (s: string) => `'${s.replace(/'/g, "'\\''")}'`;
+	const researchArg = researchPath ? ` --research ${q(researchPath)}` : "";
 
 	if (
 		!run(
-			`npx tsx scripts/fact-check.ts ${enPath}${researchArg}`,
+			`npx tsx scripts/fact-check.ts ${q(enPath)}${researchArg}`,
 			"Fact-checking EN article" +
 				(researchPath ? " (with research cross-reference)" : ""),
 		)

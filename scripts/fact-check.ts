@@ -106,7 +106,23 @@ async function factCheck(articlePath: string, researchPath?: string) {
 
 	let userMessage = `Fact-check this article:\n\n${content}`;
 	if (researchContent) {
-		userMessage += `\n\n${"=".repeat(60)}\nRESEARCH FILE (cross-reference claims against these sources):\n${"=".repeat(60)}\n\n${researchContent}`;
+		// If research file is very large, extract just the Claims Checklist and Sources sections
+		// to avoid exceeding model context. Threshold: ~40K chars (~10K tokens).
+		let researchForPrompt = researchContent;
+		if (researchContent.length > 40000) {
+			const claimsIdx = researchContent.indexOf("## Claims Checklist");
+			const sourcesIdx = researchContent.indexOf("## Sources");
+			if (claimsIdx !== -1) {
+				researchForPrompt =
+					researchContent.slice(0, sourcesIdx !== -1 ? sourcesIdx : 0) +
+					"\n\n[Sources section truncated for length]\n\n" +
+					researchContent.slice(claimsIdx);
+				console.log(
+					`⚠️  Research file truncated (${researchContent.length} chars → ${researchForPrompt.length} chars)`,
+				);
+			}
+		}
+		userMessage += `\n\n${"=".repeat(60)}\nRESEARCH FILE (cross-reference claims against these sources):\n${"=".repeat(60)}\n\n${researchForPrompt}`;
 	}
 
 	const response = await client.messages.create({
@@ -203,7 +219,15 @@ let researchFile: string | undefined;
 
 for (let i = 0; i < cliArgs.length; i++) {
 	if (cliArgs[i] === "--research") {
-		researchFile = cliArgs[++i];
+		const next = cliArgs[i + 1];
+		if (!next || next.startsWith("-")) {
+			console.error(
+				"Usage: npx tsx scripts/fact-check.ts <article.md> [--research <research.md>]",
+			);
+			process.exit(1);
+		}
+		researchFile = next;
+		i++;
 	} else if (!filePath) {
 		filePath = cliArgs[i];
 	}

@@ -1,40 +1,34 @@
-import type { CellData } from "./types";
+import type { CellContent } from "./types";
 
 interface Props {
-	cell: CellData | null;
+	cell: CellContent;
 	isSelected: boolean;
-	ariaLabel: string;
-	comingSoonLabel: string;
+	placeholderLabel: string;
 }
 
-export function MatrixCell({
-	cell,
-	isSelected,
-	ariaLabel,
-	comingSoonLabel,
-}: Props) {
-	const selectedClass = isSelected ? "matrix-cell--selected" : "";
+export function MatrixCell({ cell, isSelected, placeholderLabel }: Props) {
+	const selectedClass = isSelected ? "matrix-card--selected" : "";
 
-	if (!cell) {
+	if (cell.type === "placeholder") {
 		return (
-			<span
-				class={`matrix-cell matrix-cell--none ${selectedClass}`}
-				title={comingSoonLabel}
-				role="img"
-				aria-label={ariaLabel}
-			>
-				○
-			</span>
+			<div class={`matrix-card matrix-card--placeholder ${selectedClass}`}>
+				<span class="matrix-card__title matrix-card__title--muted">
+					{cell.domainLabel}
+				</span>
+				<span class="matrix-card__hook matrix-card__hook--muted">
+					{placeholderLabel}
+				</span>
+			</div>
 		);
 	}
 
 	return (
 		<a
 			href={cell.url}
-			class={`matrix-cell matrix-cell--${cell.type} ${selectedClass}`}
-			aria-label={ariaLabel}
+			class={`matrix-card matrix-card--${cell.type} ${selectedClass}`}
 		>
-			{cell.type === "domain" ? "●" : "◐"}
+			<span class="matrix-card__title">{cell.title}</span>
+			{cell.hook && <span class="matrix-card__hook">{cell.hook}</span>}
 		</a>
 	);
 }

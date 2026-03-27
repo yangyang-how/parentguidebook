@@ -6,20 +6,12 @@ export function Legend({ labels }: Props) {
 	return (
 		<div class="matrix-legend">
 			<div class="matrix-legend-item">
-				<span class="matrix-legend-dot matrix-legend-dot--domain">●</span>
-				{labels["matrix.legend.deepDive"]}
-			</div>
-			<div class="matrix-legend-item">
-				<span class="matrix-legend-dot matrix-legend-dot--timeline">◐</span>
-				{labels["matrix.legend.timeline"]}
-			</div>
-			<div class="matrix-legend-item">
-				<span class="matrix-legend-dot matrix-legend-dot--none">○</span>
-				{labels["matrix.legend.none"]}
-			</div>
-			<div class="matrix-legend-item">
-				<span class="matrix-legend-swatch" />
+				<span class="matrix-legend-swatch matrix-legend-swatch--active" />
 				{labels["matrix.legend.selectedAge"]}
+			</div>
+			<div class="matrix-legend-item">
+				<span class="matrix-legend-swatch matrix-legend-swatch--placeholder" />
+				{labels["matrix.placeholder"]}
 			</div>
 		</div>
 	);

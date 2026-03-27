@@ -6,6 +6,7 @@ stage_label: "1–6 months"
 stage_order: 2
 domains_covered: ["eyes", "breathing", "skin", "nutrition", "sleep", "bones-movement", "teeth", "learning-cognitive", "social-emotional", "physical-recovery", "mental-health", "relationships", "parenting-confidence", "home-safety"]
 last_updated: "2026-03-24"
+hook: "微笑、翻身、辅食——一起找到节奏"
 ---
 
 

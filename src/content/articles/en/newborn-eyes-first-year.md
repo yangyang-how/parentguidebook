@@ -6,6 +6,8 @@ category: "guides"
 urgency: "good-to-know"
 last_updated: "2026-03-23"
 age_groups: ["0-1"]
+stage: "0-1mo"
+hook: "What newborn eyes look like, when they focus, and what to watch for"
 ---
 
 # Your Newborn's Eyes — A Guide to the First 12 Months

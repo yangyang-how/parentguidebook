@@ -6,6 +6,7 @@ stage_label: "2–5 years"
 stage_order: 4
 domains_covered: ["eyes", "breathing", "skin", "nutrition", "sleep", "bones-movement", "teeth", "learning-cognitive", "social-emotional", "attention-digital", "school-life", "mental-health", "relationships", "parenting-confidence", "home-safety", "routines-logistics"]
 last_updated: "2026-03-24"
+hook: "独立、发脾气、想象力——学龄前的精彩与混乱"
 ---
 
 

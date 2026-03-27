@@ -6,6 +6,8 @@ category: "guides"
 urgency: "important"
 last_updated: "2026-03-23"
 age_groups: ["6-12"]
+stage: "5-12yr"
+hook: "The myopia years — screen time, outdoor time, and when to get glasses"
 ---
 
 # School-Age Eye Health (Ages 6–12) — The Myopia Years

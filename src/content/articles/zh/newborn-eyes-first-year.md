@@ -6,6 +6,8 @@ category: "guides"
 urgency: "good-to-know"
 last_updated: "2026-03-23"
 age_groups: ["0-1"]
+stage: "0-1mo"
+hook: "新生儿的眼睛长什么样、何时能对焦、需要注意什么"
 ---
 
 # 宝宝的眼睛——出生第一年指南

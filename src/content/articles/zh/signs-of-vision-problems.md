@@ -6,6 +6,8 @@ category: "emergency-signs"
 urgency: "important"
 last_updated: "2026-02-17"
 age_groups: ["0-1", "1-3", "3-6", "6-12", "13-18"]
+is_overview: true
+hook: "如何尽早发现视力问题——从出生到青少年的警示信号"
 ---
 
 # 我的孩子好像看不清——不同年龄段的视力问题信号

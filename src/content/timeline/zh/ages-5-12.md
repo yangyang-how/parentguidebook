@@ -6,6 +6,7 @@ stage_label: "5–12 years"
 stage_order: 5
 domains_covered: ["eyes", "breathing", "nutrition", "sleep", "bones-movement", "teeth", "learning-cognitive", "social-emotional", "attention-digital", "school-life", "mental-health", "relationships", "parenting-confidence", "home-safety", "identity-belonging", "character-strength"]
 last_updated: "2026-03-24"
+hook: "上学、交友、屏幕——平稳度过小学阶段"
 ---
 
 

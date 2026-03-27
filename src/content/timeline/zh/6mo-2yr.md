@@ -6,6 +6,7 @@ stage_label: "6个月 – 2岁"
 stage_order: 3
 domains_covered: ["eyes", "breathing", "skin", "nutrition", "sleep", "bones-movement", "teeth", "learning-cognitive", "social-emotional", "attention-digital", "physical-recovery", "mental-health", "relationships", "parenting-confidence", "home-safety", "routines-logistics"]
 last_updated: "2026-03-24"
+hook: "爬行、走路、说话——世界飞速展开"
 ---
 
 

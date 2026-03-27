@@ -1,18 +1,16 @@
 #!/usr/bin/env npx tsx
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import { basename, dirname, resolve } from "node:path";
 /**
  * Translate an English article to Chinese for Parent Guidebook.
  *
  * Usage:
- *   ANTHROPIC_API_KEY=sk-... npx tsx scripts/translate.ts src/content/articles/en/white-pupil-leukocoria.md
- *   ANTHROPIC_API_KEY=sk-... npx tsx scripts/translate.ts src/content/articles/en/white-pupil-leukocoria.md --dry-run
+ *   npx tsx scripts/translate.ts src/content/articles/en/white-pupil-leukocoria.md
+ *   npx tsx scripts/translate.ts src/content/articles/en/white-pupil-leukocoria.md --dry-run
  *
- * Requires: @anthropic-ai/sdk, tsx (npx handles tsx)
+ * Requires: claude CLI, tsx (npx handles tsx)
  */
-import Anthropic from '@anthropic-ai/sdk';
-import { readFileSync, writeFileSync, existsSync } from 'node:fs';
-import { resolve, basename, dirname } from 'node:path';
-
-const MODEL = 'claude-sonnet-4-6';
+import { callClaude } from "./lib/claude.ts";
 
 const SYSTEM_PROMPT = `You are a professional medical translator for Parent Guidebook (parentguidebook.org), a bilingual health education site for parents. You translate English articles into Simplified Chinese (zh-Hans).
 
@@ -158,82 +156,61 @@ Transform the YAML frontmatter as follows:
 
 Return ONLY the complete translated markdown file, starting with the --- frontmatter delimiter. No commentary, no explanations, no wrapping.`;
 
-async function translate(enPath: string, dryRun: boolean) {
-  const absPath = resolve(enPath);
-  if (!existsSync(absPath)) {
-    console.error(`File not found: ${absPath}`);
-    process.exit(1);
-  }
+function translate(enPath: string, dryRun: boolean) {
+	const absPath = resolve(enPath);
+	if (!existsSync(absPath)) {
+		console.error(`File not found: ${absPath}`);
+		process.exit(1);
+	}
 
-  const enContent = readFileSync(absPath, 'utf-8');
+	const enContent = readFileSync(absPath, "utf-8");
 
-  // Derive output path: .../en/foo.md → .../zh/foo.md
-  const dir = dirname(absPath);
-  const zhDir = dir.replace(/\/en(\/?)$/, '/zh$1');
-  const zhPath = resolve(zhDir, basename(absPath));
+	// Derive output path: .../en/foo.md → .../zh/foo.md
+	const dir = dirname(absPath);
+	const zhDir = dir.replace(/\/en(\/?)$/, "/zh$1");
+	const zhPath = resolve(zhDir, basename(absPath));
 
-  console.log(`Translating: ${absPath}`);
-  console.log(`Output:      ${zhPath}`);
-  if (dryRun) {
-    console.log('(dry run — not calling API)');
-    console.log('\n--- System prompt ---');
-    console.log(SYSTEM_PROMPT);
-    return;
-  }
+	console.log(`Translating: ${absPath}`);
+	console.log(`Output:      ${zhPath}`);
+	if (dryRun) {
+		console.log("(dry run — not calling API)");
+		console.log("\n--- System prompt ---");
+		console.log(SYSTEM_PROMPT);
+		return;
+	}
 
-  const client = new Anthropic({ timeout: 15 * 60 * 1000 });
+	console.log("Calling Claude Code CLI (sonnet)...");
+	const start = Date.now();
 
-  console.log(`Calling ${MODEL} (streaming)...`);
-  const start = Date.now();
+	const zhContent = callClaude({
+		model: "sonnet",
+		systemPrompt: SYSTEM_PROMPT,
+		userMessage: `Translate this English article to Chinese:\n\n${enContent}`,
+		timeout: 900_000, // 15 minutes for translation
+	});
 
-  let zhContent = '';
-  let inputTokens = 0;
-  let outputTokens = 0;
+	const elapsed = ((Date.now() - start) / 1000).toFixed(1);
+	console.log(`Done in ${elapsed}s`);
 
-  const stream = client.messages.stream({
-    model: MODEL,
-    max_tokens: 16000,
-    system: SYSTEM_PROMPT,
-    messages: [
-      {
-        role: 'user',
-        content: `Translate this English article to Chinese:\n\n${enContent}`,
-      },
-    ],
-  });
+	if (!zhContent.startsWith("---")) {
+		console.error("Warning: output does not start with frontmatter delimiter");
+		console.log(zhContent.slice(0, 200));
+	}
 
-  for await (const event of stream) {
-    if (event.type === 'content_block_delta' && event.delta.type === 'text_delta') {
-      zhContent += event.delta.text;
-    }
-  }
-
-  const finalMessage = await stream.finalMessage();
-  inputTokens = finalMessage.usage.input_tokens;
-  outputTokens = finalMessage.usage.output_tokens;
-
-  const elapsed = ((Date.now() - start) / 1000).toFixed(1);
-  console.log(`Done in ${elapsed}s (${inputTokens} in, ${outputTokens} out)`);
-
-  if (!zhContent.startsWith('---')) {
-    console.error('Warning: output does not start with frontmatter delimiter');
-    console.log(zhContent.slice(0, 200));
-  }
-
-  writeFileSync(zhPath, zhContent + '\n', 'utf-8');
-  console.log(`Written: ${zhPath}`);
+	writeFileSync(zhPath, zhContent + "\n", "utf-8");
+	console.log(`Written: ${zhPath}`);
 }
 
 // --- CLI ---
 const args = process.argv.slice(2);
-const dryRun = args.includes('--dry-run');
-const filePath = args.find((a) => !a.startsWith('--'));
+const dryRun = args.includes("--dry-run");
+const filePath = args.find((a) => !a.startsWith("--"));
 
 if (!filePath) {
-  console.error(
-    'Usage: npx tsx scripts/translate.ts <en-article.md> [--dry-run]',
-  );
-  process.exit(1);
+	console.error(
+		"Usage: npx tsx scripts/translate.ts <en-article.md> [--dry-run]",
+	);
+	process.exit(1);
 }
 
 translate(filePath, dryRun);

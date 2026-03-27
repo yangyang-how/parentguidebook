@@ -1,4 +1,6 @@
 #!/usr/bin/env npx tsx
+import { existsSync, readFileSync } from "node:fs";
+import { dirname, join, resolve } from "node:path";
 /**
  * Style Linter — checks for inclusive language, bias, and stereotypes.
  * Works on both EN and ZH articles.
@@ -7,26 +9,33 @@
  *   npx tsx scripts/lint.ts src/content/articles/en/white-pupil-leukocoria.md
  *   npx tsx scripts/lint.ts src/content/articles/zh/white-pupil-leukocoria.md
  */
-import Anthropic from '@anthropic-ai/sdk';
-import { readFileSync, existsSync } from 'node:fs';
-import { resolve, join, dirname } from 'node:path';
-
-const MODEL = 'claude-haiku-4-5';
+import { callClaude, extractJson } from "./lib/claude.ts";
 
 // Load inclusive language guidelines from file
 function loadGuidelines(): string {
-  const guidelinesPath = join(dirname(dirname(resolve(import.meta.url.replace('file://', '')))), 'guidelines', 'inclusive-language.md');
-  // Fallback: try relative to cwd
-  const paths = [
-    guidelinesPath,
-    resolve('guidelines/inclusive-language.md'),
-    resolve(join(dirname(process.argv[1] || ''), '..', 'guidelines', 'inclusive-language.md')),
-  ];
-  for (const p of paths) {
-    if (existsSync(p)) return readFileSync(p, 'utf-8');
-  }
-  console.error('Could not find guidelines/inclusive-language.md');
-  process.exit(1);
+	const guidelinesPath = join(
+		dirname(dirname(resolve(import.meta.url.replace("file://", "")))),
+		"guidelines",
+		"inclusive-language.md",
+	);
+	// Fallback: try relative to cwd
+	const paths = [
+		guidelinesPath,
+		resolve("guidelines/inclusive-language.md"),
+		resolve(
+			join(
+				dirname(process.argv[1] || ""),
+				"..",
+				"guidelines",
+				"inclusive-language.md",
+			),
+		),
+	];
+	for (const p of paths) {
+		if (existsSync(p)) return readFileSync(p, "utf-8");
+	}
+	console.error("Could not find guidelines/inclusive-language.md");
+	process.exit(1);
 }
 
 const GUIDELINES = loadGuidelines();
@@ -80,94 +89,84 @@ Return a JSON object:
 - Passes only if ZERO critical violations
 - Return ONLY the JSON, no other text`;
 
-async function lint(articlePath: string) {
-  const absPath = resolve(articlePath);
-  if (!existsSync(absPath)) {
-    console.error(`File not found: ${absPath}`);
-    process.exit(1);
-  }
+function lint(articlePath: string) {
+	const absPath = resolve(articlePath);
+	if (!existsSync(absPath)) {
+		console.error(`File not found: ${absPath}`);
+		process.exit(1);
+	}
 
-  const content = readFileSync(absPath, 'utf-8');
-  const client = new Anthropic();
+	const content = readFileSync(absPath, "utf-8");
 
-  console.log(`Linting: ${absPath}`);
-  console.log(`Using model: ${MODEL}`);
-  const start = Date.now();
+	console.log(`Linting: ${absPath}`);
+	const start = Date.now();
 
-  const response = await client.messages.create({
-    model: MODEL,
-    max_tokens: 4000,
-    system: SYSTEM_PROMPT,
-    messages: [
-      {
-        role: 'user',
-        content: `Check this article for inclusive language violations:\n\n${content}`,
-      },
-    ],
-  });
+	const raw = callClaude({
+		model: "haiku",
+		systemPrompt: SYSTEM_PROMPT,
+		userMessage: `Check this article for inclusive language violations:\n\n${content}`,
+		timeout: 300_000,
+	});
 
-  const elapsed = ((Date.now() - start) / 1000).toFixed(1);
-  const textBlock = response.content.find((b) => b.type === 'text');
-  const raw = textBlock?.type === 'text' ? textBlock.text : '';
+	const elapsed = ((Date.now() - start) / 1000).toFixed(1);
 
-  let result: { pass: boolean; violations: Array<{ severity: string; category: string; location: string; issue: string; suggestion: string }>; summary: string };
-  try {
-    const firstBrace = raw.indexOf('{');
-    const lastBrace = raw.lastIndexOf('}');
-    if (firstBrace === -1 || lastBrace === -1) throw new Error('No JSON object found');
-    const jsonStr = raw.slice(firstBrace, lastBrace + 1);
-    try {
-      result = JSON.parse(jsonStr);
-    } catch {
-      const passMatch = jsonStr.match(/"pass"\s*:\s*(true|false)/);
-      const pass = passMatch ? passMatch[1] === 'true' : false;
-      result = { pass, violations: [], summary: 'JSON parse failed — review raw output. pass=' + pass };
-      console.log('⚠️  Partial JSON parse — extracted pass=' + pass);
-    }
-  } catch {
-    console.error(`Failed to parse response as JSON (${elapsed}s):`);
-    console.log(raw);
-    process.exit(1);
-  }
+	let result: {
+		pass: boolean;
+		violations: Array<{
+			severity: string;
+			category: string;
+			location: string;
+			issue: string;
+			suggestion: string;
+		}>;
+		summary: string;
+	};
+	try {
+		result = extractJson<typeof result>(raw);
+	} catch {
+		console.error(`Failed to parse response as JSON (${elapsed}s):`);
+		console.log(raw);
+		process.exit(1);
+	}
 
-  console.log(`Done in ${elapsed}s\n`);
+	console.log(`Done in ${elapsed}s\n`);
 
-  const critical = result.violations.filter((v) => v.severity === 'critical');
-  const warnings = result.violations.filter((v) => v.severity === 'warning');
+	const critical = result.violations.filter((v) => v.severity === "critical");
+	const warnings = result.violations.filter((v) => v.severity === "warning");
 
-  if (result.pass) {
-    console.log('✅ PASS');
-  } else {
-    console.log('❌ FAIL');
-  }
-  console.log(`   ${critical.length} critical, ${warnings.length} warnings\n`);
+	if (result.pass) {
+		console.log("✅ PASS");
+	} else {
+		console.log("❌ FAIL");
+	}
+	console.log(`   ${critical.length} critical, ${warnings.length} warnings\n`);
 
-  if (critical.length > 0) {
-    console.log('CRITICAL:');
-    for (const v of critical) {
-      console.log(`  [${v.category}] "${v.location}"`);
-      console.log(`    Issue: ${v.issue}`);
-      console.log(`    Fix: ${v.suggestion}\n`);
-    }
-  }
+	if (critical.length > 0) {
+		console.log("CRITICAL:");
+		for (const v of critical) {
+			console.log(`  [${v.category}] "${v.location}"`);
+			console.log(`    Issue: ${v.issue}`);
+			console.log(`    Fix: ${v.suggestion}\n`);
+		}
+	}
 
-  if (warnings.length > 0) {
-    console.log('WARNINGS:');
-    for (const v of warnings) {
-      console.log(`  [${v.category}] "${v.location}"`);
-      console.log(`    Issue: ${v.issue}`);
-      console.log(`    Fix: ${v.suggestion}\n`);
-    }
-  }
+	if (warnings.length > 0) {
+		console.log("WARNINGS:");
+		for (const v of warnings) {
+			console.log(`  [${v.category}] "${v.location}"`);
+			console.log(`    Issue: ${v.issue}`);
+			console.log(`    Fix: ${v.suggestion}\n`);
+		}
+	}
 
-  console.log(`Summary: ${result.summary}`);
+	console.log(`Summary: ${result.summary}`);
 
-  if (!result.pass) process.exit(1);
+	if (!result.pass) process.exit(1);
 }
 
 const filePath = process.argv[2];
 if (!filePath) {
-  console.error('Usage: npx tsx scripts/lint.ts <article.md>');
-  process.exit(1);
+	console.error("Usage: npx tsx scripts/lint.ts <article.md>");
+	process.exit(1);
 }
 lint(filePath);

@@ -2,7 +2,7 @@
 title: "6 Months to 2 Years — The World Opens Up"
 lang: "en"
 stage: "6mo-2yr"
-stage_label: "6 months – 2 years"
+stage_label: "6 months–2 years"
 stage_order: 3
 domains_covered: ["eyes", "breathing", "skin", "nutrition", "sleep", "bones-movement", "teeth", "learning-cognitive", "social-emotional", "attention-digital", "physical-recovery", "mental-health", "relationships", "parenting-confidence", "home-safety", "routines-logistics"]
 last_updated: "2026-03-24"

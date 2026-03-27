@@ -5,7 +5,7 @@ domain: "skin"
 category: "guides"
 urgency: "good-to-know"
 last_updated: "2026-03-25"
-age_groups: ["0-1", "1-6", "6-24", "2-5", "5-12", "12-18"]
+age_groups: ["0-1", "1-3", "3-6", "6-12", "13-18"]
 ---
 
 # Your Child's Skin — From Newborn to Teen
@@ -327,6 +327,6 @@ Any mole that meets one or more of these criteria deserves evaluation by a derma
 13. WHO. "WHO Recommendations on Maternal and Newborn Care for a Positive Postnatal Experience." 2022. https://www.who.int/publications/i/item/9789240045989
 14. AAD. "Sunscreen FAQs." https://www.aad.org/media/stats-sunscreen
 15. CDC. "Hand, Foot, and Mouth Disease." https://www.cdc.gov/hand-foot-mouth/
-17. AAP HealthyChildren.org. "Diaper Rash." https://www.healthychildren.org/English/ages-stages/baby/diapering-clothing/Pages/Diaper-Rash.aspx
-18. AAP HealthyChildren.org. "Roseola." https://www.healthychildren.org/English/health-issues/conditions/skin/Pages/Roseola-Infantum.aspx
-19. AAD. "What to Look for: ABCDEs of Melanoma." https://www.aad.org/public/diseases/skin-cancer/find/at-risk/abcdes
+16. AAP HealthyChildren.org. "Diaper Rash." https://www.healthychildren.org/English/ages-stages/baby/diapering-clothing/Pages/Diaper-Rash.aspx
+17. AAP HealthyChildren.org. "Roseola." https://www.healthychildren.org/English/health-issues/conditions/skin/Pages/Roseola-Infantum.aspx
+18. AAD. "What to Look for: ABCDEs of Melanoma." https://www.aad.org/public/diseases/skin-cancer/find/at-risk/abcdes

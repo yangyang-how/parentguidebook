@@ -5,7 +5,7 @@ domain: "sleep"
 category: "guides"
 urgency: "good-to-know"
 last_updated: "2026-03-25"
-age_groups: ["0-1", "1-6", "6-24", "2-5", "5-12", "12-18"]
+age_groups: ["0-1", "1-3", "3-6", "6-12", "13-18"]
 ---
 
 # Sleep — From Day One Through the Teen Years

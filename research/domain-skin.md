@@ -1,5 +1,7 @@
 # Skin Domain Research — All Ages
 
+Compiled: 2026-03-25
+
 ## 1. Newborn Skin (0–3 months)
 
 ### Vernix caseosa

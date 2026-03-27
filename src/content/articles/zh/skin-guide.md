@@ -5,7 +5,7 @@ domain: "skin"
 category: "guides"
 urgency: "good-to-know"
 last_updated: "2026-03-25"
-age_groups: ["0-1", "1-6", "6-24", "2-5", "5-12", "12-18"]
+age_groups: ["0-1", "1-3", "3-6", "6-12", "13-18"]
 ---
 
 # 宝宝的皮肤——从新生儿到青春期
@@ -327,6 +327,6 @@ SPF衡量的是对UVB射线（导致晒伤的主要原因）的防护能力。SP
 13. 世界卫生组织（WHO）。《关于产后母婴护理的建议》。2022年。https://www.who.int/publications/i/item/9789240045989
 14. 美国皮肤科学会（AAD）。《防晒霜常见问题解答》。https://www.aad.org/media/stats-sunscreen
 15. 美国疾控中心（CDC）。《手足口病》。https://www.cdc.gov/hand-foot-mouth/
-17. AAP HealthyChildren.org。《尿布疹》。https://www.healthychildren.org/English/ages-stages/baby/diapering-clothing/Pages/Diaper-Rash.aspx
-18. AAP HealthyChildren.org。《幼儿急疹》。https://www.healthychildren.org/English/health-issues/conditions/skin/Pages/Roseola-Infantum.aspx
-19. 美国皮肤科学会（AAD）。《黑色素瘤的ABCDE识别法》。https://www.aad.org/public/diseases/skin-cancer/find/at-risk/abcdes
+16. AAP HealthyChildren.org。《尿布疹》。https://www.healthychildren.org/English/ages-stages/baby/diapering-clothing/Pages/Diaper-Rash.aspx
+17. AAP HealthyChildren.org。《幼儿急疹》。https://www.healthychildren.org/English/health-issues/conditions/skin/Pages/Roseola-Infantum.aspx
+18. 美国皮肤科学会（AAD）。《黑色素瘤的ABCDE识别法》。https://www.aad.org/public/diseases/skin-cancer/find/at-risk/abcdes

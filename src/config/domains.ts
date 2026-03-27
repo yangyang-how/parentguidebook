@@ -17,12 +17,12 @@ export type CategorySlug = (typeof CATEGORIES)[number]['slug'];
 export const DOMAINS_BY_CATEGORY: Record<CategorySlug, { slug: string; labelKey: string; ready: boolean }[]> = {
   'child-body': [
     { slug: 'eyes', labelKey: 'domain.eyes', ready: true },
-    { slug: 'breathing', labelKey: 'domain.breathing', ready: false },
+    { slug: 'breathing', labelKey: 'domain.breathing', ready: true },
     { slug: 'bones-movement', labelKey: 'domain.bonesMovement', ready: false },
     { slug: 'teeth', labelKey: 'domain.teeth', ready: false },
-    { slug: 'nutrition', labelKey: 'domain.nutrition', ready: false },
-    { slug: 'skin', labelKey: 'domain.skin', ready: false },
-    { slug: 'sleep', labelKey: 'domain.sleep', ready: false },
+    { slug: 'nutrition', labelKey: 'domain.nutrition', ready: true },
+    { slug: 'skin', labelKey: 'domain.skin', ready: true },
+    { slug: 'sleep', labelKey: 'domain.sleep', ready: true },
   ],
   'child-mind': [
     { slug: 'learning-cognitive', labelKey: 'domain.learningCognitive', ready: false },
@@ -39,7 +39,7 @@ export const DOMAINS_BY_CATEGORY: Record<CategorySlug, { slug: string; labelKey:
   ],
   parent: [
     { slug: 'physical-recovery', labelKey: 'domain.physicalRecovery', ready: false },
-    { slug: 'mental-health', labelKey: 'domain.mentalHealth', ready: false },
+    { slug: 'mental-health', labelKey: 'domain.mentalHealth', ready: true },
     { slug: 'relationships', labelKey: 'domain.relationships', ready: false },
     { slug: 'parenting-confidence', labelKey: 'domain.parentingConfidence', ready: false },
   ],

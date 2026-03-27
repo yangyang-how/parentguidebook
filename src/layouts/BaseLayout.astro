@@ -14,9 +14,10 @@ type Props = {
   description?: string;
   canonicalPath?: string;
   ogType?: 'website' | 'article';
+  wide?: boolean;
 };
 
-const { lang, title, description, canonicalPath, ogType = 'website' } = Astro.props;
+const { lang, title, description, canonicalPath, ogType = 'website', wide = false } = Astro.props;
 const htmlLang = lang === 'zh' ? 'zh-Hans' : 'en';
 const canonicalUrl = canonicalPath
   ? new URL(canonicalPath, Astro.site ?? Astro.url.origin).toString()
@@ -72,7 +73,7 @@ const altUrl = altPath
     <div class="min-h-screen">
       <Header lang={lang} />
       <main class="px-6 sm:px-8">
-        <div class="mx-auto max-w-[900px] py-10">
+        <div class={wide ? 'py-4' : 'mx-auto max-w-[900px] py-10'}>
           <slot />
         </div>
       </main>

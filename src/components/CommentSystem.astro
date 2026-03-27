@@ -58,9 +58,9 @@
     justify-content: center;
     padding: 0 0.25rem;
     position: absolute;
-    top: -0.25rem;
-    right: -0.375rem;
-    cursor: pointer;
+    top: -0.375rem;
+    right: -0.5rem;
+    pointer-events: none;
   }
 
   /* Wrapper for paragraph + sidebar comment form */
@@ -222,42 +222,66 @@
       icon.setAttribute('data-pgb-trigger', id);
       icon.addEventListener('click', (e) => {
         e.stopPropagation();
-        toggleCommentForm(id, el as HTMLElement);
+        togglePanel(id, el as HTMLElement);
       });
       el.appendChild(icon);
     });
   }
 
-  function toggleCommentForm(paragraphId: string, el: HTMLElement) {
-    // If already in a comment row, remove it
-    const existingRow = el.parentElement?.querySelector(`.pgb-comment-row[data-for="${paragraphId}"]`);
+  function getCommentsForParagraph(paragraphId: string) {
+    return allComments.filter(c => c.paragraph_id === paragraphId);
+  }
+
+  function togglePanel(paragraphId: string, el: HTMLElement) {
+    // If already open, close it
+    const existingRow = el.closest('.pgb-comment-row') || el.parentElement?.querySelector(`.pgb-comment-row[data-for="${paragraphId}"]`);
     if (existingRow) {
-      // Unwrap: move the paragraph back out of the row
-      existingRow.replaceWith(el);
+      const original = existingRow.querySelector('[data-pgb-commentable]');
+      if (original) existingRow.replaceWith(original);
       return;
     }
 
-    // Close any other open forms/rows
+    // Close any other open panels
     document.querySelectorAll('.pgb-comment-row').forEach(row => {
       const original = row.querySelector('[data-pgb-commentable]');
       if (original) row.replaceWith(original);
     });
 
     const preview = (el.textContent || '').slice(0, 80);
+    const comments = getCommentsForParagraph(paragraphId);
 
-    // Create a row wrapper: [paragraph] [comment form]
+    // Create row: [paragraph] [panel]
     const row = document.createElement('div');
     row.className = 'pgb-comment-row';
     row.setAttribute('data-for', paragraphId);
 
-    // Wrap the paragraph into the row
     el.parentElement!.insertBefore(row, el);
     row.appendChild(el);
 
-    // Create the form
-    const form = document.createElement('div');
-    form.className = 'pgb-comment-form';
-    form.innerHTML = `
+    // Create unified panel (existing comments + form)
+    const panel = document.createElement('div');
+    panel.className = 'pgb-comment-form';
+
+    // Render existing comments inside the panel
+    let commentsHtml = '';
+    if (comments.length > 0) {
+      commentsHtml = '<ul class="pgb-comments-list" style="width:100%;margin:0 0 0.75rem;">';
+      for (const c of comments) {
+        const date = new Date(c.created_at + 'Z').toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+        commentsHtml += `
+          <li class="pgb-comment-item">
+            <div class="pgb-comment-item__header">
+              <span class="pgb-comment-item__name">${escapeHtml(c.reviewer_name)}</span>
+              <span class="pgb-comment-item__date">${date}</span>
+            </div>
+            <div class="pgb-comment-item__text">${escapeHtml(c.comment_text)}</div>
+          </li>`;
+      }
+      commentsHtml += '</ul>';
+    }
+
+    panel.innerHTML = `
+      ${commentsHtml}
       <textarea placeholder="Leave your feedback..." maxlength="2000"></textarea>
       <div class="pgb-comment-form-actions">
         <button type="button" class="pgb-cancel">Cancel</button>
@@ -265,15 +289,15 @@
       </div>
     `;
 
-    form.querySelector('.pgb-cancel')!.addEventListener('click', () => {
+    panel.querySelector('.pgb-cancel')!.addEventListener('click', () => {
       row.replaceWith(el);
     });
 
-    form.querySelector('button[type="submit"]')!.addEventListener('click', async () => {
-      const textarea = form.querySelector('textarea')!;
+    panel.querySelector('button[type="submit"]')!.addEventListener('click', async () => {
+      const textarea = panel.querySelector('textarea')!;
       const text = textarea.value.trim();
       if (!text) return;
-      const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+      const submitBtn = panel.querySelector('button[type="submit"]') as HTMLButtonElement;
       submitBtn.disabled = true;
       submitBtn.textContent = 'Saving...';
 
@@ -289,10 +313,10 @@
           }),
         });
         if (res.status === 401) {
-          const errDiv = form.querySelector('.pgb-error') || document.createElement('div');
+          const errDiv = panel.querySelector('.pgb-error') || document.createElement('div');
           errDiv.className = 'pgb-error';
           errDiv.textContent = 'You need a contributor passkey to leave feedback.';
-          form.querySelector('.pgb-comment-form-actions')!.before(errDiv);
+          panel.querySelector('.pgb-comment-form-actions')!.before(errDiv);
           submitBtn.disabled = false;
           submitBtn.textContent = 'Submit';
           return;
@@ -301,26 +325,22 @@
         row.replaceWith(el);
         await loadComments();
       } catch {
-        const errDiv = form.querySelector('.pgb-error') || document.createElement('div');
+        const errDiv = panel.querySelector('.pgb-error') || document.createElement('div');
         errDiv.className = 'pgb-error';
         errDiv.textContent = 'Comment failed to save — try again.';
-        form.querySelector('.pgb-comment-form-actions')!.before(errDiv);
+        panel.querySelector('.pgb-comment-form-actions')!.before(errDiv);
         submitBtn.disabled = false;
         submitBtn.textContent = 'Submit';
       }
     });
 
-    row.appendChild(form);
-    form.querySelector('textarea')!.focus();
+    row.appendChild(panel);
+    panel.querySelector('textarea')!.focus();
   }
 
   function renderComments() {
     // Remove old badges
     document.querySelectorAll('.pgb-comment-badge').forEach(b => b.remove());
-    // Remove old comment lists that are standalone
-    document.querySelectorAll('.pgb-comments-list').forEach(l => {
-      if (!l.closest('.pgb-comment-row')) l.remove();
-    });
 
     // Group by paragraph
     const grouped: Record<string, typeof allComments> = {};
@@ -335,61 +355,13 @@
       const icon = el.querySelector('.pgb-comment-icon');
       if (icon) {
         icon.setAttribute('data-has-comments', '');
-        // Add count badge on the icon
+        // Add count badge on the icon (non-clickable, just visual)
         const badge = document.createElement('span');
         badge.className = 'pgb-comment-badge';
-        badge.setAttribute('data-for', pid);
         badge.textContent = comments.length.toString();
-        badge.addEventListener('click', (e) => {
-          e.stopPropagation();
-          toggleCommentList(pid, el as HTMLElement, comments);
-        });
         icon.appendChild(badge);
       }
     }
-  }
-
-  function toggleCommentList(paragraphId: string, el: HTMLElement, comments: typeof allComments) {
-    // If already in a row showing comments, remove
-    const existingRow = el.parentElement?.querySelector(`.pgb-comment-row[data-for="list-${paragraphId}"]`) ||
-                       (el.closest('.pgb-comment-row')?.getAttribute('data-for') === `list-${paragraphId}` ? el.closest('.pgb-comment-row') : null);
-    if (existingRow) {
-      existingRow.replaceWith(el);
-      return;
-    }
-
-    // Close other open rows
-    document.querySelectorAll('.pgb-comment-row').forEach(row => {
-      const original = row.querySelector('[data-pgb-commentable]');
-      if (original) row.replaceWith(original);
-    });
-
-    // Create row: [paragraph] [comments list]
-    const row = document.createElement('div');
-    row.className = 'pgb-comment-row';
-    row.setAttribute('data-for', `list-${paragraphId}`);
-
-    el.parentElement!.insertBefore(row, el);
-    row.appendChild(el);
-
-    const list = document.createElement('ul');
-    list.className = 'pgb-comments-list';
-    list.setAttribute('data-for', paragraphId);
-
-    for (const c of comments) {
-      const li = document.createElement('li');
-      li.className = 'pgb-comment-item';
-      const date = new Date(c.created_at + 'Z').toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
-      li.innerHTML = `
-        <div class="pgb-comment-item__header">
-          <span class="pgb-comment-item__name">${escapeHtml(c.reviewer_name)}</span>
-          <span class="pgb-comment-item__date">${date}</span>
-        </div>
-        <div class="pgb-comment-item__text">${escapeHtml(c.comment_text)}</div>
-      `;
-      list.appendChild(li);
-    }
-    row.appendChild(list);
   }
 
   async function loadComments() {

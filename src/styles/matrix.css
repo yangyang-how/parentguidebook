@@ -67,9 +67,10 @@ html[data-theme="dark"] .matrix-hero {
 	background: var(--color-bg-secondary);
 }
 
-.matrix-age-pill--active {
-	background: var(--color-accent-blue) !important;
-	color: #fff !important;
+button.matrix-age-pill--active,
+.matrix-age-pill--active.matrix-age-pill {
+	background: var(--color-accent-blue);
+	color: #fff;
 	font-weight: 600;
 }
 

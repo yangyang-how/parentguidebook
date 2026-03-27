@@ -23,16 +23,11 @@ export function AgeSelector({
 		return (
 			<div class="matrix-sticky-bar">
 				<span class="matrix-sticky-label">{labels["matrix.sticky.label"]}</span>
-				<div
-					role="radiogroup"
-					aria-label="Select age range"
-					class="matrix-age-pills matrix-age-pills--compact"
-				>
+				<div class="matrix-age-pills matrix-age-pills--compact">
 					{stages.map((s) => (
 						<button
 							key={s.slug}
-							role="radio"
-							aria-checked={selected === s.slug}
+							aria-pressed={selected === s.slug}
 							class={`matrix-age-pill matrix-age-pill--compact ${selected === s.slug ? "matrix-age-pill--active" : ""}`}
 							onClick={() => onSelect(s.slug)}
 							type="button"
@@ -47,16 +42,11 @@ export function AgeSelector({
 
 	return (
 		<div class="matrix-age-selector">
-			<div
-				role="radiogroup"
-				aria-label="Select age range"
-				class="matrix-age-pills"
-			>
+			<div class="matrix-age-pills">
 				{stages.map((s) => (
 					<button
 						key={s.slug}
-						role="radio"
-						aria-checked={selected === s.slug}
+						aria-pressed={selected === s.slug}
 						class={`matrix-age-pill ${selected === s.slug ? "matrix-age-pill--active" : ""}`}
 						onClick={() => onSelect(s.slug)}
 						type="button"

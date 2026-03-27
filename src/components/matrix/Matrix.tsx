@@ -10,7 +10,7 @@ export default function Matrix({
 	domains,
 	stages,
 	contentMap,
-	lang,
+	lang: _lang,
 	labels,
 }: MatrixProps) {
 	const { dob, stageFromDob, setDob } = useDob(stages);

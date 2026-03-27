@@ -20,6 +20,7 @@ export function MatrixCell({
 			<span
 				class={`matrix-cell matrix-cell--none ${selectedClass}`}
 				title={comingSoonLabel}
+				role="img"
 				aria-label={ariaLabel}
 			>
 				○

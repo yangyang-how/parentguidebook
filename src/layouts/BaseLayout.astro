@@ -4,6 +4,7 @@ import ThemeInitScript from '../components/ThemeInitScript.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import CommentSystem from '../components/CommentSystem.astro';
+import ArticleTOC from '../components/ArticleTOC.astro';
 import type { Lang } from '../i18n/ui';
 import { otherLang } from '../i18n/utils';
 
@@ -78,6 +79,7 @@ const altUrl = altPath
       <Footer lang={lang} />
     </div>
     <CommentSystem />
+    <ArticleTOC />
   </body>
 </html>
 

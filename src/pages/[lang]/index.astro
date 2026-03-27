@@ -1,136 +1,65 @@
 ---
-import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
 import type { Lang } from '../../i18n/ui';
 import { useTranslations } from '../../i18n/utils';
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import { CATEGORIES, DOMAINS_BY_CATEGORY, getReadyDomains, AGE_STAGES } from '../../config/domains';
-import { getArticlePath, getDomainPath, getBaseSlugFromId } from '../../utils/routes';
+import { AGE_STAGES } from '../../config/domains';
+import { buildContentMap, buildDomainList } from '../../utils/content-map';
+import Matrix from '../../components/matrix/Matrix';
+import '../../styles/matrix.css';
 
-export async function getStaticPaths() {
+export function getStaticPaths() {
   return [{ params: { lang: 'en' } }, { params: { lang: 'zh' } }];
 }
 
-const { lang } = Astro.params as { lang: Lang };
+const lang = Astro.params.lang as Lang;
 const t = useTranslations(lang);
-const canonicalPath = `/${lang}/`;
 
-const timelineEntries = await getCollection('timeline');
-const timelineForLang = timelineEntries
-  .filter((e) => (lang === 'en' ? e.data.lang === 'en' : e.data.lang === 'zh-Hans'))
-  .sort((a, b) => a.data.stage_order - b.data.stage_order);
+const domains = buildDomainList();
+const stages = [...AGE_STAGES];
+const contentMap = await buildContentMap(lang);
 
-const all = await getCollection('articles');
-const articles = all
-  .filter((e) => (lang === 'en' ? e.data.lang === 'en' : e.data.lang === 'zh-Hans'))
-  .sort((a, b) => a.data.title.localeCompare(b.data.title));
+// Build labels object with all keys the matrix needs
+const labelKeys = [
+  ...stages.map((s) => s.labelKey),
+  ...domains.map((d) => d.labelKey),
+  ...domains.map((d) => d.categoryLabelKey),
+  'matrix.hero.title',
+  'matrix.hero.subtitle',
+  'matrix.hero.birthday',
+  'matrix.hero.birthday.clear',
+  'matrix.hero.birthday.placeholder',
+  'matrix.legend.deepDive',
+  'matrix.legend.timeline',
+  'matrix.legend.none',
+  'matrix.legend.selectedAge',
+  'matrix.sticky.label',
+  'matrix.mobile.showing',
+  'matrix.mobile.swipe',
+];
 
-const readyDomains = getReadyDomains();
-
-// Group articles by domain for featured sections
-const articlesByDomain = new Map<string, typeof articles>();
-for (const d of readyDomains) {
-  articlesByDomain.set(d.slug, articles.filter((a) => a.data.domain === d.slug));
+const labels: Record<string, string> = {};
+const seen = new Set<string>();
+for (const key of labelKeys) {
+  if (!seen.has(key)) {
+    labels[key] = t(key as any);
+    seen.add(key);
+  }
 }
 ---
 
 <BaseLayout
   lang={lang}
-  title="Parent Guidebook"
-  description={lang === 'en'
-    ? 'A free, bilingual guide to raising a whole, healthy, resilient child.'
-    : '一份免费的、双语指南，帮助你养育全面、健康、有韧性的孩子。'}
-  canonicalPath={canonicalPath}
+  title={t('matrix.hero.title' as any)}
+  description={t('matrix.hero.subtitle' as any)}
+  canonicalPath={`/${lang}/`}
+  wide
 >
-  <section class="landing-hero">
-    <h1 class="landing-hero__title">Parent Guidebook</h1>
-    <p class="landing-hero__sub">{t('landing.hero.subheadline')}</p>
-  </section>
-
-  {timelineForLang.length > 0 && (
-    <section class="landing-section">
-      <h2 class="landing-section__title">
-        {lang === 'en' ? 'Start Here: By Age' : '从这里开始：按年龄'}
-      </h2>
-      <p class="landing-section__desc" style="max-width:38rem; margin-bottom:1.5rem; color:var(--color-text-secondary);">
-        {lang === 'en'
-          ? 'New parent? Pick your child\'s age. We\'ll tell you everything you need to know.'
-          : '新手家长？选择孩子的月龄，我们帮你梳理最重要的事。'}
-      </p>
-      <div class="landing-grid">
-        {AGE_STAGES.map((stage) => {
-          const entry = timelineForLang.find((e) => e.data.stage === stage.slug);
-          return entry ? (
-            <a class="landing-card" href={`/${lang}/timeline/${stage.slug}/`}>
-              <div class="landing-card__title">{t(stage.labelKey as any)}</div>
-              <div class="landing-card__meta">{entry.data.title}</div>
-            </a>
-          ) : (
-            <div class="landing-card landing-card--disabled" aria-disabled="true">
-              <div class="landing-card__title">{t(stage.labelKey as any)}</div>
-              <div class="landing-card__meta">{t('domain.comingSoon')}</div>
-            </div>
-          );
-        })}
-      </div>
-    </section>
-  )}
-
-  <section class="landing-section">
-    <h2 class="landing-section__title">
-      {lang === 'en' ? 'Explore by Topic' : '按主题浏览'}
-    </h2>
-    <div class="hub-flat-grid">
-      {CATEGORIES.map((cat) => (
-        <div class="hub-flat-category">
-          <h3 class="hub-flat-category__title">{t(cat.labelKey as any)}</h3>
-          <div class="hub-flat-domains">
-            {(DOMAINS_BY_CATEGORY[cat.slug] ?? []).map((d) =>
-              d.ready ? (
-                <a class="landing-card hub-flat-domain hub-flat-domain--clickable" href={getDomainPath(lang, cat.slug, d.slug)}>
-                  <span class="landing-card__title">{t(d.labelKey as any)}</span>
-                </a>
-              ) : (
-                <div class="landing-card landing-card--disabled hub-flat-domain" aria-disabled="true">
-                  <span class="landing-card__title">{t(d.labelKey as any)}</span>
-                  <span class="landing-card__meta">{t('hub.underConstruction')}</span>
-                </div>
-              )
-            )}
-          </div>
-        </div>
-      ))}
-    </div>
-  </section>
-
-  {readyDomains.map((rd) => {
-    const domainArticles = articlesByDomain.get(rd.slug) ?? [];
-    const domainLabel = t(rd.labelKey as any);
-    const subcategories = [...new Set(domainArticles.map((a) => a.data.category))];
-    return (
-      <section class="landing-section hub-domain-section">
-        <h2 class="landing-section__title">
-          <a href={getDomainPath(lang, rd.category, rd.slug)}>{domainLabel}</a>
-        </h2>
-        <div class="landing-grid">
-          {subcategories.map((cat) => {
-            const list = domainArticles.filter((a) => a.data.category === cat);
-            return (
-              <div class="landing-category">
-                <h3 class="landing-category__title">{t(`category.${cat}` as any)}</h3>
-                <div class="landing-cards">
-                  {list.map((a) => (
-                    <a class="landing-card" href={getArticlePath(lang, a)}>
-                      <div class="landing-card__category">{t(`category.${a.data.category}` as any)}</div>
-                      <div class="landing-card__title">{a.data.title}</div>
-                      <div class="landing-card__meta">{t(`urgency.${a.data.urgency}` as any)}</div>
-                    </a>
-                  ))}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </section>
-    );
-  })}
+  <Matrix
+    client:load
+    domains={domains}
+    stages={stages}
+    contentMap={contentMap}
+    lang={lang}
+    labels={labels}
+  />
 </BaseLayout>

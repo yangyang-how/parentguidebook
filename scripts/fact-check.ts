@@ -1,4 +1,6 @@
 #!/usr/bin/env npx tsx
+import { existsSync, readFileSync } from "node:fs";
+import { resolve } from "node:path";
 /**
  * Fact Checker — verifies medical claims, statistics, and source citations.
  * Works on both EN and ZH articles.
@@ -6,11 +8,9 @@
  * Usage:
  *   npx tsx scripts/fact-check.ts src/content/articles/en/white-pupil-leukocoria.md
  */
-import Anthropic from '@anthropic-ai/sdk';
-import { readFileSync, existsSync } from 'node:fs';
-import { resolve } from 'node:path';
+import Anthropic from "@anthropic-ai/sdk";
 
-const MODEL = 'claude-opus-4-6';
+const MODEL = "claude-opus-4-6";
 
 const SYSTEM_PROMPT = `You are a medical fact checker for Parent Guidebook (parentguidebook.org), a bilingual health education site for parents. Your job is to verify the factual accuracy of articles about children's health.
 
@@ -24,7 +24,13 @@ const SYSTEM_PROMPT = `You are a medical fact checker for Parent Guidebook (pare
    - Claims match what the cited source would reasonably say
    - No orphaned citations (srcN referenced but not listed) or unused sources (listed but never referenced)
 
-3. **Medical accuracy** — Check for:
+3. **Research cross-reference** — If a research file is provided, cross-reference the article's claims against the research brief's source passages. Check that:
+   - Every major factual claim in the article traces back to a source passage in the research file
+   - The article does not contain medical claims that are absent from the research
+   - Claims are not distorted or exaggerated relative to what the source passages actually say
+   - Flag any claim that has no corresponding entry in the research file's Claims Checklist
+
+4. **Medical accuracy** — Check for:
    - Correct medical terminology and definitions
    - Accurate descriptions of conditions, symptoms, and treatments
    - No dangerous oversimplifications (e.g., claiming something is harmless when it may not be)
@@ -32,13 +38,13 @@ const SYSTEM_PROMPT = `You are a medical fact checker for Parent Guidebook (pare
    - Treatment timelines and urgency levels that align with medical consensus
    - Correct anatomy and physiology descriptions
 
-4. **Recommendation safety** — Check that:
+5. **Recommendation safety** — Check that:
    - Urgency of recommendations matches the condition (critical conditions = "see doctor within days", not "consider mentioning at next visit")
    - No recommendations that could delay necessary treatment
    - No recommendations that could cause unnecessary panic
    - Medical disclaimers are present and appropriate
 
-5. **Internal consistency** — Check that:
+6. **Internal consistency** — Check that:
    - The same condition is described the same way throughout the article
    - Numbers don't contradict each other within the article
    - Urgency framing is consistent
@@ -57,7 +63,7 @@ Return a JSON object with this structure:
   "violations": [
     {
       "severity": "critical" | "warning",
-      "category": "statistic" | "citation" | "medical_accuracy" | "recommendation_safety" | "internal_consistency",
+      "category": "statistic" | "citation" | "research_traceability" | "medical_accuracy" | "recommendation_safety" | "internal_consistency",
       "location": "brief description of where in the article",
       "issue": "what's wrong",
       "suggestion": "how to fix it"
@@ -71,96 +77,142 @@ Return a JSON object with this structure:
 - An article passes only if there are ZERO critical violations
 - Return ONLY the JSON, no other text`;
 
-async function factCheck(articlePath: string) {
-  const absPath = resolve(articlePath);
-  if (!existsSync(absPath)) {
-    console.error(`File not found: ${absPath}`);
-    process.exit(1);
-  }
+async function factCheck(articlePath: string, researchPath?: string) {
+	const absPath = resolve(articlePath);
+	if (!existsSync(absPath)) {
+		console.error(`File not found: ${absPath}`);
+		process.exit(1);
+	}
 
-  const content = readFileSync(absPath, 'utf-8');
-  const client = new Anthropic();
+	const content = readFileSync(absPath, "utf-8");
+	let researchContent = "";
+	if (researchPath) {
+		const absResearch = resolve(researchPath);
+		if (existsSync(absResearch)) {
+			researchContent = readFileSync(absResearch, "utf-8");
+			console.log(`Research file: ${absResearch}`);
+		} else {
+			console.log(
+				`⚠️  Research file not found: ${absResearch} — proceeding without cross-reference`,
+			);
+		}
+	}
 
-  console.log(`Fact-checking: ${absPath}`);
-  console.log(`Using model: ${MODEL}`);
-  const start = Date.now();
+	const client = new Anthropic();
 
-  const response = await client.messages.create({
-    model: MODEL,
-    max_tokens: 8000,
-    thinking: { type: 'adaptive' },
-    system: SYSTEM_PROMPT,
-    messages: [
-      {
-        role: 'user',
-        content: `Fact-check this article:\n\n${content}`,
-      },
-    ],
-  });
+	console.log(`Fact-checking: ${absPath}`);
+	console.log(`Using model: ${MODEL}`);
+	const start = Date.now();
 
-  const elapsed = ((Date.now() - start) / 1000).toFixed(1);
-  const textBlock = response.content.find((b) => b.type === 'text');
-  const raw = textBlock?.type === 'text' ? textBlock.text : '';
+	let userMessage = `Fact-check this article:\n\n${content}`;
+	if (researchContent) {
+		userMessage += `\n\n${"=".repeat(60)}\nRESEARCH FILE (cross-reference claims against these sources):\n${"=".repeat(60)}\n\n${researchContent}`;
+	}
 
-  let result: { pass: boolean; violations: Array<{ severity: string; category: string; location: string; issue: string; suggestion: string }>; summary: string };
-  try {
-    const firstBrace = raw.indexOf('{');
-    const lastBrace = raw.lastIndexOf('}');
-    if (firstBrace === -1 || lastBrace === -1) throw new Error('No JSON object found');
-    const jsonStr = raw.slice(firstBrace, lastBrace + 1);
-    try {
-      result = JSON.parse(jsonStr);
-    } catch {
-      const passMatch = jsonStr.match(/"pass"\s*:\s*(true|false)/);
-      const pass = passMatch ? passMatch[1] === 'true' : false;
-      result = { pass, violations: [], summary: 'JSON parse failed — review raw output. pass=' + pass };
-      console.log('⚠️  Partial JSON parse — extracted pass=' + pass);
-    }
-  } catch {
-    console.error(`Failed to parse response as JSON (${elapsed}s):`);
-    console.log(raw);
-    process.exit(1);
-  }
+	const response = await client.messages.create({
+		model: MODEL,
+		max_tokens: 8000,
+		thinking: { type: "adaptive" },
+		system: SYSTEM_PROMPT,
+		messages: [
+			{
+				role: "user",
+				content: userMessage,
+			},
+		],
+	});
 
-  console.log(`Done in ${elapsed}s\n`);
+	const elapsed = ((Date.now() - start) / 1000).toFixed(1);
+	const textBlock = response.content.find((b) => b.type === "text");
+	const raw = textBlock?.type === "text" ? textBlock.text : "";
 
-  const critical = result.violations.filter((v) => v.severity === 'critical');
-  const warnings = result.violations.filter((v) => v.severity === 'warning');
+	let result: {
+		pass: boolean;
+		violations: Array<{
+			severity: string;
+			category: string;
+			location: string;
+			issue: string;
+			suggestion: string;
+		}>;
+		summary: string;
+	};
+	try {
+		const firstBrace = raw.indexOf("{");
+		const lastBrace = raw.lastIndexOf("}");
+		if (firstBrace === -1 || lastBrace === -1)
+			throw new Error("No JSON object found");
+		const jsonStr = raw.slice(firstBrace, lastBrace + 1);
+		try {
+			result = JSON.parse(jsonStr);
+		} catch {
+			const passMatch = jsonStr.match(/"pass"\s*:\s*(true|false)/);
+			const pass = passMatch ? passMatch[1] === "true" : false;
+			result = {
+				pass,
+				violations: [],
+				summary: "JSON parse failed — review raw output. pass=" + pass,
+			};
+			console.log("⚠️  Partial JSON parse — extracted pass=" + pass);
+		}
+	} catch {
+		console.error(`Failed to parse response as JSON (${elapsed}s):`);
+		console.log(raw);
+		process.exit(1);
+	}
 
-  if (result.pass) {
-    console.log('✅ PASS');
-  } else {
-    console.log('❌ FAIL');
-  }
-  console.log(`   ${critical.length} critical, ${warnings.length} warnings\n`);
+	console.log(`Done in ${elapsed}s\n`);
 
-  if (critical.length > 0) {
-    console.log('CRITICAL:');
-    for (const v of critical) {
-      console.log(`  [${v.category}] ${v.location}`);
-      console.log(`    Issue: ${v.issue}`);
-      console.log(`    Fix: ${v.suggestion}\n`);
-    }
-  }
+	const critical = result.violations.filter((v) => v.severity === "critical");
+	const warnings = result.violations.filter((v) => v.severity === "warning");
 
-  if (warnings.length > 0) {
-    console.log('WARNINGS:');
-    for (const v of warnings) {
-      console.log(`  [${v.category}] ${v.location}`);
-      console.log(`    Issue: ${v.issue}`);
-      console.log(`    Fix: ${v.suggestion}\n`);
-    }
-  }
+	if (result.pass) {
+		console.log("✅ PASS");
+	} else {
+		console.log("❌ FAIL");
+	}
+	console.log(`   ${critical.length} critical, ${warnings.length} warnings\n`);
 
-  console.log(`Summary: ${result.summary}`);
+	if (critical.length > 0) {
+		console.log("CRITICAL:");
+		for (const v of critical) {
+			console.log(`  [${v.category}] ${v.location}`);
+			console.log(`    Issue: ${v.issue}`);
+			console.log(`    Fix: ${v.suggestion}\n`);
+		}
+	}
 
-  // Exit with code 1 if failed
-  if (!result.pass) process.exit(1);
+	if (warnings.length > 0) {
+		console.log("WARNINGS:");
+		for (const v of warnings) {
+			console.log(`  [${v.category}] ${v.location}`);
+			console.log(`    Issue: ${v.issue}`);
+			console.log(`    Fix: ${v.suggestion}\n`);
+		}
+	}
+
+	console.log(`Summary: ${result.summary}`);
+
+	// Exit with code 1 if failed
+	if (!result.pass) process.exit(1);
 }
 
-const filePath = process.argv[2];
+const cliArgs = process.argv.slice(2);
+let filePath = "";
+let researchFile: string | undefined;
+
+for (let i = 0; i < cliArgs.length; i++) {
+	if (cliArgs[i] === "--research") {
+		researchFile = cliArgs[++i];
+	} else if (!filePath) {
+		filePath = cliArgs[i];
+	}
+}
+
 if (!filePath) {
-  console.error('Usage: npx tsx scripts/fact-check.ts <article.md>');
-  process.exit(1);
+	console.error(
+		"Usage: npx tsx scripts/fact-check.ts <article.md> [--research <research.md>]",
+	);
+	process.exit(1);
 }
-factCheck(filePath);
+factCheck(filePath, researchFile);

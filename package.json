@@ -15,6 +15,7 @@
     "fact-check": "npx tsx scripts/fact-check.ts",
     "audit": "npx tsx scripts/audit.ts",
     "content-lint": "npx tsx scripts/lint.ts",
+    "research": "npx tsx scripts/research.ts",
     "pipeline": "npx tsx scripts/pipeline.ts"
   },
   "dependencies": {

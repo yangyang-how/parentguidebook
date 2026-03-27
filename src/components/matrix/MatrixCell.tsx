@@ -4,16 +4,22 @@ interface Props {
 	cell: CellContent;
 	isSelected: boolean;
 	placeholderLabel: string;
+	resolvedDomainLabel?: string;
 }
 
-export function MatrixCell({ cell, isSelected, placeholderLabel }: Props) {
+export function MatrixCell({
+	cell,
+	isSelected,
+	placeholderLabel,
+	resolvedDomainLabel,
+}: Props) {
 	const selectedClass = isSelected ? "matrix-card--selected" : "";
 
 	if (cell.type === "placeholder") {
 		return (
 			<div class={`matrix-card matrix-card--placeholder ${selectedClass}`}>
 				<span class="matrix-card__title matrix-card__title--muted">
-					{cell.domainLabel}
+					{resolvedDomainLabel || cell.domainLabel}
 				</span>
 				<span class="matrix-card__hook matrix-card__hook--muted">
 					{placeholderLabel}
@@ -28,7 +34,6 @@ export function MatrixCell({ cell, isSelected, placeholderLabel }: Props) {
 			class={`matrix-card matrix-card--${cell.type} ${selectedClass}`}
 		>
 			<span class="matrix-card__title">{cell.title}</span>
-			{cell.hook && <span class="matrix-card__hook">{cell.hook}</span>}
 		</a>
 	);
 }

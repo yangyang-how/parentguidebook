@@ -172,9 +172,6 @@ export default function Matrix({
 									<span class="matrix-card__title">
 										{labels[stage.labelKey]}
 									</span>
-									{col.hook && (
-										<span class="matrix-card__hook">{col.hook}</span>
-									)}
 								</a>
 							);
 						}

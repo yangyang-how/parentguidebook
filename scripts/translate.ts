@@ -181,12 +181,16 @@ async function translate(enPath: string, dryRun: boolean) {
     return;
   }
 
-  const client = new Anthropic();
+  const client = new Anthropic({ timeout: 15 * 60 * 1000 });
 
-  console.log(`Calling ${MODEL}...`);
+  console.log(`Calling ${MODEL} (streaming)...`);
   const start = Date.now();
 
-  const response = await client.messages.create({
+  let zhContent = '';
+  let inputTokens = 0;
+  let outputTokens = 0;
+
+  const stream = client.messages.stream({
     model: MODEL,
     max_tokens: 16000,
     system: SYSTEM_PROMPT,
@@ -198,11 +202,18 @@ async function translate(enPath: string, dryRun: boolean) {
     ],
   });
 
-  const elapsed = ((Date.now() - start) / 1000).toFixed(1);
-  console.log(`Done in ${elapsed}s (${response.usage.input_tokens} in, ${response.usage.output_tokens} out)`);
+  for await (const event of stream) {
+    if (event.type === 'content_block_delta' && event.delta.type === 'text_delta') {
+      zhContent += event.delta.text;
+    }
+  }
 
-  const zhContent =
-    response.content[0].type === 'text' ? response.content[0].text : '';
+  const finalMessage = await stream.finalMessage();
+  inputTokens = finalMessage.usage.input_tokens;
+  outputTokens = finalMessage.usage.output_tokens;
+
+  const elapsed = ((Date.now() - start) / 1000).toFixed(1);
+  console.log(`Done in ${elapsed}s (${inputTokens} in, ${outputTokens} out)`);
 
   if (!zhContent.startsWith('---')) {
     console.error('Warning: output does not start with frontmatter delimiter');

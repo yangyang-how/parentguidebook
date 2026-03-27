@@ -8,7 +8,6 @@ domains_covered: ["eyes", "breathing", "skin", "nutrition", "sleep", "bones-move
 last_updated: "2026-03-24"
 ---
 
-# 1至6个月——找到自己的节奏
 
 ## 如果你只读一段，就读这里
 

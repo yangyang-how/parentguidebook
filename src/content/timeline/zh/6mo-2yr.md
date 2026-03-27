@@ -8,7 +8,6 @@ domains_covered: ["eyes", "breathing", "skin", "nutrition", "sleep", "bones-move
 last_updated: "2026-03-24"
 ---
 
-# 6个月到2岁
 
 ## 如果只读一件事，就读这里
 

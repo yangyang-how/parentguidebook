@@ -8,7 +8,6 @@ domains_covered: ["eyes", "breathing", "skin", "nutrition", "sleep", "bones-move
 last_updated: "2026-03-24"
 ---
 
-# 6 Months to 2 Years
 
 ## If you only read one thing, read this
 

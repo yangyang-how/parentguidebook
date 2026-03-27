@@ -8,7 +8,6 @@ domains_covered: ["eyes", "breathing", "skin", "nutrition", "sleep", "bones-move
 last_updated: "2026-03-24"
 ---
 
-# Months 1–6 — Finding Your Rhythm
 
 ## If you only read one thing, read this
 

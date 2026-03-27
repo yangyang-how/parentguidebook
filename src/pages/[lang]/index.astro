@@ -3,7 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import type { Lang } from '../../i18n/ui';
 import { useTranslations } from '../../i18n/utils';
 import { AGE_STAGES } from '../../config/domains';
-import { buildContentMap, buildDomainList } from '../../utils/content-map';
+import { buildMatrixData, buildDomainList } from '../../utils/content-map';
 import Matrix from '../../components/matrix/Matrix';
 import '../../styles/matrix.css';
 
@@ -16,7 +16,7 @@ const t = useTranslations(lang);
 
 const domains = buildDomainList();
 const stages = [...AGE_STAGES];
-const contentMap = await buildContentMap(lang);
+const { cellMap, rowHeaders, colHeaders } = await buildMatrixData(lang);
 
 // Build labels object with all keys the matrix needs
 const labelKeys = [
@@ -28,10 +28,8 @@ const labelKeys = [
   'matrix.hero.birthday',
   'matrix.hero.birthday.clear',
   'matrix.hero.birthday.placeholder',
-  'matrix.legend.deepDive',
-  'matrix.legend.timeline',
-  'matrix.legend.none',
   'matrix.legend.selectedAge',
+  'matrix.placeholder',
   'matrix.sticky.label',
   'matrix.mobile.showing',
   'matrix.mobile.swipe',
@@ -58,7 +56,9 @@ for (const key of labelKeys) {
     client:load
     domains={domains}
     stages={stages}
-    contentMap={contentMap}
+    cellMap={cellMap}
+    rowHeaders={rowHeaders}
+    colHeaders={colHeaders}
     lang={lang}
     labels={labels}
   />

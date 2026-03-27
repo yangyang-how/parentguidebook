@@ -9,7 +9,9 @@ import { useDob } from "./use-dob";
 export default function Matrix({
 	domains,
 	stages,
-	contentMap,
+	cellMap,
+	rowHeaders,
+	colHeaders,
 	lang: _lang,
 	labels,
 }: MatrixProps) {
@@ -92,7 +94,7 @@ export default function Matrix({
 
 	return (
 		<div class="matrix-root">
-			{/* Hero area — observed for sticky trigger */}
+			{/* Hero area */}
 			<div ref={heroRef} class="matrix-hero">
 				<h1 class="matrix-hero-title">{labels["matrix.hero.title"]}</h1>
 				<p class="matrix-hero-subtitle">{labels["matrix.hero.subtitle"]}</p>
@@ -130,7 +132,7 @@ export default function Matrix({
 						aria-label="Previous age"
 						type="button"
 					>
-						\u2190
+						←
 					</button>
 					<span class="matrix-mobile-stage">
 						{labels["matrix.mobile.showing"]}: {selectedLabel}
@@ -141,8 +143,52 @@ export default function Matrix({
 						aria-label="Next age"
 						type="button"
 					>
-						\u2192
+						→
 					</button>
+				</div>
+			)}
+
+			{/* Column headers (timeline cards) — desktop only */}
+			{!isMobile && (
+				<div class="matrix-col-headers">
+					<div class="matrix-col-header-spacer" />
+					{stages.map((stage) => {
+						const col = colHeaders[stage.slug];
+						const isSelected = selectedStage === stage.slug;
+						if (col) {
+							return (
+								<a
+									key={stage.slug}
+									href={col.url}
+									class={`matrix-card matrix-card--col-header ${isSelected ? "matrix-card--selected" : ""}`}
+									onClick={(e) => {
+										e.preventDefault();
+										setSelectedStage(stage.slug);
+									}}
+									onDblClick={() => {
+										if (col.url) window.location.href = col.url;
+									}}
+								>
+									<span class="matrix-card__title">
+										{labels[stage.labelKey]}
+									</span>
+									{col.hook && (
+										<span class="matrix-card__hook">{col.hook}</span>
+									)}
+								</a>
+							);
+						}
+						return (
+							<div
+								key={stage.slug}
+								class={`matrix-card matrix-card--col-header matrix-card--placeholder ${isSelected ? "matrix-card--selected" : ""}`}
+							>
+								<span class="matrix-card__title matrix-card__title--muted">
+									{labels[stage.labelKey]}
+								</span>
+							</div>
+						);
+					})}
 				</div>
 			)}
 
@@ -159,7 +205,8 @@ export default function Matrix({
 						categoryLabel={labels[cat.labelKey] || cat.slug}
 						domains={cat.domains}
 						stages={stages}
-						contentMap={contentMap}
+						cellMap={cellMap}
+						rowHeaders={rowHeaders}
 						selectedStage={selectedStage}
 						labels={labels}
 						isMobile={isMobile}

@@ -1,5 +1,9 @@
 import { getCollection } from "astro:content";
-import type { CellData, DomainConfig } from "../components/matrix/types";
+import type {
+	CardData,
+	CellContent,
+	DomainConfig,
+} from "../components/matrix/types";
 import {
 	AGE_STAGES,
 	CATEGORIES,
@@ -9,11 +13,14 @@ import {
 import type { Lang } from "../i18n/ui";
 
 /**
- * Build the content map at Astro build time.
- * For each domain × stage intersection, determines whether to link to
- * a domain article or fall back to the timeline article.
+ * Build all matrix data at Astro build time.
+ *
+ * Returns:
+ * - cellMap: domain×stage → CardData | PlaceholderData
+ * - rowHeaders: domain → overview article card (or null)
+ * - colHeaders: stage → timeline article card (or null)
  */
-export async function buildContentMap(lang: Lang) {
+export async function buildMatrixData(lang: Lang) {
 	const contentLang = lang === "zh" ? "zh-Hans" : "en";
 
 	const allArticles = await getCollection("articles");
@@ -22,44 +29,80 @@ export async function buildContentMap(lang: Lang) {
 	const articles = allArticles.filter((a) => a.data.lang === contentLang);
 	const timeline = allTimeline.filter((t) => t.data.lang === contentLang);
 
-	// Build set of domains that have at least one article
-	const domainsWithArticles = new Set<string>();
-	for (const article of articles) {
-		domainsWithArticles.add(article.data.domain);
+	// --- Column headers: timeline articles ---
+	const colHeaders: Record<string, CardData | null> = {};
+	for (const stage of AGE_STAGES) {
+		const entry = timeline.find((t) => t.data.stage === stage.slug);
+		if (entry) {
+			colHeaders[stage.slug] = {
+				title: entry.data.title,
+				hook: entry.data.hook || "",
+				url: `/${lang}/timeline/${stage.slug}/`,
+				type: "timeline",
+			};
+		} else {
+			colHeaders[stage.slug] = null;
+		}
 	}
 
-	// Build map of stage → domains_covered from timeline entries
-	const timelineCoverage = new Map<string, Set<string>>();
-	for (const entry of timeline) {
-		timelineCoverage.set(entry.data.stage, new Set(entry.data.domains_covered));
-	}
-
-	// Build the content map
-	const contentMap: Record<string, Record<string, CellData | null>> = {};
-
+	// --- Row headers: domain overview articles (is_overview: true) ---
+	const rowHeaders: Record<string, CardData | null> = {};
 	for (const [catSlug, domains] of Object.entries(DOMAINS_BY_CATEGORY)) {
 		for (const domain of domains) {
-			contentMap[domain.slug] = {};
+			const overview = articles.find(
+				(a) => a.data.domain === domain.slug && a.data.is_overview,
+			);
+			if (overview) {
+				rowHeaders[domain.slug] = {
+					title: overview.data.title,
+					hook: overview.data.hook || "",
+					url: `/${lang}/${catSlug}/${domain.slug}/`,
+					type: "domain",
+				};
+			} else {
+				rowHeaders[domain.slug] = null;
+			}
+		}
+	}
+
+	// --- Cell map: domain × stage articles ---
+	const cellMap: Record<string, Record<string, CellContent>> = {};
+
+	for (const [_catSlug, domains] of Object.entries(DOMAINS_BY_CATEGORY)) {
+		for (const domain of domains) {
+			cellMap[domain.slug] = {};
 
 			for (const stage of AGE_STAGES) {
-				if (domainsWithArticles.has(domain.slug)) {
-					contentMap[domain.slug][stage.slug] = {
-						type: "domain",
+				// Look for a cell article with both domain + stage
+				const cellArticle = articles.find(
+					(a) =>
+						a.data.domain === domain.slug &&
+						a.data.stage === stage.slug &&
+						!a.data.is_overview,
+				);
+
+				if (cellArticle) {
+					const catSlug =
+						Object.entries(DOMAINS_BY_CATEGORY).find(([_, ds]) =>
+							ds.some((d) => d.slug === domain.slug),
+						)?.[0] || "";
+					cellMap[domain.slug][stage.slug] = {
+						title: cellArticle.data.title,
+						hook: cellArticle.data.hook || "",
 						url: `/${lang}/${catSlug}/${domain.slug}/`,
-					};
-				} else if (timelineCoverage.get(stage.slug)?.has(domain.slug)) {
-					contentMap[domain.slug][stage.slug] = {
-						type: "timeline",
-						url: `/${lang}/timeline/${stage.slug}/#${domain.slug}`,
+						type: "cell",
 					};
 				} else {
-					contentMap[domain.slug][stage.slug] = null;
+					cellMap[domain.slug][stage.slug] = {
+						type: "placeholder",
+						domainLabel: domain.labelKey,
+					};
 				}
 			}
 		}
 	}
 
-	return contentMap;
+	return { cellMap, rowHeaders, colHeaders };
 }
 
 /** Build the flat domain list with category info for the matrix. */

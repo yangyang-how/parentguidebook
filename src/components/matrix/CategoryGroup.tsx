@@ -1,5 +1,5 @@
 import { DomainRow } from "./DomainRow";
-import type { AgeStage, CellData, DomainConfig } from "./types";
+import type { AgeStage, CardData, CellContent, DomainConfig } from "./types";
 import { CATEGORY_COLORS, CATEGORY_ICONS } from "./types";
 
 interface Props {
@@ -7,7 +7,8 @@ interface Props {
 	categoryLabel: string;
 	domains: DomainConfig[];
 	stages: AgeStage[];
-	contentMap: Record<string, Record<string, CellData | null>>;
+	cellMap: Record<string, Record<string, CellContent>>;
+	rowHeaders: Record<string, CardData | null>;
 	selectedStage: string | null;
 	labels: Record<string, string>;
 	isMobile: boolean;
@@ -18,7 +19,8 @@ export function CategoryGroup({
 	categoryLabel,
 	domains,
 	stages,
-	contentMap,
+	cellMap,
+	rowHeaders,
 	selectedStage,
 	labels,
 	isMobile,
@@ -41,7 +43,8 @@ export function CategoryGroup({
 					key={domain.slug}
 					domain={domain}
 					stages={stages}
-					cells={contentMap[domain.slug] || {}}
+					cells={cellMap[domain.slug] || {}}
+					rowHeader={rowHeaders[domain.slug] || null}
 					selectedStage={selectedStage}
 					labels={labels}
 					isMobile={isMobile}

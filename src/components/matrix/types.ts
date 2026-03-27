@@ -1,7 +1,18 @@
-export interface CellData {
-	type: "domain" | "timeline";
+/** Data for a single matrix card (cell, row header, or column header). */
+export interface CardData {
+	title: string;
+	hook: string;
 	url: string;
+	type: "domain" | "timeline" | "cell";
 }
+
+/** Placeholder for cells without articles yet. */
+export interface PlaceholderData {
+	type: "placeholder";
+	domainLabel: string;
+}
+
+export type CellContent = CardData | PlaceholderData;
 
 export interface DomainConfig {
 	slug: string;
@@ -21,7 +32,12 @@ export interface AgeStage {
 export interface MatrixProps {
 	domains: DomainConfig[];
 	stages: AgeStage[];
-	contentMap: Record<string, Record<string, CellData | null>>;
+	/** domain slug → stage slug → card or placeholder */
+	cellMap: Record<string, Record<string, CellContent>>;
+	/** domain slug → overview card (row header) */
+	rowHeaders: Record<string, CardData | null>;
+	/** stage slug → timeline card (column header) */
+	colHeaders: Record<string, CardData | null>;
 	lang: "en" | "zh";
 	labels: Record<string, string>;
 }

@@ -10,7 +10,7 @@ This is the source of truth for what we're building and in what order. Progress 
 
 - **Site:** parentguidebook.org on Cloudflare Pages (auto-deploy on merge to main)
 - **Architecture:** 5 categories, 24 domains, 6 age stages, 2D matrix model
-- **Content pipeline:** fact-check → translate → audit → lint (inline, no separate API calls)
+- **Content pipeline:** fact-check → translate → audit → lint
 - **Contributor system:** passkey-gated access + paragraph-level comments (Cloudflare KV + D1)
 - **Live content:**
   - 6 timeline articles (EN + ZH) — all age stages covered
@@ -65,7 +65,7 @@ This is the source of truth for what we're building and in what order. Progress 
 
 > Fill in vertical domain deep dives for the topics parents need most.
 
-**Unlock trigger → Phase 4:** 3+ new domain deep dives shipped (✅ 5 shipped).
+**Unlock trigger → Phase 4:** 3+ new domain deep dives shipped (✅ 5 new domains shipped, plus Eyes which predates the phased roadmap).
 
 ### Domain Deep Dives
 

@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.80.0",
-    "@astrojs/preact": "^5.1.0",
+    "@astrojs/preact": "^3.5.4",
     "@astrojs/tailwind": "^5.1.0",
     "astro": "^4.16.3",
     "preact": "^10.29.0",

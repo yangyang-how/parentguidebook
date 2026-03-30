@@ -1,11 +1,13 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
 import type { Lang } from '../i18n/ui';
 import { useTranslations, otherLang } from '../i18n/utils';
 import BaseLayout from './BaseLayout.astro';
 import TLDRCard from '../components/TLDRCard.astro';
 import MedicalDisclaimer from '../components/MedicalDisclaimer.astro';
-import { getCategoryForDomain, DOMAINS_BY_CATEGORY } from '../config/domains';
+import RelatedArticles from '../components/RelatedArticles.astro';
+import { getCategoryForDomain, DOMAINS_BY_CATEGORY, AGE_STAGES } from '../config/domains';
 
 type Props = {
   lang: Lang;
@@ -28,6 +30,42 @@ const { Content } = await entry.render();
 
 const altLang = otherLang(lang);
 const altPath = canonicalPath.replace(/^\/(en|zh)\//, `/${altLang}/`);
+
+// Build related articles
+const contentLang = lang === 'zh' ? 'zh-Hans' : 'en';
+const allArticles = await getCollection('articles');
+const langArticles = allArticles.filter((a) => a.data.lang === contentLang);
+const currentStage = entry.data.stage;
+
+// Same age, different domain (skip current article)
+const sameAgeArticles = currentStage
+  ? langArticles
+      .filter((a) => a.data.stage === currentStage && a.data.domain !== domain && !a.data.is_overview)
+      .map((a) => {
+        const aCatSlug = getCategoryForDomain(a.data.domain);
+        const aDomainConfig = aCatSlug ? (DOMAINS_BY_CATEGORY[aCatSlug] ?? []).find((d) => d.slug === a.data.domain) : undefined;
+        return {
+          title: aDomainConfig ? t(aDomainConfig.labelKey as any) : a.data.domain,
+          url: `/${lang}/${aCatSlug}/${a.data.domain}/`,
+        };
+      })
+  : [];
+
+// Same domain, different age (skip current article)
+const sameDomainArticles = langArticles
+  .filter((a) => a.data.domain === domain && a.data.stage && a.data.stage !== currentStage && !a.data.is_overview)
+  .sort((a, b) => {
+    const aIdx = AGE_STAGES.findIndex((s) => s.slug === a.data.stage);
+    const bIdx = AGE_STAGES.findIndex((s) => s.slug === b.data.stage);
+    return aIdx - bIdx;
+  })
+  .map((a) => {
+    const stageConf = AGE_STAGES.find((s) => s.slug === a.data.stage);
+    return {
+      title: stageConf ? t(stageConf.labelKey as any) : (a.data.stage || ''),
+      url: `/${lang}/${categorySlug}/${domain}/`,
+    };
+  });
 ---
 
 <BaseLayout
@@ -54,6 +92,14 @@ const altPath = canonicalPath.replace(/^\/(en|zh)\//, `/${altLang}/`);
     </div>
 
     <MedicalDisclaimer lang={lang} />
+
+    <RelatedArticles
+      lang={lang}
+      currentDomain={domain}
+      currentStage={currentStage}
+      sameAgeArticles={sameAgeArticles}
+      sameDomainArticles={sameDomainArticles}
+    />
 
     <div class="article-page__back">
       <a href={domainHomePath ?? `/${lang}/`}>{domainHomePath ? `← ${lang === 'en' ? 'Back to' : '返回'}${lang === 'zh' ? '' : ' '}${domainLabel}` : t('article.backToHome')}</a>

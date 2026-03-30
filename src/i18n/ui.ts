@@ -98,8 +98,28 @@ export const ui = {
 			"A free, bilingual guide to raising a whole, healthy, resilient child — written for parents, not doctors.",
 		"landing.featured.title": "Featured Articles",
 
-		// Matrix UI
-		"matrix.hero.title": "Find what matters for your child",
+		// Home page
+		"home.hero.title": "What do you need help with?",
+		"home.hero.subtitle":
+			"Evidence-based guidance for every stage of your child's health and development.",
+		"home.selector.age": "My child is",
+		"home.selector.agePlaceholder": "Select age...",
+		"home.selector.topic": "I need help with",
+		"home.selector.topicPlaceholder": "Select topic...",
+		"home.selector.go": "Find article",
+		"home.selector.noArticle": "Article coming soon",
+		"home.selector.birthday": "or enter birthday",
+		"home.selector.birthdayClear": "Clear",
+		"home.browse.title": "Browse by topic",
+		"home.browse.articles": "articles",
+		"home.browse.comingSoon": "Coming soon",
+
+		// Related articles
+		"related.sameAge": "Related for",
+		"related.sameDomain": "More about",
+
+		// Matrix UI (moved to /matrix)
+		"matrix.hero.title": "Content coverage",
 		"matrix.hero.subtitle":
 			"Every age brings new questions. Select your child's age to see what to watch for — from body to mind to heart.",
 		"matrix.hero.birthday": "Enter birthday for automatic tracking",
@@ -219,8 +239,27 @@ export const ui = {
 			"一份免费的、双语指南，帮助你养育全面、健康、有韧性的孩子——为家长而写，不是为医生而写。",
 		"landing.featured.title": "精选文章",
 
-		// Matrix UI
-		"matrix.hero.title": "找到对孩子最重要的信息",
+		// Home page
+		"home.hero.title": "你需要什么帮助？",
+		"home.hero.subtitle": "为孩子健康成长的每个阶段提供循证指导。",
+		"home.selector.age": "孩子的年龄",
+		"home.selector.agePlaceholder": "选择年龄...",
+		"home.selector.topic": "我想了解",
+		"home.selector.topicPlaceholder": "选择主题...",
+		"home.selector.go": "查找文章",
+		"home.selector.noArticle": "文章即将上线",
+		"home.selector.birthday": "或输入生日",
+		"home.selector.birthdayClear": "清除",
+		"home.browse.title": "按主题浏览",
+		"home.browse.articles": "篇文章",
+		"home.browse.comingSoon": "敬请期待",
+
+		// Related articles
+		"related.sameAge": "同年龄段相关",
+		"related.sameDomain": "更多关于",
+
+		// Matrix UI (moved to /matrix)
+		"matrix.hero.title": "内容覆盖全览",
 		"matrix.hero.subtitle":
 			"每个年龄段都有新的问题。选择孩子的年龄，了解从身体到心智到心灵需要关注什么。",
 		"matrix.hero.birthday": "输入生日，自动匹配年龄段",

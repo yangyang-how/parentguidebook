@@ -1,0 +1,65 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import type { Lang } from '../../i18n/ui';
+import { useTranslations } from '../../i18n/utils';
+import { AGE_STAGES } from '../../config/domains';
+import { buildMatrixData, buildDomainList } from '../../utils/content-map';
+import Matrix from '../../components/matrix/Matrix';
+import '../../styles/matrix.css';
+
+export function getStaticPaths() {
+  return [{ params: { lang: 'en' } }, { params: { lang: 'zh' } }];
+}
+
+const lang = Astro.params.lang as Lang;
+const t = useTranslations(lang);
+
+const domains = buildDomainList();
+const stages = [...AGE_STAGES];
+const { cellMap, rowHeaders, colHeaders } = await buildMatrixData(lang);
+
+// Build labels object with all keys the matrix needs
+const labelKeys = [
+  ...stages.map((s) => s.labelKey),
+  ...domains.map((d) => d.labelKey),
+  ...domains.map((d) => d.categoryLabelKey),
+  'matrix.hero.title',
+  'matrix.hero.subtitle',
+  'matrix.hero.birthday',
+  'matrix.hero.birthday.clear',
+  'matrix.hero.birthday.placeholder',
+  'matrix.legend.selectedAge',
+  'matrix.placeholder',
+  'matrix.sticky.label',
+  'matrix.mobile.showing',
+  'matrix.mobile.swipe',
+];
+
+const labels: Record<string, string> = {};
+const seen = new Set<string>();
+for (const key of labelKeys) {
+  if (!seen.has(key)) {
+    labels[key] = t(key as any);
+    seen.add(key);
+  }
+}
+---
+
+<BaseLayout
+  lang={lang}
+  title={t('matrix.hero.title' as any)}
+  description={t('matrix.hero.subtitle' as any)}
+  canonicalPath={`/${lang}/matrix`}
+  wide
+>
+  <Matrix
+    client:load
+    domains={domains}
+    stages={stages}
+    cellMap={cellMap}
+    rowHeaders={rowHeaders}
+    colHeaders={colHeaders}
+    lang={lang}
+    labels={labels}
+  />
+</BaseLayout>

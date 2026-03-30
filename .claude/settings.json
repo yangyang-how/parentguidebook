@@ -36,6 +36,17 @@
             "command": "bash .claude/hooks/guard-git.sh"
           }
         ]
+      },
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/guard-pipeline.sh",
+            "timeout": 5,
+            "statusMessage": "Checking pipeline gates..."
+          }
+        ]
       }
     ],
     "PostToolUse": [
@@ -44,7 +55,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "grep -rn --include='*.ts' --include='*.js' --include='*.astro' --include='*.mjs' -E '(ANTHROPIC_API_KEY|OPENAI_API_KEY|SECRET_KEY|DATABASE_URL|password\\s*=\\s*[\"'\\'']).{8,}' src/ scripts/ 2>/dev/null | head -5 | while read -r line; do echo \"SECRET WARNING: Possible secret found — $line\" >&2; done; exit 0"
+            "command": "grep -rn --include='*.ts' --include='*.js' --include='*.astro' --include='*.mjs' -E '(ANTHROPIC_API_KEY|OPENAI_API_KEY|SECRET_KEY|DATABASE_URL|password\\s*=\\s*[\"'\\'']).{8,}' src/ 2>/dev/null | head -5 | while read -r line; do echo \"SECRET WARNING: Possible secret found — $line\" >&2; done; exit 0"
           }
         ]
       }

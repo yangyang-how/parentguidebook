@@ -35,6 +35,15 @@ children's health and development, so they can catch problems early and act quic
 - Lint fix: `npx @biomejs/biome check --write ./src`
 - Deploy: `npm run deploy`
 
+## Content Pipeline
+- Full pipeline spec in PIPELINE.md — read it before writing or reviewing articles
+- 6 stages: Research → Write EN → Fact-check EN → Translate ZH → Audit ZH vs EN → Lint both
+- All stages run in Claude Code sessions (no external API calls or scripts)
+- Fail-closed: zero critical violations required before proceeding to next stage
+- Research files: `src/content/research/<domain>/<stage>.md`
+- Translation rules: see PIPELINE.md § Stage 3 (10 Chinese naturalness rules from Sam's review)
+- Inclusive language guidelines: `guidelines/inclusive-language.md`
+
 ## Code Conventions
 - Biome for linting and formatting (biome.json at project root)
 - 2-space indentation, 100 char line width

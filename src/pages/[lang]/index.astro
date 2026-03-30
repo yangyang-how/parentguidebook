@@ -2,10 +2,13 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import type { Lang } from '../../i18n/ui';
 import { useTranslations } from '../../i18n/utils';
-import { AGE_STAGES } from '../../config/domains';
-import { buildMatrixData, buildDomainList } from '../../utils/content-map';
-import Matrix from '../../components/matrix/Matrix';
-import '../../styles/matrix.css';
+import { getCollection } from 'astro:content';
+import {
+  AGE_STAGES,
+  CATEGORIES,
+  DOMAINS_BY_CATEGORY,
+  type CategorySlug,
+} from '../../config/domains';
 
 export function getStaticPaths() {
   return [{ params: { lang: 'en' } }, { params: { lang: 'zh' } }];
@@ -13,53 +16,433 @@ export function getStaticPaths() {
 
 const lang = Astro.params.lang as Lang;
 const t = useTranslations(lang);
+const contentLang = lang === 'zh' ? 'zh-Hans' : 'en';
 
-const domains = buildDomainList();
-const stages = [...AGE_STAGES];
-const { cellMap, rowHeaders, colHeaders } = await buildMatrixData(lang);
+const allArticles = await getCollection('articles');
+const articles = allArticles.filter((a) => a.data.lang === contentLang);
 
-// Build labels object with all keys the matrix needs
-const labelKeys = [
-  ...stages.map((s) => s.labelKey),
-  ...domains.map((d) => d.labelKey),
-  ...domains.map((d) => d.categoryLabelKey),
-  'matrix.hero.title',
-  'matrix.hero.subtitle',
-  'matrix.hero.birthday',
-  'matrix.hero.birthday.clear',
-  'matrix.hero.birthday.placeholder',
-  'matrix.legend.selectedAge',
-  'matrix.placeholder',
-  'matrix.sticky.label',
-  'matrix.mobile.showing',
-  'matrix.mobile.swipe',
-];
+// Build available articles map: { "eyes": { "1-6mo": { title, url }, ... }, ... }
+const availableMap: Record<string, Record<string, { title: string; hook: string; url: string }>> = {};
+// Also build domain article counts for the browse grid
+const domainCounts: Record<string, number> = {};
 
-const labels: Record<string, string> = {};
-const seen = new Set<string>();
-for (const key of labelKeys) {
-  if (!seen.has(key)) {
-    labels[key] = t(key as any);
-    seen.add(key);
+for (const [catSlug, domains] of Object.entries(DOMAINS_BY_CATEGORY)) {
+  for (const domain of domains) {
+    availableMap[domain.slug] = {};
+    domainCounts[domain.slug] = 0;
+
+    for (const stage of AGE_STAGES) {
+      const article = articles.find(
+        (a) => a.data.domain === domain.slug && a.data.stage === stage.slug && !a.data.is_overview,
+      );
+      if (article) {
+        availableMap[domain.slug][stage.slug] = {
+          title: article.data.title,
+          hook: article.data.hook || '',
+          url: `/${lang}/${catSlug}/${domain.slug}/`,
+        };
+        domainCounts[domain.slug]++;
+      }
+    }
+  }
+}
+
+// Ready domains (have at least 1 article)
+const readyDomains = Object.entries(domainCounts).filter(([_, count]) => count > 0);
+
+// Stage options for selector
+const stages = AGE_STAGES.map((s) => ({ slug: s.slug, label: t(s.labelKey as any) }));
+
+// Domain options for selector (only those with content)
+const domainOptions: { slug: string; label: string; category: string }[] = [];
+for (const cat of CATEGORIES) {
+  const catDomains = DOMAINS_BY_CATEGORY[cat.slug as CategorySlug] || [];
+  for (const d of catDomains) {
+    if (domainCounts[d.slug] > 0) {
+      domainOptions.push({
+        slug: d.slug,
+        label: t(d.labelKey as any),
+        category: t(cat.labelKey as any),
+      });
+    }
   }
 }
 ---
 
 <BaseLayout
   lang={lang}
-  title={t('matrix.hero.title' as any)}
-  description={t('matrix.hero.subtitle' as any)}
+  title={t('home.hero.title' as any)}
+  description={t('home.hero.subtitle' as any)}
   canonicalPath={`/${lang}/`}
-  wide
 >
-  <Matrix
-    client:load
-    domains={domains}
-    stages={stages}
-    cellMap={cellMap}
-    rowHeaders={rowHeaders}
-    colHeaders={colHeaders}
-    lang={lang}
-    labels={labels}
-  />
+  <!-- Hero + Selector -->
+  <section class="home-hero">
+    <h1 class="home-hero__title">{t('home.hero.title' as any)}</h1>
+    <p class="home-hero__subtitle">{t('home.hero.subtitle' as any)}</p>
+
+    <div class="home-selector" id="home-selector">
+      <div class="home-selector__row">
+        <label class="home-selector__label" for="age-select">
+          {t('home.selector.age' as any)}
+        </label>
+        <select id="age-select" class="home-selector__select">
+          <option value="">{t('home.selector.agePlaceholder' as any)}</option>
+          {stages.map((s) => (
+            <option value={s.slug}>{s.label}</option>
+          ))}
+        </select>
+      </div>
+
+      <div class="home-selector__row">
+        <label class="home-selector__label" for="topic-select">
+          {t('home.selector.topic' as any)}
+        </label>
+        <select id="topic-select" class="home-selector__select">
+          <option value="">{t('home.selector.topicPlaceholder' as any)}</option>
+          {domainOptions.map((d) => (
+            <option value={d.slug} data-category={d.category}>{d.label}</option>
+          ))}
+        </select>
+      </div>
+
+      <a id="go-button" class="home-selector__go home-selector__go--disabled" href="#">
+        {t('home.selector.go' as any)}
+      </a>
+
+      <p id="no-article-msg" class="home-selector__no-article" style="display:none">
+        {t('home.selector.noArticle' as any)}
+      </p>
+    </div>
+
+    <div class="home-birthday">
+      <label class="home-birthday__label" for="home-birthday-input">
+        {t('home.selector.birthday' as any)}
+      </label>
+      <input type="date" id="home-birthday-input" class="home-birthday__input" />
+      <button id="home-birthday-clear" class="home-birthday__clear" style="display:none">
+        {t('home.selector.birthdayClear' as any)}
+      </button>
+    </div>
+  </section>
+
+  <!-- Browse by topic -->
+  <section class="home-browse">
+    <h2 class="home-browse__title">{t('home.browse.title' as any)}</h2>
+
+    {CATEGORIES.map((cat) => {
+      const catDomains = DOMAINS_BY_CATEGORY[cat.slug as CategorySlug] || [];
+      const hasReadyDomains = catDomains.some((d) => domainCounts[d.slug] > 0);
+      if (!hasReadyDomains) return null;
+
+      return (
+        <div class="home-browse__category">
+          <h3 class="home-browse__category-label">{t(cat.labelKey as any)}</h3>
+          <div class="home-browse__grid">
+            {catDomains.map((d) => {
+              const count = domainCounts[d.slug] || 0;
+              const isReady = count > 0;
+              const catSlug = cat.slug;
+              return (
+                <div class={`home-browse__card ${isReady ? '' : 'home-browse__card--coming'}`}>
+                  {isReady ? (
+                    <a href={`/${lang}/${catSlug}/${d.slug}/`} class="home-browse__card-link">
+                      <span class="home-browse__card-title">{t(d.labelKey as any)}</span>
+                      <span class="home-browse__card-count">{count} {t('home.browse.articles' as any)}</span>
+                    </a>
+                  ) : (
+                    <div class="home-browse__card-inner">
+                      <span class="home-browse__card-title">{t(d.labelKey as any)}</span>
+                      <span class="home-browse__card-count home-browse__card-count--muted">{t('home.browse.comingSoon' as any)}</span>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      );
+    })}
+  </section>
+
+  <script is:inline define:vars={{ availableMap, lang }}>
+    (function () {
+      const ageSelect = document.getElementById('age-select');
+      const topicSelect = document.getElementById('topic-select');
+      const goButton = document.getElementById('go-button');
+      const noArticleMsg = document.getElementById('no-article-msg');
+      const birthdayInput = document.getElementById('home-birthday-input');
+      const birthdayClear = document.getElementById('home-birthday-clear');
+
+      // Age stage boundaries in days
+      const stageBounds = [
+        { slug: '0-1mo', maxDays: 30 },
+        { slug: '1-6mo', maxDays: 183 },
+        { slug: '6mo-2yr', maxDays: 730 },
+        { slug: '2-5yr', maxDays: 1826 },
+        { slug: '5-12yr', maxDays: 4383 },
+        { slug: '12-18yr', maxDays: 6570 },
+      ];
+
+      function getStageFromDOB(dob) {
+        const ageDays = Math.floor((Date.now() - dob.getTime()) / 86400000);
+        if (ageDays < 0) return stageBounds[stageBounds.length - 1].slug;
+        for (const s of stageBounds) {
+          if (ageDays <= s.maxDays) return s.slug;
+        }
+        return stageBounds[stageBounds.length - 1].slug;
+      }
+
+      function updateGoButton() {
+        const age = ageSelect.value;
+        const topic = topicSelect.value;
+
+        if (!age || !topic) {
+          goButton.classList.add('home-selector__go--disabled');
+          goButton.href = '#';
+          noArticleMsg.style.display = 'none';
+          return;
+        }
+
+        const domainData = availableMap[topic];
+        const article = domainData && domainData[age];
+
+        if (article) {
+          goButton.classList.remove('home-selector__go--disabled');
+          goButton.href = article.url;
+          noArticleMsg.style.display = 'none';
+        } else {
+          goButton.classList.add('home-selector__go--disabled');
+          goButton.href = '#';
+          noArticleMsg.style.display = 'block';
+        }
+      }
+
+      ageSelect.addEventListener('change', updateGoButton);
+      topicSelect.addEventListener('change', updateGoButton);
+
+      goButton.addEventListener('click', function (e) {
+        if (goButton.classList.contains('home-selector__go--disabled')) {
+          e.preventDefault();
+        }
+      });
+
+      // Birthday → auto-select age
+      try {
+        const savedDOB = localStorage.getItem('pgb-dob');
+        if (savedDOB) {
+          birthdayInput.value = savedDOB;
+          birthdayClear.style.display = 'inline';
+          const stage = getStageFromDOB(new Date(savedDOB));
+          ageSelect.value = stage;
+          updateGoButton();
+        }
+      } catch {}
+
+      birthdayInput.addEventListener('change', function () {
+        const val = birthdayInput.value;
+        if (!val) return;
+        try { localStorage.setItem('pgb-dob', val); } catch {}
+        birthdayClear.style.display = 'inline';
+        const stage = getStageFromDOB(new Date(val));
+        ageSelect.value = stage;
+        updateGoButton();
+      });
+
+      birthdayClear.addEventListener('click', function () {
+        birthdayInput.value = '';
+        birthdayClear.style.display = 'none';
+        ageSelect.value = '';
+        try { localStorage.removeItem('pgb-dob'); } catch {}
+        updateGoButton();
+      });
+    })();
+  </script>
 </BaseLayout>
+
+<style>
+  /* Hero */
+  .home-hero {
+    text-align: center;
+    padding: 3rem 1.5rem 2rem;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .home-hero__title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--color-heading);
+    margin: 0 0 0.5rem;
+    line-height: 1.3;
+  }
+  .home-hero__subtitle {
+    font-size: 1rem;
+    color: var(--color-muted);
+    margin: 0 0 2rem;
+    line-height: 1.6;
+  }
+
+  /* Selector */
+  .home-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: left;
+  }
+  .home-selector__row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  .home-selector__label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-heading);
+  }
+  .home-selector__select {
+    padding: 0.625rem 0.75rem;
+    font-size: 1rem;
+    border: 1.5px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-bg);
+    color: var(--color-text);
+    appearance: auto;
+    cursor: pointer;
+  }
+  .home-selector__select:focus {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 1px;
+  }
+  .home-selector__go {
+    display: block;
+    text-align: center;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+    background: #4a7fb5;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: opacity 0.15s, background 0.15s;
+    margin-top: 0.5rem;
+  }
+  .home-selector__go:hover {
+    background: #3d6d9e;
+  }
+  .home-selector__go--disabled {
+    background: #b0c4d8;
+    pointer-events: none;
+  }
+  .home-selector__no-article {
+    text-align: center;
+    font-size: 0.875rem;
+    color: var(--color-muted);
+    margin: 0;
+  }
+
+  /* Birthday */
+  .home-birthday {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    font-size: 0.8125rem;
+    color: var(--color-muted);
+  }
+  .home-birthday__label {
+    white-space: nowrap;
+  }
+  .home-birthday__input {
+    padding: 0.375rem 0.5rem;
+    font-size: 0.8125rem;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    background: var(--color-bg);
+    color: var(--color-text);
+  }
+  .home-birthday__clear {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    background: transparent;
+    color: var(--color-muted);
+    cursor: pointer;
+  }
+
+  /* Browse section */
+  .home-browse {
+    max-width: 720px;
+    margin: 2rem auto 3rem;
+    padding: 0 1.5rem;
+  }
+  .home-browse__title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-heading);
+    margin: 0 0 1.5rem;
+    text-align: center;
+  }
+  .home-browse__category {
+    margin-bottom: 1.5rem;
+  }
+  .home-browse__category-label {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-muted);
+    margin: 0 0 0.75rem;
+  }
+  .home-browse__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 0.75rem;
+  }
+  .home-browse__card {
+    border: 1.5px solid var(--color-border);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .home-browse__card:not(.home-browse__card--coming):hover {
+    border-color: var(--color-accent);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  }
+  .home-browse__card-link,
+  .home-browse__card-inner {
+    display: flex;
+    flex-direction: column;
+    padding: 0.875rem 1rem;
+    text-decoration: none;
+    color: inherit;
+    gap: 0.25rem;
+  }
+  .home-browse__card-title {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--color-heading);
+  }
+  .home-browse__card-count {
+    font-size: 0.75rem;
+    color: var(--color-accent);
+  }
+  .home-browse__card-count--muted {
+    color: var(--color-muted);
+  }
+  .home-browse__card--coming {
+    opacity: 0.5;
+    border-style: dashed;
+  }
+
+  @media (max-width: 480px) {
+    .home-hero__title {
+      font-size: 1.5rem;
+    }
+    .home-browse__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>

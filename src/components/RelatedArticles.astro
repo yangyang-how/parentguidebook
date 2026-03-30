@@ -1,0 +1,116 @@
+---
+import type { Lang } from '../i18n/ui';
+import { useTranslations } from '../i18n/utils';
+import {
+  AGE_STAGES,
+  DOMAINS_BY_CATEGORY,
+  getCategoryForDomain,
+  type CategorySlug,
+} from '../config/domains';
+
+type ArticleLink = {
+  title: string;
+  url: string;
+  stage?: string;
+  domain?: string;
+};
+
+type Props = {
+  lang: Lang;
+  currentDomain: string;
+  currentStage?: string;
+  sameAgeArticles: ArticleLink[];
+  sameDomainArticles: ArticleLink[];
+};
+
+const { lang, currentDomain, currentStage, sameAgeArticles, sameDomainArticles } = Astro.props;
+const t = useTranslations(lang);
+
+// Get domain label
+const catSlug = getCategoryForDomain(currentDomain);
+const domainConfig = catSlug
+  ? (DOMAINS_BY_CATEGORY[catSlug] ?? []).find((d) => d.slug === currentDomain)
+  : undefined;
+const domainLabel = domainConfig ? t(domainConfig.labelKey as any) : currentDomain;
+
+// Get stage label
+const stageConfig = currentStage ? AGE_STAGES.find((s) => s.slug === currentStage) : null;
+const stageLabel = stageConfig ? t(stageConfig.labelKey as any) : '';
+
+const hasSameAge = sameAgeArticles.length > 0;
+const hasSameDomain = sameDomainArticles.length > 0;
+---
+
+{(hasSameAge || hasSameDomain) && (
+  <nav class="related-articles" aria-label={lang === 'en' ? 'Related articles' : '相关文章'}>
+    {hasSameAge && stageLabel && (
+      <div class="related-articles__section">
+        <h3 class="related-articles__heading">
+          {t('related.sameAge' as any)} {stageLabel}
+        </h3>
+        <div class="related-articles__links">
+          {sameAgeArticles.map((a) => (
+            <a href={a.url} class="related-articles__link">{a.title}</a>
+          ))}
+        </div>
+      </div>
+    )}
+
+    {hasSameDomain && (
+      <div class="related-articles__section">
+        <h3 class="related-articles__heading">
+          {t('related.sameDomain' as any)} {domainLabel}
+        </h3>
+        <div class="related-articles__links">
+          {sameDomainArticles.map((a) => (
+            <a href={a.url} class="related-articles__link">{a.title}</a>
+          ))}
+        </div>
+      </div>
+    )}
+  </nav>
+)}
+
+<style>
+  .related-articles {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: var(--color-bg-offset, #f7f5f2);
+    border-radius: 10px;
+    border: 1px solid var(--color-border);
+  }
+  .related-articles__section {
+    margin-bottom: 1.25rem;
+  }
+  .related-articles__section:last-child {
+    margin-bottom: 0;
+  }
+  .related-articles__heading {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-muted);
+    margin: 0 0 0.625rem;
+  }
+  .related-articles__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .related-articles__link {
+    display: inline-block;
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+    color: var(--color-accent);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    text-decoration: none;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .related-articles__link:hover {
+    border-color: var(--color-accent);
+    background: var(--color-accent-light, rgba(91, 155, 213, 0.08));
+  }
+</style>

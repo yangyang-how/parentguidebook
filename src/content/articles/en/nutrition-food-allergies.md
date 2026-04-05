@@ -16,7 +16,7 @@ is_overview: false
 
 🟡 **Urgency: Important — the science on when to introduce allergens has reversed, and knowing how to recognize a severe reaction can save your child's life.**
 
-**The short version:** About 1 in 13 children has a food allergy. The biggest shift in allergy science in the past decade: introducing common allergens **early** (around 6 months) dramatically reduces the risk of developing allergies — the old advice to delay was wrong. If your child does have a food allergy, recognizing the signs of anaphylaxis and knowing how to use an epinephrine auto-injector are essential skills for every caregiver.
+**The short version:** About 1 in 13 children has a food allergy. [Source: src4] The biggest shift in allergy science in the past decade: introducing common allergens **early** (around 6 months) dramatically reduces the risk of developing allergies — the old advice to delay was wrong. If your child does have a food allergy, recognizing the signs of anaphylaxis and knowing how to use an epinephrine auto-injector are essential skills for every caregiver.
 
 **Key takeaways:**
 - Early introduction of peanut and egg (around 6 months) **reduces** allergy risk — the LEAP trial showed an 81% reduction [Source: src1]
@@ -53,7 +53,7 @@ The AAP and other major medical organizations now recommend:
 
 [Source: src2]
 
-**Real-world impact:** Since these guidelines were adopted, peanut allergy diagnoses have decreased by approximately 27%. [Source: src2] The science works.
+**Real-world impact:** Since early introduction guidelines were adopted, emerging data suggest peanut allergy diagnoses have begun to decline. [Source: src2] The science works.
 
 ---
 

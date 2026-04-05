@@ -125,7 +125,7 @@ Untreated anxiety does not just cause suffering in the present. It shapes develo
 
 **Self-concept.** A child who organizes their life around avoidance develops a story about themselves: "I'm the kid who can't do things." This identity can calcify into a lifelong pattern of limitation.
 
-**Comorbidity.** About 37% of children with anxiety also develop depression. [Source: src5] Untreated anxiety is a risk factor for depression, substance use, and other mental health conditions.
+**Comorbidity.** About 37% of children with depression also have anxiety, and untreated anxiety is a risk factor for developing depression. [Source: src5] Untreated anxiety is a risk factor for depression, substance use, and other mental health conditions.
 
 ---
 

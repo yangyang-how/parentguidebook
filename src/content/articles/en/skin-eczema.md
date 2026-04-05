@@ -159,7 +159,7 @@ A JAK inhibitor cream approved for patients 12 years and older. [Source: src3]
 
 ## The eczema–food allergy connection
 
-About 30% of children with moderate-to-severe eczema also have food allergies. The relationship is complex and bidirectional. [Source: src9]
+Children with eczema are significantly more likely to develop food allergies. The relationship is complex and bidirectional. [Source: src9]
 
 ### What we know
 

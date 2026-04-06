@@ -18,7 +18,7 @@ export const DOMAINS_BY_CATEGORY: Record<CategorySlug, { slug: string; labelKey:
   'child-body': [
     { slug: 'eyes', labelKey: 'domain.eyes', ready: true },
     { slug: 'breathing', labelKey: 'domain.breathing', ready: true },
-    { slug: 'bones-movement', labelKey: 'domain.bonesMovement', ready: false },
+    { slug: 'bones-movement', labelKey: 'domain.bonesMovement', ready: true },
     { slug: 'teeth', labelKey: 'domain.teeth', ready: false },
     { slug: 'nutrition', labelKey: 'domain.nutrition', ready: true },
     { slug: 'skin', labelKey: 'domain.skin', ready: true },

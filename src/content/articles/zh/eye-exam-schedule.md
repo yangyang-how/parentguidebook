@@ -6,6 +6,8 @@ category: "eye-exams"
 urgency: "important"
 last_updated: "2026-02-17"
 age_groups: ["0-1", "1-3", "3-6", "6-12", "13-18"]
+hook: "从出生到青少年，孩子的眼科检查该怎么安排"
+is_overview: false
 ---
 
 # 孩子什么时候该看眼科医生？一份完整的时间表

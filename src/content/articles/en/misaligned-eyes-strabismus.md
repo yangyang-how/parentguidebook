@@ -6,6 +6,8 @@ category: "emergency-signs"
 urgency: "important"
 last_updated: "2026-02-17"
 age_groups: ["0-1", "1-3", "3-6", "6-12"]
+hook: "When crossed or wandering eyes need treatment — and when they don't"
+is_overview: false
 ---
 
 # Misaligned Eyes (Strabismus) — When Crossed Eyes Need Attention

@@ -6,6 +6,8 @@ category: "emergency-signs"
 urgency: "critical"
 last_updated: "2026-03-23"
 age_groups: ["0-1", "1-3", "3-6"]
+hook: "A white glow in your child's pupil needs urgent evaluation"
+is_overview: false
 ---
 
 # The White Pupil — What It Means and Why You Should Act Quickly

@@ -6,6 +6,8 @@ category: "emergency-signs"
 urgency: "critical"
 last_updated: "2026-03-23"
 age_groups: ["0-1", "1-3", "3-6"]
+hook: "孩子瞳孔出现白色反光，需要尽快检查"
+is_overview: false
 ---
 
 # 白瞳——它意味着什么，为什么需要尽快行动

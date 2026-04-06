@@ -6,6 +6,8 @@ category: "eye-exams"
 urgency: "good-to-know"
 last_updated: "2026-03-23"
 age_groups: ["0-1", "1-3", "3-6", "6-12", "13-18"]
+hook: "从婴儿到青少年，儿童眼科检查全流程详解"
+is_overview: false
 ---
 
 # 儿童眼科检查全流程——家长指南

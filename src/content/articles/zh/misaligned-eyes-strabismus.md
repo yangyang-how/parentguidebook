@@ -6,6 +6,8 @@ category: "emergency-signs"
 urgency: "important"
 last_updated: "2026-02-17"
 age_groups: ["0-1", "1-3", "3-6", "6-12"]
+hook: "孩子眼睛偏斜，什么时候该治疗、什么时候不用担心"
+is_overview: false
 ---
 
 # 眼睛偏斜（斜视）——什么时候需要重视

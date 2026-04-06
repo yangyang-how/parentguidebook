@@ -6,6 +6,8 @@ category: "eye-exams"
 urgency: "important"
 last_updated: "2026-02-17"
 age_groups: ["0-1", "1-3", "3-6", "6-12", "13-18"]
+hook: "When to schedule eye exams from birth through teens"
+is_overview: false
 ---
 
 # When Should My Child See an Eye Doctor? A Complete Schedule

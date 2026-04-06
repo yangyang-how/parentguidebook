@@ -6,6 +6,8 @@ category: "eye-exams"
 urgency: "good-to-know"
 last_updated: "2026-03-23"
 age_groups: ["0-1", "1-3", "3-6", "6-12", "13-18"]
+hook: "What to expect at your child's eye exam, from infant to teen"
+is_overview: false
 ---
 
 # What Happens During a Children's Eye Exam — A Parent's Guide

@@ -8,4 +8,5 @@ yarn-error.log*
 .env
 .claude/worktrees/
 .superpowers/
-wrangler/
+.wrangler/
+tags/
